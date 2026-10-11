@@ -58,3 +58,7 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+# 代码生成产物（构建前运行 dart run build_runner build）
+*.g.dart
+*.freezed.dart
