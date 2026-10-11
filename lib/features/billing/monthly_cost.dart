@@ -17,8 +17,9 @@ int monthlyMinor(int priceMinor, Cycle cycle) {
 }
 
 /// Whether [sub] counts toward the home screen's monthly average on [today]
-/// (a date-only value). Excluded: one-time, no known cycle, in trial,
-/// ending, cancelled, paused, reimbursed, and soft-deleted rows.
+/// (a date-only value). Excluded: one-time, no known cycle, in trial (it
+/// ends on trial_ends_on, the first paid day), ending, cancelled, paused,
+/// reimbursed, and soft-deleted rows.
 bool countsTowardMonthly(Subscription sub, DateTime today) {
   final trialEndsOn = sub.trialEndsOn;
   return !sub.deleted &&
@@ -26,7 +27,7 @@ bool countsTowardMonthly(Subscription sub, DateTime today) {
       sub.cycle != null &&
       sub.status == SubscriptionStatus.active &&
       !sub.reimbursed &&
-      (trialEndsOn == null || trialEndsOn.isBefore(today));
+      (trialEndsOn == null || !trialEndsOn.isAfter(today));
 }
 
 /// [sub]'s monthly cost in its own currency: my share when shared, the

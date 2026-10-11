@@ -57,7 +57,6 @@ void main() {
         'reimbursed': base.copyWith(reimbursed: true),
         'deleted': base.copyWith(deleted: true),
         'no cycle': base.copyWith(cycleUnit: const Value(null)),
-        'trial ends today': base.copyWith(trialEndsOn: Value(today)),
         'trial ends later': base.copyWith(
           trialEndsOn: Value(utcDate(2026, 11, 1)),
         ),
@@ -68,9 +67,11 @@ void main() {
       }
     });
 
-    test('a finished trial counts', () {
-      final sub = base.copyWith(trialEndsOn: Value(utcDate(2026, 10, 10)));
-      expect(countsTowardMonthly(sub, today), isTrue);
+    test('a trial ending today or before counts', () {
+      for (final end in [today, utcDate(2026, 10, 10)]) {
+        final sub = base.copyWith(trialEndsOn: Value(end));
+        expect(countsTowardMonthly(sub, today), isTrue, reason: '$end');
+      }
     });
 
     test('shared uses my share; intro offer uses the regular price', () {

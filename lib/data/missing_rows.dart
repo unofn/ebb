@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 
-import '../../../data/database.dart';
-import '../../../data/sync_columns.dart';
+import 'database.dart';
+import 'sync_columns.dart';
 
 /// Add-only writes for rows with deterministic IDs: a row that exists, even
 /// soft-deleted by the user, is never overwritten or revived.

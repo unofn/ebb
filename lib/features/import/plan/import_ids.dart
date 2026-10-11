@@ -25,9 +25,3 @@ String importedIconId(ImportDraft draft) =>
 
 String importedPaymentMethodId(SourceApp app, DraftPaymentMethod method) =>
     stableId('${app.key}:payment_method:${method.sourceKey}');
-
-/// Tags are shared across sources: `Netflix` and ` netflix` are one tag.
-String tagIdOf(String name) => stableId('tag:${name.trim().toLowerCase()}');
-
-String subscriptionTagId(String subscriptionId, String tagId) =>
-    stableId('$subscriptionId:tag:$tagId');

@@ -2,6 +2,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:ebb/core/local_date.dart';
 import 'package:ebb/data/database.dart';
 import 'package:ebb/data/seed/categories.dart';
+import 'package:ebb/data/tables/tags.dart';
 import 'package:ebb/features/import/draft/import_draft.dart';
 import 'package:ebb/features/import/plan/import_ids.dart';
 import 'package:ebb/features/import/plan/plan_decisions.dart';

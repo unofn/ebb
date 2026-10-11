@@ -1,10 +1,12 @@
 import 'package:drift/drift.dart';
 
+import 'database.steps.dart';
 import 'enums.dart';
 import 'hlc_clock.dart';
 import 'local_meta_store.dart';
 import 'seed/categories.dart';
 import 'tables/attachments.dart';
+import 'tables/cached_rates.dart';
 import 'tables/categories.dart';
 import 'tables/import_links.dart';
 import 'tables/local_meta.dart';
@@ -27,6 +29,7 @@ part 'database.g.dart';
     PaymentMethods,
     Attachments,
     LocalMeta,
+    CachedRates,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -41,7 +44,7 @@ class AppDatabase extends _$AppDatabase {
   late final Writer writer = Writer(this, hlcClock);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -51,5 +54,12 @@ class AppDatabase extends _$AppDatabase {
       await seedCategories(this, Writer(this, HlcClock(this)));
       await writeMeta(LocalMetaKeys.baseCurrency, 'CNY');
     },
+    // 分步迁移由 `dart run drift_dev make-migrations` 生成（见 build.yaml）；
+    // 每次改表：先升 schemaVersion，再跑它，最后在这里补上新的一步。
+    onUpgrade: stepByStep(
+      from1To2: (m, schema) async {
+        await m.createTable(schema.exchangeRates);
+      },
+    ),
   );
 }

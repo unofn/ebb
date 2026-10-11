@@ -2,10 +2,10 @@ import 'package:drift/drift.dart';
 
 import '../../../data/database.dart';
 import '../../../data/enums.dart';
+import '../../../data/missing_rows.dart';
 import '../plan/import_ids.dart';
 import '../plan/plan_item.dart';
 import 'attachment_store.dart';
-import 'missing_rows.dart';
 
 const _iconMime = 'image/png';
 

@@ -4,3 +4,6 @@ targets:
       drift_dev:
         options:
           store_date_time_values_as_text: true
+          # make-migrations：schema 快照存 drift_schemas/，迁移测试生成到 test/drift/。
+          databases:
+            app_database: lib/data/database.dart

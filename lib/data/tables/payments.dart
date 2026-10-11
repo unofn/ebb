@@ -11,7 +11,9 @@ class Payments extends Table with SyncColumns {
   IntColumn get amountMinor => integer()();
   TextColumn get currency => text()();
 
-  /// Decimal string of the rate to the base currency at payment time.
+  /// Decimal string of the cached rate at payment time, as in
+  /// `exchange_rates`: 1 base = rate units of the payment's currency (base
+  /// amount = amount ÷ rate).
   TextColumn get rateToBase => text().nullable()();
   TextColumn get origin => textEnum<PaymentOrigin>()();
   TextColumn get note => text().nullable()();

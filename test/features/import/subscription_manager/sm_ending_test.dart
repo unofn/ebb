@@ -59,11 +59,7 @@ void main() {
       expect(draft.status, SubscriptionStatus.cancelled);
       expect(draft.endDate, utcDate(2026, 3, 10));
       expect(draft.endDateUnknown, isFalse);
-      expect(paidOn(draft), [
-        '2025-12-10',
-        '2026-01-10',
-        '2026-02-10',
-      ]);
+      expect(paidOn(draft), ['2025-12-10', '2026-01-10', '2026-02-10']);
     });
 
     test(
