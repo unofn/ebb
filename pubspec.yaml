@@ -91,6 +91,9 @@ flutter:
   generate: true
   uses-material-design: true
 
+  assets:
+    - assets/presets/
+
   # 字体打包进 App：拉丁与数字用 IBM Plex Sans，中文回退 Noto Sans SC（子集）。
   fonts:
     - family: IBM Plex Sans
