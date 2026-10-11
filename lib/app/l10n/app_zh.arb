@@ -1,0 +1,450 @@
+{
+  "@@locale": "zh",
+  "appTitle": "Ebb",
+  "homeTitle": "订阅",
+  "emptyTitle": "还没有订阅",
+  "emptyBody": "从 Tilla 或 SubscriptionManager 导入，或者手动添加第一个。",
+  "importData": "导入数据",
+  "addManually": "手动添加",
+  "addManuallyLater": "手动添加会在下个版本提供",
+  "groupRecurring": "订阅中",
+  "groupOneTime": "一次性买断",
+  "groupCancelled": "已退订",
+  "dueIn": "{days, plural, =0{今天} =1{明天} other{{days} 天后}}",
+  "@dueIn": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "dueAgo": "{days, plural, =1{昨天} other{{days} 天前}}",
+  "@dueAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "purchasedOn": "{date}购买",
+  "@purchasedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelledIn": "{month}退订",
+  "@cancelledIn": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "endsOn": "{date}到期",
+  "@endsOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "noNextDate": "没有下次扣费日期",
+  "statusActive": "生效",
+  "statusPaused": "已暂停",
+  "statusEnding": "到期不续",
+  "statusCancelled": "已退订",
+  "oneTime": "一次性",
+  "everyDays": "{count, plural, =1{每天} other{每 {count} 天}}",
+  "@everyDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "everyWeeks": "{count, plural, =1{每周} other{每 {count} 周}}",
+  "@everyWeeks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "everyMonths": "{count, plural, =1{每月} other{每 {count} 个月}}",
+  "@everyMonths": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "everyYears": "{count, plural, =1{每年} other{每 {count} 年}}",
+  "@everyYears": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "perDays": "{price} / {count, plural, =1{天} other{{count} 天}}",
+  "@perDays": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "perWeeks": "{price} / {count, plural, =1{周} other{{count} 周}}",
+  "@perWeeks": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "perMonths": "{price} / {count, plural, =1{月} other{{count} 个月}}",
+  "@perMonths": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "perYears": "{price} / {count, plural, =1{年} other{{count} 年}}",
+  "@perYears": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "autoRenew": "自动续费",
+  "manualRenew": "手动续费",
+  "reminderBefore": "{days, plural, =0{当天} other{提前 {days} 天}}",
+  "@reminderBefore": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "importPreviewTitle": "导入预览",
+  "recordsToSubscriptions": "{records} 条记录 → {subscriptions} 个订阅",
+  "@recordsToSubscriptions": {
+    "placeholders": {
+      "records": {
+        "type": "int"
+      },
+      "subscriptions": {
+        "type": "int"
+      }
+    }
+  },
+  "paymentsToAdd": "补出 {count} 笔付款",
+  "@paymentsToAdd": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "warningCount": "{count} 条警告",
+  "@warningCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "decisionsTitle": "需要你决定",
+  "decisionCount": "{count} 项",
+  "@decisionCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chainLooksLike": "{count} 条记录像是{unit, select, year{逐年} month{逐月} week{逐周} day{逐日} other{连续}}续订",
+  "@chainLooksLike": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "merge": "合并",
+  "chainMerged": "合并为 1 个订阅，{payments} 笔付款各按当时价格",
+  "@chainMerged": {
+    "placeholders": {
+      "payments": {
+        "type": "int"
+      }
+    }
+  },
+  "chainSplit": "分开导入为 {count} 个订阅，各自保留原来的付款",
+  "@chainSplit": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "crossAppImported": "已从 {app} 导入过同名订阅，不会自动合并",
+  "@crossAppImported": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "skip": "跳过",
+  "mapSourceCategories": "分类编号对应品类",
+  "mapLabels": "标签对应品类",
+  "optional": "可选",
+  "mappingLeft": "{count, plural, =0{已选完} other{还有 {count} 个未选}}",
+  "@mappingLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sourceCategory": "分类 {id}",
+  "@sourceCategory": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "recordCount": "{count} 条",
+  "@recordCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mapLabelsNote": "标签都会保留，这里只用来给订阅定品类。",
+  "mapSourceCategoriesNote": "Tilla 只导出了分类编号，看示例订阅给每个编号选一个品类。不选也能导入，之后可改。",
+  "pickCategory": "选择品类",
+  "noCategory": "不对应",
+  "segmentNew": "新增",
+  "segmentUpdate": "更新",
+  "segmentUnchanged": "未变",
+  "segmentWarn": "警告",
+  "listSeparator": "、",
+  "segmentEmpty": "这里没有记录",
+  "badgeWarn": "警告",
+  "badgeUpdate": "有更新",
+  "badgeDeleted": "已删除",
+  "itemSince": "{date} 起",
+  "@itemSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "itemBackfill": "补 {count} 笔",
+  "@itemBackfill": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "itemChain": "{count} 条续订合并",
+  "@itemChain": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "itemPurchased": "{date} 购买",
+  "@itemPurchased": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "itemEndUnknown": "结束日期未知",
+  "itemFirstOnly": "只记首期",
+  "itemUnchanged": "和上次导入一致",
+  "itemDeleted": "你删除过这个订阅，默认跳过",
+  "restoreDeleted": "仍然导入",
+  "detailStatus": "状态",
+  "detailNextDate": "下次扣费",
+  "detailReminder": "提醒",
+  "detailPaymentMethod": "支付方式",
+  "detailLabels": "标签",
+  "detailCategory": "分类",
+  "detailPayments": "付款",
+  "detailSources": "来源",
+  "detailWarning": "警告",
+  "paymentsSummary": "{start} 起 {count} 笔 · {total}",
+  "@paymentsSummary": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "noPayments": "不补付款",
+  "paymentsNew": "新增 {added} 笔，已有 {kept} 笔不变",
+  "@paymentsNew": {
+    "placeholders": {
+      "added": {
+        "type": "int"
+      },
+      "kept": {
+        "type": "int"
+      }
+    }
+  },
+  "sourceRecords": "{count} 条原始记录",
+  "@sourceRecords": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fieldName": "名称",
+  "fieldDescription": "描述",
+  "fieldKind": "类型",
+  "fieldPrice": "价格",
+  "fieldCycle": "周期",
+  "fieldStartDate": "开始日期",
+  "fieldNextDate": "下次扣费",
+  "fieldEndDate": "结束日期",
+  "fieldEndDateUnknown": "结束日期未知",
+  "fieldStatus": "状态",
+  "fieldAutoRenew": "自动续费",
+  "fieldPaymentMethod": "支付方式",
+  "fieldColor": "颜色",
+  "fieldUrl": "链接",
+  "fieldNotes": "备注",
+  "fieldReminder": "提醒",
+  "fieldReminderTime": "提醒时间",
+  "importFootnote": "跳过 {skipped} 条 · 有警告的照常导入，之后可补",
+  "@importFootnote": {
+    "placeholders": {
+      "skipped": {
+        "type": "int"
+      }
+    }
+  },
+  "importCta": "导入 {count} 个订阅",
+  "@importCta": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importDone": "已导入：新增 {created} 个、更新 {updated} 个订阅，补出 {payments} 笔付款",
+  "@importDone": {
+    "placeholders": {
+      "created": {
+        "type": "int"
+      },
+      "updated": {
+        "type": "int"
+      },
+      "payments": {
+        "type": "int"
+      }
+    }
+  },
+  "importFailed": "导入失败，没有写入任何数据",
+  "unsupportedTitle": "不是支持的导出文件",
+  "unsupportedBody": "目前支持 Tilla 的备份（.txt）和 SubscriptionManager 的导出（.subscriptions）。",
+  "chooseAnotherFile": "选择其他文件",
+  "warningDetail": "{message}（{detail}）",
+  "@warningDetail": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      },
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "warningUnsupportedVersion": "文件版本没有验证过，已按已知格式读取",
+  "warningGuessedTimezone": "推断不出导出时的时区，日期按本机时区计算",
+  "warningInvalidRecord": "有一条记录读不出来，已跳过",
+  "warningUnknownCurrency": "不认识的币种，按两位小数处理",
+  "warningInvalidDate": "日期无法识别，已忽略",
+  "warningInvalidColor": "颜色无法识别，已忽略",
+  "warningUnknownBillingCycle": "不认识的计费周期，不补付款",
+  "warningUnknownReminderType": "不认识的提醒设置，没有导入提醒",
+  "warningUnknownPaymentMethod": "找不到对应的支付方式",
+  "warningUnexpectedPayments": "文件里的付款记录格式未知，已忽略",
+  "warningUnknownCycleRhythm": "不认识的计费周期，不补付款",
+  "warningUnexpectedDuration": "有订阅时长设置，没有导入",
+  "warningMissingStartDate": "缺少开始日期，无法推算扣费日",
+  "warningNoDates": "一次性，没有任何日期",
+  "warningExpiryAsPurchaseDate": "只有到期日，已当作购买日",
+  "warningUnknownReminderRhythm": "不认识的提醒方式，没有导入提醒",
+  "groupEntertainment": "娱乐",
+  "groupLearning": "学习",
+  "groupSoftware": "软件",
+  "groupLife": "生活",
+  "groupFinance": "金融",
+  "groupOther": "其他",
+  "categoryVideo": "视频",
+  "categoryAudio": "音频",
+  "categoryGaming": "游戏",
+  "categorySocial": "社交",
+  "categoryReading": "阅读",
+  "categoryCourses": "课程",
+  "categoryCommunities": "知识社群",
+  "categoryAiAssistant": "AI 助手",
+  "categoryProductivity": "效率",
+  "categoryCreative": "创作",
+  "categoryDeveloper": "开发",
+  "categoryCloud": "云服务",
+  "categoryStorage": "网盘",
+  "categoryVpn": "VPN",
+  "categorySecurity": "安全",
+  "categoryOtherSoftware": "其他软件",
+  "categoryShopping": "购物",
+  "categoryFood": "餐饮",
+  "categoryTransport": "出行",
+  "categoryHealth": "健康",
+  "categoryHousing": "住房",
+  "categoryUtilities": "水电燃气",
+  "categoryTelecom": "通信费",
+  "categoryInsurance": "保险",
+  "categoryBankFees": "银行卡年费",
+  "categoryDonation": "捐赠",
+  "categoryOther": "其他"
+}
