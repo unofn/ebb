@@ -62,3 +62,7 @@ app.*.map.json
 # 代码生成产物（构建前运行 dart run build_runner build）
 *.g.dart
 *.freezed.dart
+lib/app/l10n/app_localizations*.dart
+
+# Python 虚拟环境（字体子集化脚本）
+.venv/
