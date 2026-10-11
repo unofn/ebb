@@ -158,5 +158,21 @@
   "categoryInsurance": "Insurance",
   "categoryBankFees": "Bank card fees",
   "categoryDonation": "Donations",
-  "categoryOther": "Other"
+  "categoryOther": "Other",
+  "reminderChannelName": "Renewal reminders",
+  "reminderChannelDescription": "Before charges, end dates, trials and intro offers",
+  "reminderMarkPaid": "Mark paid",
+  "reminderManage": "Manage subscription",
+  "reminderRenewalTitle": "{name} renews soon",
+  "reminderRenewalBody": "{days, plural, =0{{amount} due today} =1{{amount} due tomorrow} other{{amount} due in {days} days}}",
+  "reminderRenewalBodyNoAmount": "{days, plural, =0{Due today} =1{Due tomorrow} other{Due in {days} days}}",
+  "reminderEndingTitle": "{name} ends soon",
+  "reminderEndingBody": "{days, plural, =0{Ends today} =1{Ends tomorrow} other{Ends in {days} days}} and won't renew",
+  "reminderTrialTitle": "{name} trial ends soon",
+  "reminderTrialBody": "{days, plural, =0{The trial ends today} =1{The trial ends tomorrow} other{The trial ends in {days} days}}; you'll be charged unless you cancel",
+  "reminderIntroTitle": "{name} intro offer ends soon",
+  "reminderIntroBody": "{days, plural, =0{The intro offer ends today} =1{The intro offer ends tomorrow} other{The intro offer ends in {days} days}}, then {amount}",
+  "reminderIntroBodyNoAmount": "{days, plural, =0{The intro offer ends today} =1{The intro offer ends tomorrow} other{The intro offer ends in {days} days}}",
+  "trayOpen": "Open Ebb",
+  "trayQuit": "Quit"
 }

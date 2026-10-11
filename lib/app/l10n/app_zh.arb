@@ -446,5 +446,97 @@
   "categoryInsurance": "保险",
   "categoryBankFees": "银行卡年费",
   "categoryDonation": "捐赠",
-  "categoryOther": "其他"
+  "categoryOther": "其他",
+  "reminderChannelName": "扣费提醒",
+  "reminderChannelDescription": "扣费、到期、试用和首期优惠结束前提醒",
+  "reminderMarkPaid": "已付款",
+  "reminderManage": "管理订阅",
+  "reminderRenewalTitle": "{name} 即将扣费",
+  "@reminderRenewalTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderRenewalBody": "{days, plural, =0{今天扣费} =1{明天扣费} other{{days} 天后扣费}} {amount}",
+  "@reminderRenewalBody": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderRenewalBodyNoAmount": "{days, plural, =0{今天扣费} =1{明天扣费} other{{days} 天后扣费}}",
+  "@reminderRenewalBodyNoAmount": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "reminderEndingTitle": "{name} 即将到期",
+  "@reminderEndingTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderEndingBody": "{days, plural, =0{今天到期} =1{明天到期} other{{days} 天后到期}}，不再续费",
+  "@reminderEndingBody": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "reminderTrialTitle": "{name} 试用即将结束",
+  "@reminderTrialTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderTrialBody": "{days, plural, =0{试用今天到期} =1{试用明天到期} other{试用 {days} 天后到期}}，不取消会自动扣费",
+  "@reminderTrialBody": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "reminderIntroTitle": "{name} 首期优惠即将结束",
+  "@reminderIntroTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderIntroBody": "{days, plural, =0{首期优惠今天结束} =1{首期优惠明天结束} other{首期优惠 {days} 天后结束}}，之后 {amount}",
+  "@reminderIntroBody": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderIntroBodyNoAmount": "{days, plural, =0{首期优惠今天结束} =1{首期优惠明天结束} other{首期优惠 {days} 天后结束}}",
+  "@reminderIntroBodyNoAmount": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "trayOpen": "打开 Ebb",
+  "trayQuit": "退出"
 }
