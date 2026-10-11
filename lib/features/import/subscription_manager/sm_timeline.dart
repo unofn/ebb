@@ -66,16 +66,15 @@ SmTimeline recurringTimeline({
 }
 
 /// A one-time purchase on [purchase] (no payment when unknown or later than
-/// [today]); [expiry] is when what was bought runs out.
+/// [today]). One-time purchases have no end date.
 SmTimeline oneTimeTimeline({
   required bool active,
   required DateTime? purchase,
-  required DateTime? expiry,
   required DateTime today,
 }) => (
   status: active ? SubscriptionStatus.active : SubscriptionStatus.cancelled,
   nextDate: null,
-  endDate: expiry,
+  endDate: null,
   endDateUnknown: false,
   paymentDates: [if (purchase != null && !purchase.isAfter(today)) purchase],
 );

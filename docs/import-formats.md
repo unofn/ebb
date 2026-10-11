@@ -31,7 +31,7 @@
 | `price`、`currency` | 价格；币种 `RMB` 要转成 ISO 的 `CNY` |
 | `billingCycle` | `<单位>_<N>`，如 `month_1`、`year_1`；按通用规则解析（day / week / month / year） |
 | `isOneTime` | true 为一次性买断，忽略周期；此时 `billingDate == nextBillDate`，且带时分 |
-| `billingDate` | 首次扣费日，毫秒时间戳 |
+| `billingDate` | 毫秒时间戳。实测是**本期**扣费日（随续费滚动），不是首次扣费日，所以更早的历史查不到 |
 | `nextBillDate` | 下次扣费日，原样采用 |
 | `endDate` | 结束日期，可空 |
 | `isSuspended` | 暂停 |
@@ -46,9 +46,9 @@
 | `profileId`、`profiles` | 样本里为空，暂不导入 |
 | `shouldBeTinted` | 图标着色开关，忽略 |
 
-**日期坑**：时间戳是设备本地时区的午夜（样本为 UTC+8）。转日期必须按时区格式化，直接按 UTC 取日期会早一天。
+**日期坑**：时间戳是设备本地时区的午夜（样本为 UTC+8）。转日期必须按时区格式化，直接按 UTC 取日期会早一天。导入器从数据反推导出时区（周期订阅时间戳对一天取模的众数）；只能确定到「模 24 小时」，所以 ±12 附近有歧义，取人口多的一侧（+12/+13 而非 −12/−11，−10 而非 +14）。
 
-**历史付款**：从 `billingDate` 到 `nextBillDate` 之间按周期补出历史付款。
+**历史付款**：从 `billingDate` 到 `nextBillDate` 之间按周期补出历史付款，不晚于今天。因为 `billingDate` 是本期扣费日，实际每条通常只补出当期一笔。
 
 ## SubscriptionManager（simolation，Android）
 
@@ -77,7 +77,7 @@
 | `cycle.cycleDuration` + `cycle.cycleRhythm` | 每 N 个单位；`cycleRhythm` 是 `java.util.Calendar` 字段常量：1 年、2 月、3/4 周、5/6 天。样本订阅里只出现 1 和 2；其他值给警告 |
 | `cycle.cycleType` | 订阅里恒为 1，通知里为 3；含义未确认，忽略 |
 | `firstBillingDate` | `YYYY-MM-DD`；**可能缺失**（样本有周期订阅没有它） |
-| `expiringDate` | 到期日，可空；作为结束日期 |
+| `expiringDate` | 到期日，可空。周期订阅作为结束日期；一次性买断只有购买日（已和用户确认）：有 `firstBillingDate` 时到期日写进备注，只有到期日时把它当购买日并给警告 |
 | `duration` | 样本恒为 `-1`，推测是付款次数（-1 = 无限），未找到文档；非 -1 时给警告 |
 | `labels` | 标签数组，原样导入为标签；预览里可顺手映射到品类 |
 | `paymentMethod` | 自由文本，同一方式有多种写法（`Alipay` / `支付宝`），原样保留 |

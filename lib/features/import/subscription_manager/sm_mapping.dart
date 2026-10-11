@@ -1,6 +1,7 @@
 import '../../../core/local_date.dart';
 import '../../../core/money.dart';
 import '../../../data/enums.dart';
+import '../draft/dropped_date_note.dart';
 import '../draft/import_draft.dart';
 import '../draft/import_warning.dart';
 import '../draft/source_app.dart';
@@ -59,7 +60,6 @@ ImportDraft mapSmSubscription(
     timeline = oneTimeTimeline(
       active: sub.active,
       purchase: start,
-      expiry: first == null ? null : expiry,
       today: today,
     );
   }
@@ -85,7 +85,10 @@ ImportDraft mapSmSubscription(
     labels: smLabels(sub.labels),
     paymentMethod: smPaymentMethod(sub.paymentMethod),
     color: color,
-    notes: smText(sub.note),
+    notes: notesWithDroppedExpiry(
+      smText(sub.note),
+      !recurring && first != null ? expiry : null,
+    ),
     reminderEnabled: reminder.enabled,
     reminderDays: reminder.days,
     reminderTime: reminder.time,

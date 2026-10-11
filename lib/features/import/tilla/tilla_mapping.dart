@@ -1,5 +1,6 @@
 import '../../../core/money.dart';
 import '../../../data/enums.dart';
+import '../draft/dropped_date_note.dart';
 import '../draft/import_draft.dart';
 import '../draft/import_warning.dart';
 import '../draft/source_app.dart';
@@ -54,7 +55,9 @@ ImportDraft mapTillaSubscription(TillaSubscription s, TillaContext context) {
       ms == null ? null : context.zone.dayOf(ms.toInt());
   final start = dayOf(billingDate)!;
   final next = oneTime ? null : dayOf(s.nextBillDate);
-  final end = dayOf(s.endDate);
+  // 一次性买断只有购买日；来源里的结束日期写进备注。
+  final sourceEnd = dayOf(s.endDate);
+  final end = oneTime ? null : sourceEnd;
   final priceMinor = toMinor(price, currency);
   final category = s.categoryId?.toInt();
 
@@ -78,7 +81,10 @@ ImportDraft mapTillaSubscription(TillaSubscription s, TillaContext context) {
     color: parseColor(s.color?.toInt()),
     iconPng: decodeIcon(s.icon),
     url: nonBlank(s.link),
-    notes: nonBlank(s.notes),
+    notes: notesWithDroppedExpiry(
+      nonBlank(s.notes),
+      oneTime ? sourceEnd : null,
+    ),
     reminderEnabled: enabled,
     reminderDays: reminderDays,
     payments: [

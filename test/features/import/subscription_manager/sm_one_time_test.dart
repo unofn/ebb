@@ -26,16 +26,18 @@ void main() {
     expect(draft.warnings, isEmpty);
   });
 
-  test('with both dates: expiringDate is the end date', () {
+  test('with both dates: no end date, expiringDate kept in notes', () {
     final draft = draftOf(
       oneTime(2, {
         'firstBillingDate': '2025-06-18',
         'expiringDate': '2026-06-18',
+        'note': '家里那台',
       }),
     );
     expect(paidOn(draft), ['2025-06-18']);
-    expect(draft.endDate, utcDate(2026, 6, 18));
+    expect(draft.endDate, isNull);
     expect(draft.endDateUnknown, isFalse);
+    expect(draft.notes, '家里那台\n原到期日 2026-06-18');
   });
 
   test('no dates at all: no payment, warns', () {
