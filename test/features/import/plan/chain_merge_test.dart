@@ -77,6 +77,24 @@ void main() {
     ]);
   });
 
+  test('an earlier record with a known end never pays on its successor '
+      'start', () {
+    // 前一条的到期日恰好是后继的开始日：那一期只能算后继的。
+    final a = fakeDraft(
+      'a',
+      start: jan1,
+      end: feb1,
+      status: SubscriptionStatus.cancelled,
+      priceMinor: 900,
+      paidUntil: utcDate(2025, 2, 2),
+    );
+    final b = fakeDraft('b', start: feb1);
+    expect(datesAndAmounts(plannedPayments([a, b])), [
+      ('2025-01-01', 900),
+      ('2025-02-01', 1500),
+    ]);
+  });
+
   test('three yearly records keep each year at its own price', () {
     final records = [
       fakeDraft(

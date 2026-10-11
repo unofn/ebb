@@ -15,7 +15,7 @@ typedef SmTimeline = ({
 
 /// A recurring record. Without [start] or [cycle] there are no payments and
 /// no next date. Inactive without [expiry]: the stop date is unknown, so only
-/// the first payment counts. Otherwise payments run up to [expiry] inclusive.
+/// the first payment counts. Otherwise payments run up to [expiry], exclusive.
 SmTimeline recurringTimeline({
   required bool active,
   required DateTime? start,
@@ -41,19 +41,17 @@ SmTimeline recurringTimeline({
     );
   }
 
-  final last = expiry == null || today.isBefore(expiry) ? today : expiry;
+  // 到期日当天不再扣费：那一期正是没有续上的那次。
+  final tomorrow = today.add(const Duration(days: 1));
+  final until = expiry == null || tomorrow.isBefore(expiry) ? tomorrow : expiry;
   final paymentDates = endDateUnknown
       ? [if (!start.isAfter(today)) start]
-      : occurrencesFrom(
-          start,
-          cycle,
-          untilExclusive: last.add(const Duration(days: 1)),
-        ).toList();
+      : occurrencesFrom(start, cycle, untilExclusive: until).toList();
 
   final next = firstOccurrenceAfter(start, cycle, today);
   final nextDate = switch (status) {
     SubscriptionStatus.active => next,
-    SubscriptionStatus.ending when !next.isAfter(expiry!) => next,
+    SubscriptionStatus.ending when next.isBefore(expiry!) => next,
     _ => null,
   };
   return (

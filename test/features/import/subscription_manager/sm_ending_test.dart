@@ -21,7 +21,7 @@ void main() {
       expect(draft.nextDate, isNull);
     });
 
-    test('past expiry: cancelled, an occurrence on the expiry is paid', () {
+    test('past expiry: cancelled, the expiry day itself is not paid', () {
       final draft = draftOf(
         smRecord(7, {
           'firstBillingDate': '2026-06-15',
@@ -29,12 +29,7 @@ void main() {
         }),
       );
       expect(draft.status, SubscriptionStatus.cancelled);
-      expect(paidOn(draft), [
-        '2026-06-15',
-        '2026-07-15',
-        '2026-08-15',
-        '2026-09-15',
-      ]);
+      expect(paidOn(draft), ['2026-06-15', '2026-07-15', '2026-08-15']);
       expect(draft.nextDate, isNull);
       expect(draft.endDateUnknown, isFalse);
     });
@@ -53,7 +48,7 @@ void main() {
       expect(draft.autoRenew, isFalse);
     });
 
-    test('with expiringDate: cancelled, backfilled up to it', () {
+    test('with expiringDate: cancelled, backfilled up to it, exclusive', () {
       final draft = draftOf(
         smRecord(9, {
           'active': false,
@@ -68,7 +63,6 @@ void main() {
         '2025-12-10',
         '2026-01-10',
         '2026-02-10',
-        '2026-03-10',
       ]);
     });
 

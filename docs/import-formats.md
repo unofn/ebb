@@ -77,7 +77,7 @@
 | `cycle.cycleDuration` + `cycle.cycleRhythm` | 每 N 个单位；`cycleRhythm` 是 `java.util.Calendar` 字段常量：1 年、2 月、3/4 周、5/6 天。样本订阅里只出现 1 和 2；其他值给警告 |
 | `cycle.cycleType` | 订阅里恒为 1，通知里为 3；含义未确认，忽略 |
 | `firstBillingDate` | `YYYY-MM-DD`；**可能缺失**（样本有周期订阅没有它） |
-| `expiringDate` | 到期日，可空。周期订阅作为结束日期；一次性买断只有购买日（已和用户确认）：有 `firstBillingDate` 时到期日写进备注，只有到期日时把它当购买日并给警告 |
+| `expiringDate` | 到期日，可空。周期订阅作为结束日期（不含：到期日当天那一期就是没续上的那次，不记付款）；一次性买断只有购买日（已和用户确认）：有 `firstBillingDate` 时到期日写进备注，只有到期日时把它当购买日并给警告 |
 | `duration` | 样本恒为 `-1`，推测是付款次数（-1 = 无限），未找到文档；非 -1 时给警告 |
 | `labels` | 标签数组，原样导入为标签；预览里可顺手映射到品类 |
 | `paymentMethod` | 自由文本，同一方式有多种写法（`Alipay` / `支付宝`），原样保留 |

@@ -18,15 +18,21 @@ ImportDraft mergedBody(List<ImportDraft> sources) => sources.last.copyWith(
 );
 
 /// Every payment of [sources], each with the ID of the record it comes
-/// from. An earlier record without an end date gets its own periods up to
-/// its successor's start, at its own price, instead of its draft payments.
+/// from. An earlier record never pays on or after its successor's start:
+/// without an end date it gets its own periods up to that start, at its own
+/// price; with one, its draft payments are cut there.
 List<PlannedPayment> plannedPayments(List<ImportDraft> sources) {
   final byId = <String, PlannedPayment>{};
   for (final (i, source) in sources.indexed) {
     final successor = sources.elementAtOrNull(i + 1);
-    final payments = successor != null && source.endDate == null
+    final payments = successor == null
+        ? source.payments
+        : source.endDate == null
         ? _untilSuccessor(source, successor)
-        : source.payments;
+        : [
+            for (final p in source.payments)
+              if (p.date.isBefore(_cutoff(source, successor))) p,
+          ];
     for (final p in payments) {
       final id = importedPaymentId(source, p.date);
       byId.putIfAbsent(
@@ -45,14 +51,19 @@ List<PlannedPayment> plannedPayments(List<ImportDraft> sources) {
 }
 
 // 后继的开始日可能比上一期晚几天（容差内）；那一期属于后继，不能再给前一条记一笔。
+DateTime _cutoff(ImportDraft source, ImportDraft successor) =>
+    successor.startDate!.subtract(renewalTolerance(source.cycle!));
+
 List<DraftPayment> _untilSuccessor(ImportDraft source, ImportDraft successor) {
   final start = source.startDate!;
-  final cycle = source.cycle!;
-  final cutoff = successor.startDate!.subtract(renewalTolerance(cycle));
   return [
     for (final date in {
       start,
-      ...occurrencesFrom(start, cycle, untilExclusive: cutoff),
+      ...occurrencesFrom(
+        start,
+        source.cycle!,
+        untilExclusive: _cutoff(source, successor),
+      ),
     })
       DraftPayment(
         date: date,
