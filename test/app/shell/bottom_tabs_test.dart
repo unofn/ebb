@@ -34,6 +34,8 @@ void main() {
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
       expect(find.byType(Icon), findsNWidgets(4));
+      // 只占内容的高度，不撑满屏幕。
+      expect(tester.getSize(find.byType(BottomTabs)).height, lessThan(200));
     });
   }
 }

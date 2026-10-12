@@ -56,6 +56,7 @@ class BottomTabs extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               spacing: 2,
               children: [
