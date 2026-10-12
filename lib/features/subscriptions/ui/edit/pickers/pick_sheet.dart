@@ -7,6 +7,7 @@ import '../../../../../app/theme/ebb_colors.dart';
 Future<T?> showPickSheet<T>(BuildContext context, WidgetBuilder builder) =>
     showModalBottomSheet<T>(
       context: context,
+      useRootNavigator: true,
       isScrollControlled: true,
       showDragHandle: true,
       useSafeArea: true,

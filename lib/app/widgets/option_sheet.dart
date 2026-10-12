@@ -19,6 +19,8 @@ Future<T?> showOptionSheet<T>(
   final c = context.colors;
   return showModalBottomSheet<T>(
     context: context,
+    // 盖住底栏和侧栏，和画板一样占满屏幕底部。
+    useRootNavigator: true,
     isScrollControlled: true,
     backgroundColor: c.surface,
     shape: const RoundedRectangleBorder(

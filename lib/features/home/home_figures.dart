@@ -5,6 +5,7 @@ import '../../app/format/total_text.dart';
 import '../../app/l10n/l10n.dart';
 import '../../app/theme/ebb_colors.dart';
 import '../../app/theme/ebb_type.dart';
+import '../../app/widgets/fading_text.dart';
 import '../billing/monthly_cost.dart';
 import '../budget/domain/budget_status.dart';
 import '../subscriptions/domain/home_totals.dart';
@@ -58,7 +59,7 @@ class HomeFigures extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.center,
           spacing: 8,
           children: [
-            Text(
+            FadingText(
               moneyText(totals.monthly.minor, base),
               style: EbbType.large.tabular.copyWith(color: c.ink),
             ),

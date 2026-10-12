@@ -4,6 +4,8 @@ import 'control_themes.dart';
 import 'dialog_theme.dart';
 import 'ebb_colors.dart';
 import 'ebb_type.dart';
+import 'page_transitions.dart';
+import 'snack_bar_theme.dart';
 
 /// Material 3 themed with the design's tokens; [brightness] picks the set.
 ThemeData ebbTheme(Brightness brightness) {
@@ -49,11 +51,8 @@ ThemeData ebbTheme(Brightness brightness) {
     switchTheme: switchTheme(c),
     checkboxTheme: checkboxTheme(c),
     dialogTheme: dialogTheme(c, text),
-    snackBarTheme: SnackBarThemeData(
-      backgroundColor: c.ink,
-      contentTextStyle: text.bodyMedium?.copyWith(color: c.bg),
-      behavior: SnackBarBehavior.floating,
-    ),
+    snackBarTheme: snackBarTheme(c, text),
+    pageTransitionsTheme: pageTransitions,
   );
 }
 

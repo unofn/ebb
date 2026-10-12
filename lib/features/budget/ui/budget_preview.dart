@@ -5,6 +5,7 @@ import '../../../app/format/total_text.dart';
 import '../../../app/l10n/l10n.dart';
 import '../../../app/theme/ebb_colors.dart';
 import '../../../app/theme/ebb_type.dart';
+import '../../../app/widgets/budget_meter.dart';
 import '../domain/budget_status.dart';
 import 'budget_inputs.dart';
 
@@ -64,16 +65,7 @@ class BudgetPreview extends StatelessWidget {
               ),
             ],
           ),
-          if (status != null)
-            ClipRRect(
-              borderRadius: BorderRadius.circular(3),
-              child: LinearProgressIndicator(
-                value: status.ratio.clamp(0, 1).toDouble(),
-                minHeight: 6,
-                color: color,
-                backgroundColor: c.surface2,
-              ),
-            ),
+          if (status != null) BudgetMeter(status: status, height: 6),
           Text(
             switch (status?.level) {
               null => l10n.budgetSheetNone,

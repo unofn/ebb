@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/providers/duplicate_providers.dart';
 import '../../app/providers/update_providers.dart';
+import '../../app/theme/motion.dart';
 import '../../app/widgets/surface_card.dart';
 import '../../data/database.dart';
 import '../subscriptions/domain/trials_ending.dart';
@@ -32,16 +33,29 @@ class HomeHints extends ConsumerWidget {
         TrialHint(subscription: s, today: today),
       for (final group in duplicates) DuplicateHint(group: group),
     ];
-    if (rows.isEmpty && update == null) return const SizedBox.shrink();
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: 8,
-        children: [
-          if (rows.isNotEmpty) SurfaceCard(children: rows),
-          if (update != null) UpdateHint(release: update),
-        ],
+    final shown = rows.isNotEmpty || update != null;
+    final duration = context.motion(Motion.settle);
+    // 出现和消失时高度过渡、整块淡入淡出；消失时先淡出再收起。
+    return AnimatedSize(
+      duration: duration,
+      curve: Motion.curve,
+      alignment: Alignment.topCenter,
+      child: AnimatedSwitcher(
+        duration: duration,
+        child: shown
+            ? Padding(
+                key: const ValueKey(true),
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  spacing: 8,
+                  children: [
+                    if (rows.isNotEmpty) SurfaceCard(children: rows),
+                    if (update != null) UpdateHint(release: update),
+                  ],
+                ),
+              )
+            : const SizedBox(key: ValueKey(false), width: double.infinity),
       ),
     );
   }

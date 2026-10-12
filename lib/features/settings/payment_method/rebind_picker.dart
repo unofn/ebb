@@ -14,6 +14,8 @@ Future<Set<String>?> pickRebindSubscriptions(
   required String target,
 }) => showModalBottomSheet<Set<String>>(
   context: context,
+  // 盖住底栏和侧栏，和画板一样占满屏幕底部。
+  useRootNavigator: true,
   isScrollControlled: true,
   backgroundColor: context.colors.surface,
   shape: const RoundedRectangleBorder(

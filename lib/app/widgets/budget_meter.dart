@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../features/budget/domain/budget_status.dart';
 import '../theme/ebb_colors.dart';
+import '../theme/motion.dart';
 
 /// The budget's color: the accent while fine, amber from 90%, red over.
 Color budgetColor(EbbColors c, BudgetLevel level) => switch (level) {
@@ -22,14 +23,20 @@ class BudgetMeter extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final radius = BorderRadius.circular(height / 2);
+    final duration = context.motion(Motion.settle);
     return Container(
       height: height,
       decoration: BoxDecoration(color: c.surface2, borderRadius: radius),
-      alignment: Alignment.centerLeft,
-      child: FractionallySizedBox(
+      // 长度和颜色随数值过渡。
+      child: AnimatedFractionallySizedBox(
+        duration: duration,
+        curve: Motion.curve,
+        alignment: Alignment.centerLeft,
         widthFactor: status.ratio.clamp(0.0, 1.0),
         heightFactor: 1,
-        child: DecoratedBox(
+        child: AnimatedContainer(
+          duration: duration,
+          curve: Motion.curve,
           decoration: BoxDecoration(
             color: budgetColor(c, status.level),
             borderRadius: radius,

@@ -45,7 +45,9 @@ def noto_codepoints() -> set[int]:
     hanzi = {ord(c) for c in HANZI.read_text(encoding="utf-8") if not c.isspace()}
     assert len(hanzi) == 8105, f"expected 8105 characters, got {len(hanzi)}"
     symbols = {cp for lo, hi in SYMBOL_RANGES for cp in range(lo, hi + 1)}
-    return hanzi | symbols
+    # 去掉省略号：截断时省略号取被截那段文字的字体，中文段会画成居中的全宽
+    # 「⋯」，和拉丁段、文案里的「…」不一样；缺这个字就统一退回 IBM Plex Sans。
+    return (hanzi | symbols) - {0x2026}
 
 
 def instance(font: TTFont, weight: int) -> TTFont:

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/l10n/l10n.dart';
 import '../../../app/theme/ebb_colors.dart';
 import '../../../app/theme/ebb_type.dart';
+import '../../../app/widgets/fading_text.dart';
 import 'chart_notes.dart';
 import 'chart_texts.dart';
 import 'spend_chart.dart';
@@ -40,7 +41,10 @@ class ChartCard extends ConsumerWidget {
           future ? l10n.statsFutureCaption : l10n.statsPastCaption,
           style: small,
         ),
-        Text(texts.total, style: EbbType.large.tabular.copyWith(color: c.ink)),
+        FadingText(
+          texts.total,
+          style: EbbType.large.tabular.copyWith(color: c.ink),
+        ),
         Text(texts.selection(selected), style: small),
       ],
     );
