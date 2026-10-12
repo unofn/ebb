@@ -647,6 +647,43 @@
     }
   },
   "detailDeleteBody": "订阅和它的付款记录都会删除。",
+  "attachmentTitle": "附件",
+  "attachmentAdd": "添加",
+  "attachmentEmpty": "可以放发票、订单截图",
+  "attachmentAddTitle": "添加附件",
+  "attachmentPhotos": "照片",
+  "attachmentFiles": "文件",
+  "attachmentOpen": "打开",
+  "attachmentDelete": "删除",
+  "attachmentDeleteTitle": "删除这个附件？",
+  "attachmentDeleteBody": "删除后不能恢复。",
+  "attachmentAddedOn": "{date}添加",
+  "@attachmentAddedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "attachmentTooLarge": "{count, plural, =1{「{name}」超过 25 MB，没有保存} other{{count} 个文件超过 25 MB，没有保存}}",
+  "@attachmentTooLarge": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "attachmentOpenFailed": "打不开「{name}」，可能没有能打开它的应用",
+  "@attachmentOpenFailed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "homeTitle": "订阅",
   "emptyTitle": "还没有订阅",
   "emptyBody": "从 Tilla 或 SubscriptionManager 导入，\n或者手动添加第一个。",

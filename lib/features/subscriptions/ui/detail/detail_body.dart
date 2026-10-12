@@ -5,6 +5,7 @@ import '../../../../app/providers/rate_status_providers.dart';
 import '../../../../core/local_date.dart';
 import '../../../../data/database.dart';
 import '../../../../data/enums.dart';
+import '../../../attachments/ui/attachments_section.dart';
 import '../../../presets/preset_match_provider.dart';
 import '../../data/subscription_entry.dart';
 import '../../domain/price_changes.dart';
@@ -77,6 +78,7 @@ class DetailBody extends ConsumerWidget {
               due: due,
             ),
           if (changes.length > 1) DetailPriceChanges(segments: changes),
+          AttachmentsSection(subscriptionId: s.id),
           DetailPayments(
             payments: payments,
             rates: money.rates,
