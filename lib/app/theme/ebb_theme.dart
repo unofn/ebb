@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'control_themes.dart';
+import 'dialog_theme.dart';
 import 'ebb_colors.dart';
 import 'ebb_type.dart';
 
@@ -47,6 +48,7 @@ ThemeData ebbTheme(Brightness brightness) {
     textButtonTheme: textButtonTheme(c, text),
     switchTheme: switchTheme(c),
     checkboxTheme: checkboxTheme(c),
+    dialogTheme: dialogTheme(c, text),
     snackBarTheme: SnackBarThemeData(
       backgroundColor: c.ink,
       contentTextStyle: text.bodyMedium?.copyWith(color: c.bg),

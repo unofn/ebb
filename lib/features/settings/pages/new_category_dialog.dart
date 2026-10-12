@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../app/l10n/category_names.dart';
 import '../../../app/l10n/l10n.dart';
+import '../../../app/theme/dialog_theme.dart';
 import '../../../data/seed/categories.dart';
 
 /// A category the user is adding: its name and one of the fixed groups.
@@ -45,6 +46,8 @@ class _NewCategoryDialogState extends State<_NewCategoryDialog> {
     final l10n = context.l10n;
     final material = MaterialLocalizations.of(context);
     return AlertDialog(
+      contentPadding: dialogContentPadding,
+      buttonPadding: dialogButtonPadding,
       title: Text(l10n.settingsCategoryNew),
       content: Column(
         mainAxisSize: MainAxisSize.min,

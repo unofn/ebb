@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/l10n/l10n.dart';
 import '../../../app/providers/repository_providers.dart';
+import '../../../app/theme/dialog_theme.dart';
 import '../../../app/theme/ebb_colors.dart';
 import '../../subscriptions/domain/list_segments.dart';
 import '../settings_routes.dart';
@@ -30,6 +31,8 @@ Future<void> deletePaymentMethod(
   final choice = await showDialog<_Choice>(
     context: context,
     builder: (context) => AlertDialog(
+      contentPadding: dialogContentPadding,
+      buttonPadding: dialogButtonPadding,
       title: Text(l10n.settingsDeleteTitle(name)),
       content: Text(
         inUse == 0

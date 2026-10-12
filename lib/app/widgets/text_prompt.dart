@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../theme/dialog_theme.dart';
 import '../theme/ebb_colors.dart';
 
 /// A dialog with one text field. Resolves to the entered text (trimmed),
@@ -65,6 +66,8 @@ class _TextPromptState extends State<_TextPrompt> {
   Widget build(BuildContext context) {
     final material = MaterialLocalizations.of(context);
     return AlertDialog(
+      contentPadding: dialogContentPadding,
+      buttonPadding: dialogButtonPadding,
       title: Text(widget.title),
       content: TextField(
         controller: _controller,

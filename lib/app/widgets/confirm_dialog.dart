@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../theme/dialog_theme.dart';
 import '../theme/ebb_colors.dart';
 
 /// Asks before an action that is hard to undo; true when the user
@@ -14,6 +15,8 @@ Future<bool> showConfirmDialog(
   final confirmed = await showDialog<bool>(
     context: context,
     builder: (context) => AlertDialog(
+      contentPadding: dialogContentPadding,
+      buttonPadding: dialogButtonPadding,
       title: Text(title),
       content: body == null ? null : Text(body),
       actions: [
