@@ -53,7 +53,7 @@ class ReviewCard extends StatelessWidget {
             children: [
               Text.rich(
                 TextSpan(
-                  text: moneyText(s.priceMinor, s.currency),
+                  text: moneyText(s.myShareMinor ?? s.priceMinor, s.currency),
                   style: EbbType.large.tabular.copyWith(color: c.ink),
                   children: [
                     TextSpan(

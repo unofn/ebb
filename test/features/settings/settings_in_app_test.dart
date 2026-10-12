@@ -1,5 +1,6 @@
 import 'package:ebb/app/l10n/l10n.dart';
 import 'package:ebb/app/providers/reminder_providers.dart';
+import 'package:ebb/features/budget/ui/budget_form.dart';
 import 'package:ebb/features/reminders/platform/reminder_scheduler.dart';
 import 'package:ebb/features/settings/settings_providers.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,15 @@ void main() {
     await tester.tap(find.byTooltip('返回'));
     await tester.pumpAndSettle();
     expect(find.text('货币与汇率'), findsOneWidget);
+
+    // 预算面板压在根 navigator 上，盖住底栏。
+    await tester.tap(find.text('每月预算'));
+    await tester.pumpAndSettle();
+    final sheet = tester.element(find.byType(BudgetForm));
+    expect(Navigator.of(sheet), same(Navigator.of(sheet, rootNavigator: true)));
+    await tester.tapAt(const Offset(200, 40));
+    await tester.pumpAndSettle();
+    expect(find.byType(BudgetForm), findsNothing);
     await unmountEbb(tester);
   });
 }

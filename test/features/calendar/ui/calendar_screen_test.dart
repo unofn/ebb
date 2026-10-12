@@ -153,4 +153,33 @@ void main() {
       await unmountEbb(tester);
     });
   });
+
+  testWidgets('wide: a day with three charges shows two and 「另有 1 笔」', (
+    tester,
+  ) async {
+    await withClock(Clock.fixed(now), () async {
+      await seedSubscriptions(tester, db, [
+        for (final name in ['ChatGPT Plus', 'iCloud+ 200GB', '腾讯视频 VIP'])
+          seedable(name, next: utcDate(2026, 10, 15)),
+      ]);
+      await pumpEbb(tester, db, size: const Size(1440, 1000));
+      await tester.tap(find.text('日历').last);
+      await settleWrites(tester);
+
+      expect(tester.takeException(), isNull);
+      expect(find.text('另有 1 笔'), findsOneWidget);
+      // 按名称排序，前两个写进格子。
+      expect(find.text('ChatGPT Plus'), findsOneWidget);
+      expect(find.text('iCloud+ 200GB'), findsOneWidget);
+      expect(find.text('腾讯视频 VIP'), findsNothing);
+
+      // 选中这一天：右栏列出全部三笔，格子里仍不溢出。
+      await tester.tap(find.text('15'));
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      expect(find.text('另有 1 笔'), findsOneWidget);
+      expect(find.text('腾讯视频 VIP'), findsOneWidget);
+      await unmountEbb(tester);
+    });
+  });
 }

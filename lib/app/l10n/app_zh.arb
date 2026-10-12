@@ -1513,17 +1513,6 @@
     }
   },
   "reviewFlowTrialEnds": "试用结束",
-  "reviewFlowShareNote": "我的份额 {share} · 总价 {total}",
-  "@reviewFlowShareNote": {
-    "placeholders": {
-      "share": {
-        "type": "String"
-      },
-      "total": {
-        "type": "String"
-      }
-    }
-  },
   "reviewFlowIntroNote": "首期 {price}，{date}起恢复原价",
   "@reviewFlowIntroNote": {
     "placeholders": {

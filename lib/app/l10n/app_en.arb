@@ -532,7 +532,6 @@
   "reviewFlowNeverCharged": "Not charged yet",
   "reviewFlowDot": "{first} · {second}",
   "reviewFlowTrialEnds": "trial ends",
-  "reviewFlowShareNote": "My share {share} · total {total}",
   "reviewFlowIntroNote": "Intro {price}; regular price from {date}",
   "reviewFlowTrialNote": "Trial ends {date}, then this price is charged",
   "reviewFlowDuplicate": "{category} also has {names}. Using {count, plural, =1{both} other{all of them}}?",

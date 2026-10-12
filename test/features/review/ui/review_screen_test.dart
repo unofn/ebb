@@ -158,4 +158,31 @@ void main() {
     expect(await db.readMeta(LocalMetaKeys.reviewLastCompletedOn), isNull);
     await unmountScreens(tester);
   });
+
+  testWidgets('a shared one shows my share, the total below', (tester) async {
+    now = today();
+    await RateRepository(db, LocalSettings(db)).save(
+      FetchedRates(
+        base: 'CNY',
+        updatedAt: DateTime.utc(2026),
+        rates: {'USD': Decimal.parse('0.125')},
+      ),
+    );
+    await SubscriptionRepository(db).create(
+      fakeSubscriptionDraft('Fake Video').copyWith(
+        priceMinor: const Value(1549),
+        currency: const Value('USD'),
+        myShareMinor: const Value(516),
+        nextDate: Value(now.add(const Duration(days: 5))),
+      ),
+    );
+    final router = await pumpScreens(tester, db, calls, location: '/');
+    router.push('/review');
+    await tester.pumpAndSettle();
+
+    expect(find.text(r'$5.16 / 月', findRichText: true), findsOneWidget);
+    expect(find.text(r'≈ ¥41.28 · 总价 $15.49 / 月'), findsOneWidget);
+    expect(find.text('≈ ¥41.28'), findsOneWidget, reason: 'monthly');
+    await unmountScreens(tester);
+  });
 }

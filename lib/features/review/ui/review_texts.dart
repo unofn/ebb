@@ -32,8 +32,9 @@ class ReviewTexts {
         : l10n.homeApprox(moneyText(converted, _base));
   }
 
-  /// The line under the price: trial, intro offer, my share, or the
-  /// price in the base currency.
+  /// The line under the price (my share when shared): trial, intro
+  /// offer, my share in the base currency with the total, or the price in
+  /// the base currency.
   String? priceNote(Subscription s) {
     final foreign = s.currency.toUpperCase() != _base.toUpperCase();
     if (s.isInTrial(today)) {
@@ -46,11 +47,13 @@ class ReviewTexts {
       );
     }
     if (s.myShareMinor case final share?) {
-      final mine = moneyText(share, s.currency);
-      return l10n.reviewFlowShareNote(
-        foreign ? approx(share, s.currency) ?? mine : mine,
-        pricePer(l10n, moneyText(s.priceMinor, s.currency), s.cycle),
-      );
+      // 和详情页一样：大字是我的份额，这里补折算和总价。
+      return [
+        if (foreign) ?approx(share, s.currency),
+        l10n.detailTotalPrice(
+          pricePer(l10n, moneyText(s.priceMinor, s.currency), s.cycle),
+        ),
+      ].join(' · ');
     }
     return foreign ? approx(s.priceMinor, s.currency) : null;
   }

@@ -11,6 +11,8 @@ import 'charge_dot.dart';
 class ChargeChip extends StatelessWidget {
   const ChargeChip({super.key, required this.charge, required this.data});
 
+  static const height = 20.0;
+
   final CalendarCharge charge;
   final CalendarData data;
 
@@ -19,14 +21,14 @@ class ChargeChip extends StatelessWidget {
     final c = context.colors;
     final pending = charge.kind == ChargeKind.awaitingConfirmation;
     return Container(
-      height: 20,
-      padding: const EdgeInsets.symmetric(horizontal: 6),
+      height: height,
+      padding: const EdgeInsets.symmetric(horizontal: 4),
       decoration: BoxDecoration(
         color: pending ? c.warnSoft : c.surface2,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Row(
-        spacing: 6,
+        spacing: 4,
         children: [
           ChargeDot(charge.kind),
           Expanded(
