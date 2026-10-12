@@ -7,7 +7,6 @@ import '../../../app/widgets/card_section.dart';
 import '../settings_providers.dart';
 import '../widgets/settings_row.dart';
 
-// TODO: 仓库地址等用户确认后再定。
 final sourceUrl = Uri.parse('https://github.com/unofn/ebb');
 
 /// Version, license and where the source lives.
