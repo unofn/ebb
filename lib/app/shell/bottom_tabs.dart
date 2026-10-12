@@ -50,21 +50,29 @@ class BottomTabs extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
         onTap: () => onSelected(index),
-        child: SizedBox(
-          height: 52,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 2,
-            children: [
-              Icon(tab.icon, size: 22, color: color),
-              Text(
-                tab.label(context.l10n),
-                style: EbbType.small.copyWith(
-                  color: color,
-                  fontWeight: on ? EbbType.strong : FontWeight.w400,
+        // 至少 52 高；大字号时跟着长高，标签过宽时缩小到放得下。
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 52),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 2,
+              children: [
+                Icon(tab.icon, size: 22, color: color),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    tab.label(context.l10n),
+                    maxLines: 1,
+                    style: EbbType.small.copyWith(
+                      color: color,
+                      fontWeight: on ? EbbType.strong : FontWeight.w400,
+                    ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

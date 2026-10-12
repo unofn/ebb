@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../features/calendar/ui/calendar_screen.dart';
 import '../../features/import/ui/export_file.dart';
 import '../../features/import/ui/import_screen.dart';
+import '../../features/review/ui/review_screen.dart';
 import '../../features/settings/settings_routes.dart';
 import '../../features/settings/settings_screen.dart';
+import '../../features/stats/ui/stats_screen.dart';
 import '../../features/subscriptions/ui/batch/batch_edit_screen.dart';
 import '../providers/reminder_providers.dart';
 import '../shell/app_shell.dart';
@@ -32,6 +35,22 @@ GoRouter appRouter(Ref ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
+                path: RoutePaths.calendar,
+                builder: (context, state) => const CalendarScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RoutePaths.stats,
+                builder: (context, state) => const StatsScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
                 path: RoutePaths.settings,
                 builder: (context, state) => const SettingsScreen(),
                 routes: settingsRoutes,
@@ -51,6 +70,11 @@ GoRouter appRouter(Ref ref) {
           fullscreenDialog: true,
           child: ImportScreen(file: state.extra! as ExportFile),
         ),
+      ),
+      GoRoute(
+        path: RoutePaths.review,
+        parentNavigatorKey: root,
+        builder: (context, state) => const ReviewScreen(),
       ),
       GoRoute(
         path: RoutePaths.batch,

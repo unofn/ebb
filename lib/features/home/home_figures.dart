@@ -6,24 +6,30 @@ import '../../app/l10n/l10n.dart';
 import '../../app/theme/ebb_colors.dart';
 import '../../app/theme/ebb_type.dart';
 import '../billing/monthly_cost.dart';
+import '../budget/domain/budget_status.dart';
 import '../subscriptions/domain/home_totals.dart';
 import '../subscriptions/domain/list_segments.dart';
+import 'home_budget.dart';
 import 'home_view.dart';
 
 /// The average monthly cost in the base currency, stale rates flagged
 /// beside it; the yearly equivalent (with the count when [withCount]);
-/// amounts without a rate listed apart.
+/// amounts without a rate listed apart; the [budget] when given.
 class HomeFigures extends StatelessWidget {
   const HomeFigures({
     super.key,
     required this.view,
     required this.today,
     this.withCount = false,
+    this.budget,
   });
 
   final HomeView view;
   final DateTime today;
   final bool withCount;
+
+  /// Shown at the end of the yearly line with a bar below; null hides it.
+  final BudgetStatus? budget;
 
   @override
   Widget build(BuildContext context) {
@@ -63,16 +69,26 @@ class HomeFigures extends StatelessWidget {
               ),
           ],
         ),
-        Text(
-          [
-            l10n.homeYearlyAbout(moneyText(totals.yearly.minor, base)),
-            if (withCount)
-              l10n.homeSubscriptionCount(
-                subscriptionsIn(ListSegment.all, subs).length,
+        Row(
+          spacing: 12,
+          children: [
+            Expanded(
+              child: Text(
+                [
+                  l10n.homeYearlyAbout(moneyText(totals.yearly.minor, base)),
+                  if (withCount)
+                    l10n.homeSubscriptionCount(
+                      subscriptionsIn(ListSegment.all, subs).length,
+                    ),
+                ].join(' · '),
+                style: small,
               ),
-          ].join(' · '),
-          style: small,
+            ),
+            if (budget case final status?)
+              HomeBudgetText(status: status, currency: base),
+          ],
         ),
+        if (budget case final status?) HomeBudgetBar(status: status),
         if (unconverted.isNotEmpty)
           Text(l10n.homeUnconverted(unconverted), style: small),
       ],

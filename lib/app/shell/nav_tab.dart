@@ -10,8 +10,10 @@ class NavTab {
   final String Function(AppLocalizations l10n) label;
 }
 
-/// Home and settings, in order of the shell's branches.
+/// Home, calendar, stats and settings, in order of the shell's branches.
 final navTabs = [
   NavTab(Icons.home_outlined, (l10n) => l10n.navHome),
+  NavTab(Icons.calendar_today_outlined, (l10n) => l10n.navCalendar),
+  NavTab(Icons.bar_chart, (l10n) => l10n.navStats),
   NavTab(Icons.settings_outlined, (l10n) => l10n.navSettings),
 ];

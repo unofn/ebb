@@ -22,8 +22,14 @@ class AppShell extends StatelessWidget {
     if (MediaQuery.sizeOf(context).width >= wideLayoutFrom) {
       return Scaffold(
         body: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SideNavigation(selected: shell.currentIndex, onSelected: _select),
+            SideNavigation(
+              selected: shell.currentIndex,
+              onSelected: _select,
+              // 首页、日历显示预算卡，统计页自己有。
+              showBudget: shell.currentIndex < 2,
+            ),
             VerticalDivider(width: 1, thickness: 1, color: context.colors.line),
             Expanded(child: shell),
           ],

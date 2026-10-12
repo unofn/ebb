@@ -9,6 +9,7 @@ import 'package:ebb/app/theme/ebb_theme.dart';
 import 'package:ebb/data/database.dart';
 import 'package:ebb/features/import/ui/export_file.dart';
 import 'package:ebb/features/reminders/platform/reminder_scheduler.dart';
+import 'package:ebb/features/review/ui/review_screen.dart';
 import 'package:ebb/features/settings/settings_providers.dart';
 import 'package:ebb/features/settings/settings_routes.dart';
 import 'package:ebb/features/settings/settings_screen.dart';
@@ -30,7 +31,7 @@ class ScreenCalls {
   bool canOpenSettings = true;
 }
 
-/// Mounts the settings and batch screens under a bare router (`/` and
+/// Mounts the settings, batch edit and review screens under a bare router (`/` and
 /// `/import` are stand-ins; the file picker hands out an empty file), in
 /// Chinese on a tall phone window, on [db].
 /// Jobs record payments but fetch nothing; notifications are [calls]'s
@@ -61,6 +62,7 @@ Future<GoRouter> pumpScreens(
         builder: (_, _) => const SettingsScreen(),
         routes: settingsRoutes,
       ),
+      GoRoute(path: '/review', builder: (_, _) => const ReviewScreen()),
       GoRoute(
         path: '/batch',
         builder: (_, state) => BatchEditScreen(

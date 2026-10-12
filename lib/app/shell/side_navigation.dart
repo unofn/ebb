@@ -5,20 +5,25 @@ import '../theme/ebb_colors.dart';
 import '../theme/ebb_type.dart';
 import '../widgets/ebb_marks.dart';
 import 'nav_tab.dart';
+import 'side_budget_card.dart';
 
 const _width = 220.0;
 
-/// The wide layout's sidebar: the brand on top, then the tabs; the
-/// selected one on the soft accent.
+/// The wide layout's sidebar: the brand on top, then the tabs (the
+/// selected one on the soft accent), and the budget at the bottom.
 class SideNavigation extends StatelessWidget {
   const SideNavigation({
     super.key,
     required this.selected,
     required this.onSelected,
+    this.showBudget = false,
   });
 
   final int selected;
   final ValueChanged<int> onSelected;
+
+  /// Adds the budget card at the bottom (home and calendar).
+  final bool showBudget;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +59,8 @@ class SideNavigation extends StatelessWidget {
                     _tab(context, tab, i == selected, i),
                 ],
               ),
+              const Spacer(),
+              if (showBudget) const SideBudgetCard(),
             ],
           ),
         ),

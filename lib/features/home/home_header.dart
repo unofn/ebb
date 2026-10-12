@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/l10n/l10n.dart';
+import '../../app/providers/budget_providers.dart';
 import '../../app/theme/ebb_colors.dart';
 import '../../app/theme/ebb_type.dart';
 import 'add_subscription_button.dart';
@@ -30,6 +31,8 @@ class HomeHeader extends ConsumerWidget {
     final l10n = context.l10n;
     final c = context.colors;
     final searching = ref.watch(homeSearchProvider) != null;
+    // 宽屏的预算在侧栏。
+    final budget = wide ? null : ref.watch(budgetStatusOnProvider(today)).value;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 6,
@@ -53,7 +56,7 @@ class HomeHeader extends ConsumerWidget {
             ],
           ],
         ),
-        HomeFigures(view: view, today: today, withCount: wide),
+        HomeFigures(view: view, today: today, withCount: wide, budget: budget),
         if (wide)
           const Padding(
             padding: EdgeInsets.only(top: 10),

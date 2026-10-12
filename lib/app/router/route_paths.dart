@@ -1,7 +1,12 @@
 /// Locations the app navigates to; see `app_router.dart` for the pages.
 abstract final class RoutePaths {
   static const home = '/';
+  static const calendar = '/calendar';
+  static const stats = '/stats';
   static const settings = '/settings';
+
+  /// The quarterly review, a full page over the tabs.
+  static const review = '/review';
 
   /// Needs the `ExportFile` as `extra`; open it through `startImport`.
   static const import = '/import';

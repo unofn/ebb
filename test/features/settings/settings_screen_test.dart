@@ -18,6 +18,10 @@ void main() {
   Finder row(String label) =>
       find.ancestor(of: find.text(label), matching: find.byType(InkWell));
 
+  /// [value] shown in the row labelled [label].
+  Finder valueIn(String label, String value) =>
+      find.descendant(of: row(label).first, matching: find.text(value));
+
   testWidgets('shows every section with its current values', (tester) async {
     await pumpScreens(tester, db, calls);
 
@@ -29,9 +33,11 @@ void main() {
     expect(find.text('已开启'), findsOneWidget);
     expect(find.text('CNY'), findsOneWidget);
     expect(find.text('未获取'), findsOneWidget);
-    expect(find.text('未设置'), findsOneWidget);
-    expect(find.text('27'), findsOneWidget, reason: 'built-in categories');
-    expect(find.text('0'), findsNWidgets(2), reason: 'methods and tags');
+    expect(valueIn('每月预算', '未设置'), findsOneWidget);
+    expect(valueIn('手动汇率', '未设置'), findsOneWidget);
+    expect(valueIn('品类', '27'), findsOneWidget);
+    expect(valueIn('支付方式', '0'), findsOneWidget);
+    expect(valueIn('标签', '0'), findsOneWidget);
     expect(find.text('0.2.0'), findsOneWidget);
     expect(find.text('GPL-3.0'), findsOneWidget);
     await unmountScreens(tester);

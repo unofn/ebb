@@ -134,7 +134,145 @@
   },
   "editDeleteBody": "它的付款记录会一起删除。",
   "editDeleteAction": "删除",
+  "calendarTitle": "日历",
+  "calendarToday": "今天",
+  "calendarPrevMonth": "上个月",
+  "calendarNextMonth": "下个月",
+  "calendarPaid": "已付",
+  "calendarPending": "待确认",
+  "calendarExpected": "预计",
+  "calendarKindSum": "{kind} {amount}",
+  "@calendarKindSum": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "calendarMonthEmpty": "这个月没有扣费",
+  "calendarMonthCount": "{count} 笔扣费",
+  "@calendarMonthCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "calendarMonthCountPending": "{count} 笔扣费，其中 {pending} 笔待你确认",
+  "@calendarMonthCountPending": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "pending": {
+        "type": "int"
+      }
+    }
+  },
+  "calendarCount": "{count} 笔",
+  "@calendarCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "calendarDaySum": "{count} 笔 · {amount}",
+  "@calendarDaySum": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "calendarDayNone": "没有扣费",
+  "calendarDayTitle": "{date} {weekday}",
+  "@calendarDayTitle": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "weekday": {
+        "type": "String"
+      }
+    }
+  },
+  "calendarIsToday": "{day} · 今天",
+  "@calendarIsToday": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "calendarEmptyPast": "这天没有扣费。",
+  "calendarEmptyFuture": "这天没有预计的扣费。",
+  "calendarDropped": "{name} 已退订并归档，这天不再有扣费。",
+  "@calendarDropped": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "calendarMarkPaid": "已付款",
+  "calendarNotRenewed": "没续费",
+  "calendarPaidVia": "已付 · {method}",
+  "@calendarPaidVia": {
+    "placeholders": {
+      "method": {
+        "type": "String"
+      }
+    }
+  },
+  "calendarExpectedAuto": "预计 · 自动续费",
+  "calendarExpectedManual": "预计 · 手动续费",
+  "calendarAwaiting": "手动续费 · 到期还没确认",
+  "calendarMyShare": "我的份额 {note}",
+  "@calendarMyShare": {
+    "placeholders": {
+      "note": {
+        "type": "String"
+      }
+    }
+  },
+  "calendarMore": "另有 {count} 笔",
+  "@calendarMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "calendarMonthTotal": "{month}合计 · {amount}",
+  "@calendarMonthTotal": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "calendarCurrencyNote": "金额按原币记录，合计折算为 {base}",
+  "@calendarCurrencyNote": {
+    "placeholders": {
+      "base": {
+        "type": "String"
+      }
+    }
+  },
+  "calendarFootnote": "含试用结束后的扣费；不含已暂停的订阅，到期不续的只算到期前。",
   "navHome": "首页",
+  "navCalendar": "日历",
+  "navStats": "统计",
   "navSettings": "设置",
   "homeMonthlyAverage": "月均成本",
   "homeYearlyAbout": "每年约 {amount}",
@@ -276,6 +414,148 @@
   "homeSearchHint": "搜索名称、品类、标签",
   "homeSearchClose": "关闭搜索",
   "homeSearchEmpty": "没有匹配的订阅",
+  "homeBudgetUsed": "预算 {budget} · 已用 {percent}%",
+  "@homeBudgetUsed": {
+    "placeholders": {
+      "budget": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "homeBudgetOver": "超出 {amount}",
+  "@homeBudgetOver": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "duplicateTitle": "你有 {count} 个{category}订阅",
+  "@duplicateTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "duplicateDismiss": "不再提示",
+  "statsTitle": "统计",
+  "statsPast": "过去 12 个月",
+  "statsFuture": "未来 12 个月",
+  "statsPastCaption": "过去 12 个月实付",
+  "statsFutureCaption": "未来 12 个月预计",
+  "statsAverage": "平均每月 {amount} · 点柱子看单月",
+  "@statsAverage": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "statsEstimated": "部分按今天的汇率估算",
+  "statsPartial": "只算到今天",
+  "statsPastNote": "来自付款记录，按付款当天的汇率折算；当月只算到今天。",
+  "statsFutureNote": "按当前订阅推算，含试用结束后的扣费；不含已暂停的订阅，到期不续的只算到期前。外币按今天的汇率折算。",
+  "statsReimbursed": "另有报销 {amount}，不计入上面的合计",
+  "@statsReimbursed": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "statsMissingRates": "没有汇率，未计入：{amounts}",
+  "@statsMissingRates": {
+    "placeholders": {
+      "amounts": {
+        "type": "String"
+      }
+    }
+  },
+  "statsPeak": "最高的月份",
+  "statsVsHome": "对比首页月均",
+  "statsBreakdown": "按分组 · 月均成本",
+  "statsSameAsHome": "{amount} · 和首页一致",
+  "@statsSameAsHome": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "statsUncategorized": "未分类",
+  "statsBreakdownEmpty": "还没有计入月均的订阅",
+  "statsExcluded": "不计入：{list}。百分比都是占月均合计的比例。",
+  "@statsExcluded": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "statsSharesNote": "百分比都是占月均合计的比例。",
+  "statsExcludedItem": "{name}（{reason}）",
+  "@statsExcludedItem": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "statsReasonPaused": "已暂停",
+  "statsReasonEnding": "到期不续",
+  "statsReasonTrial": "试用中",
+  "statsReasonReimbursed": "报销",
+  "statsBudget": "每月预算",
+  "statsBudgetLeft": "还剩 {amount}。用到 90% 时提醒你。",
+  "@statsBudgetLeft": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "statsBudgetOver": "超出 {amount}。",
+  "@statsBudgetOver": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "statsBudgetAdjust": "调整",
+  "statsBudgetUnset": "还没设预算",
+  "statsBudgetSet": "设置",
+  "statsReview": "季度复盘",
+  "statsReviewBody": "逐个确认 {count} 个订阅还在不在用",
+  "@statsReviewBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsReviewQuarter": "{quarter, select, 1{第一} 2{第二} 3{第三} other{第四}}季度还没复盘 · 逐个确认 {count} 个订阅",
+  "@statsReviewQuarter": {
+    "placeholders": {
+      "quarter": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsReviewStart": "开始",
   "archiveRestore": "恢复",
   "archiveDelete": "删除",
   "detailEdit": "编辑",
@@ -1125,5 +1405,249 @@
       }
     }
   },
-  "payMethodRebindFirst": "先改绑"
+  "payMethodRebindFirst": "先改绑",
+  "settingsBudget": "每月预算",
+  "settingsBudgetNone": "未设置",
+  "budgetSheetTitle": "每月预算",
+  "budgetSheetSubtitle": "和首页的月均成本比，年付按 ÷ 12 计。",
+  "budgetSheetLimit": "每月上限 · {currency}",
+  "@budgetSheetLimit": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetSheetNoLimit": "不设上限",
+  "budgetSheetCurrent": "当前月均 {amount}",
+  "@budgetSheetCurrent": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetSheetShare": "占 {percent}%",
+  "@budgetSheetShare": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "budgetSheetUnset": "未设预算",
+  "budgetSheetNone": "还没设预算。首页和统计页不显示预算条。",
+  "budgetSheetLeft": "还剩 {amount}。",
+  "@budgetSheetLeft": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetSheetNear": "接近上限，还剩 {amount}。",
+  "@budgetSheetNear": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetSheetOver": "超出 {amount}。",
+  "@budgetSheetOver": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetSheetWarnNote": "用到 90% 时，首页和统计页的预算条会变色提醒；不发系统通知。",
+  "budgetSheetCurrencyNote": "预算按基准货币 {currency} 记；改基准货币时会清空预算。",
+  "@budgetSheetCurrencyNote": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetSheetClear": "清除预算",
+  "budgetSheetInvalid": "请输入大于 0 的金额",
+  "reviewFlowTitle": "季度复盘",
+  "reviewFlowLater": "稍后",
+  "reviewFlowProgress": "{current} / {total}",
+  "@reviewFlowProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewFlowIntro": "还在用就留下；不用了就选怎么停。",
+  "reviewFlowMonthly": "月均",
+  "reviewFlowNotCounted": "不计入（{reason}）",
+  "@reviewFlowNotCounted": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewFlowReasonTrial": "试用中",
+  "reviewFlowReasonPaused": "已暂停",
+  "reviewFlowReasonReimbursed": "报销",
+  "reviewFlowLastCharge": "上次扣费",
+  "reviewFlowNextCharge": "下次扣费",
+  "reviewFlowNeverCharged": "还没扣过费",
+  "reviewFlowDot": "{first} · {second}",
+  "@reviewFlowDot": {
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "second": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewFlowTrialEnds": "试用结束",
+  "reviewFlowShareNote": "我的份额 {share} · 总价 {total}",
+  "@reviewFlowShareNote": {
+    "placeholders": {
+      "share": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewFlowIntroNote": "首期 {price}，{date}起恢复原价",
+  "@reviewFlowIntroNote": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewFlowTrialNote": "试用 {date}结束，之后按这个价格扣费",
+  "@reviewFlowTrialNote": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewFlowDuplicate": "{category}还有{names}，{count, plural, =1{两个都在用吗？} other{这几个都在用吗？}}",
+  "@reviewFlowDuplicate": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "names": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewFlowQuoted": "「{name}」",
+  "@reviewFlowQuoted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewFlowStop": "不用了",
+  "reviewFlowKeep": "还在用",
+  "reviewFlowBack": "上一个",
+  "reviewFlowStopTitle": "不用了，接下来怎么办",
+  "reviewFlowOpenManage": "打开管理页面",
+  "reviewFlowOpenManageHint": "去官网或 App Store 关掉自动续费",
+  "reviewFlowOpenedHint": "已在浏览器打开。回来后在下面选一项",
+  "reviewFlowNoManageLink": "没有管理链接，可以在编辑里填上",
+  "reviewFlowEnding": "设为到期不续",
+  "reviewFlowEndingHint": "用到 {date}，之后不再续费，也不再计入月均",
+  "@reviewFlowEndingHint": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewFlowEndingHintNoDate": "不再续费，也不再计入月均",
+  "reviewFlowArchive": "退订并归档",
+  "reviewFlowArchiveHint": "已经退订了；移到已归档，可恢复",
+  "reviewFlowCancelStop": "算了，还在用",
+  "reviewFlowDone": "复盘完成",
+  "reviewFlowSaved": "每月省下",
+  "reviewFlowSavedNote": "月均从 {before} 降到 {after}。",
+  "@reviewFlowSavedNote": {
+    "placeholders": {
+      "before": {
+        "type": "String"
+      },
+      "after": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewFlowTrialExtra": "{name}试用结束后也不会再扣 {amount}/月。",
+  "@reviewFlowTrialExtra": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewFlowAllKept": "全部 {count} 个都留下了，月均不变。",
+  "@reviewFlowAllKept": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewFlowKept": "留下",
+  "reviewFlowStopped": "停掉",
+  "reviewFlowCount": "{count} 个",
+  "@reviewFlowCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewFlowStoppedList": "停掉的订阅",
+  "reviewFlowStoppedEnding": "到期不续 · 用到 {date}",
+  "@reviewFlowStoppedEnding": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewFlowStoppedArchived": "已退订并归档",
+  "reviewFlowPerMonth": "每月",
+  "reviewFlowNotCountedShort": "不计入",
+  "reviewFlowNextReview": "下次复盘在 {month}。到时统计页会提醒你，不发系统通知。",
+  "@reviewFlowNextReview": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewFlowFinish": "完成",
+  "reviewFlowBackToLast": "回到上一个"
 }

@@ -6,9 +6,9 @@ import '../../app/widgets/content_width.dart';
 import '../../core/local_date.dart';
 import 'empty_home.dart';
 import 'home_header.dart';
+import 'home_hints.dart';
 import 'home_segment_list.dart';
 import 'home_view.dart';
-import 'trial_hints.dart';
 
 /// Monthly cost, trials about to charge, then the subscriptions by tab;
 /// the empty state before there are any.
@@ -39,7 +39,7 @@ class HomeScreen extends ConsumerWidget {
               children: [
                 HomeHeader(view: view, today: now, wide: wide),
                 const SizedBox(height: 20),
-                TrialHints(subscriptions: view.subscriptions, today: now),
+                HomeHints(subscriptions: view.subscriptions, today: now),
                 HomeSegmentList(view: view, today: now, selectedId: selectedId),
               ],
             ),
