@@ -8,6 +8,16 @@ import '../../../../app/widgets/card_section.dart';
 import '../../data/subscription_entry.dart';
 import 'detail_line.dart';
 
+/// Whether [entry] has any of what [DetailInfo] shows.
+bool hasDetailInfo(SubscriptionEntry entry) {
+  final s = entry.subscription;
+  return entry.category != null ||
+      entry.paymentMethod != null ||
+      (s.account?.isNotEmpty ?? false) ||
+      entry.tags.isNotEmpty ||
+      (s.notes?.isNotEmpty ?? false);
+}
+
 /// Category, payment method, account, tags and notes; only those set.
 class DetailInfo extends StatelessWidget {
   const DetailInfo({super.key, required this.entry});
@@ -59,7 +69,6 @@ class DetailInfo extends StatelessWidget {
       if (s.notes case final notes? when notes.isNotEmpty)
         DetailLine(l10n.detailNotes, value: notes),
     ];
-    if (lines.isEmpty) return const SizedBox.shrink();
     return CardSection(title: l10n.detailInfo, children: lines);
   }
 }

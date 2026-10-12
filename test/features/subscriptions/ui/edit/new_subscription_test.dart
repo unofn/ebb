@@ -3,8 +3,10 @@ import 'package:ebb/core/local_date.dart';
 import 'package:ebb/data/database.dart';
 import 'package:ebb/data/enums.dart';
 import 'package:ebb/data/seed/categories.dart';
+import 'package:ebb/features/presets/service_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:simple_icons/simple_icons.dart';
 
 import '../../../../support/app_harness.dart';
 import 'edit_harness.dart';
@@ -62,6 +64,28 @@ void main() {
         utcDate(2026, 10, 12),
       );
       expect(sub.nextDate, utcDate(2027, 10, 12));
+      await closeEditor(tester);
+    });
+  });
+
+  testWidgets('the tile follows the typed name until a color is chosen', (
+    tester,
+  ) async {
+    await withClock(Clock.fixed(now), () async {
+      await openEditor(tester, db);
+      final tileIcon = find.descendant(
+        of: find.byWidgetPredicate((w) => w is ServiceTile && w.size == 56),
+        matching: find.byIcon(SimpleIcons.netflix),
+      );
+      expect(tileIcon, findsNothing);
+
+      // 打全名不选建议，图块也换成预设的图标。
+      await typeInto(tester, '名称', 'fakeflix');
+      expect(tileIcon, findsOneWidget);
+      await typeInto(tester, '价格', '10');
+      await tester.tap(find.text('保存'));
+      await settleJobs(tester);
+      expect((await saved(tester)).single.color, 0xB20710);
       await closeEditor(tester);
     });
   });

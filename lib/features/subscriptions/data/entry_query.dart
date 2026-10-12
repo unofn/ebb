@@ -1,11 +1,12 @@
 import 'package:drift/drift.dart';
 
 import '../../../data/database.dart';
+import '../domain/name_order.dart';
 import 'subscription_entry.dart';
 
 /// Non-deleted subscriptions (only [id] when given) with their category,
-/// payment method and tags, by name; updates when any of those tables
-/// change.
+/// payment method and tags, by name ([compareNames]); updates when any of
+/// those tables change.
 Stream<List<SubscriptionEntry>> watchEntries(AppDatabase db, {String? id}) {
   final s = db.subscriptions;
   final c = db.categories;
@@ -43,6 +44,8 @@ Stream<List<SubscriptionEntry>> watchEntries(AppDatabase db, {String? id}) {
       );
       if (tag != null) entry.tags.add(tag);
     }
-    return entries.values.toList();
+    // SQL 的排序区分大小写；按读者习惯再排一次。
+    return entries.values.toList()
+      ..sort((a, b) => compareNames(a.subscription.name, b.subscription.name));
   });
 }

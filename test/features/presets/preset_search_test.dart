@@ -38,6 +38,29 @@ void main() {
     expect(ids('假'), ['fake_music', 'cloud', 'super_fake']);
   });
 
+  test('a name ranks above an alias in the same tier', () {
+    final search = PresetSearch([
+      _preset('zed', 'Zed', 'Zed', ['MyNet']),
+      _preset('netease', '网易云音乐', 'NetEase Cloud Music', ['网抑云']),
+      _preset('cloudy', '云朵', 'Cloudy', ['Netdisk']),
+      _preset('netflix', '奈飞', 'Netflix'),
+      _preset('planet', 'Planet', 'Planet', ['XNet']),
+      _preset('inner', 'Internet', 'Internet'),
+    ]);
+    List<String> ids(String q) => search.search(q).map((p) => p.id).toList();
+
+    // 名称开头 > 别名开头 > 名称包含 > 别名包含。
+    expect(ids('net'), [
+      'netease',
+      'netflix',
+      'cloudy',
+      'planet',
+      'inner',
+      'zed',
+    ]);
+    expect(ids('NET').take(2), ['netease', 'netflix']);
+  });
+
   test('no match is empty', () {
     expect(ids('nothing'), isEmpty);
   });

@@ -28,6 +28,7 @@ final fakePresets = PresetSearch(const [
     nameEn: 'Fakeflix',
     aliases: ['flix'],
     color: 0xFFB20710,
+    icon: 'netflix',
     category: 'video',
     manageUrl: 'https://fakeflix.example/account',
     cycle: Cycle(CycleUnit.year, 1),

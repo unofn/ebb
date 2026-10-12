@@ -4,8 +4,12 @@ import '../l10n/l10n.dart';
 import '../theme/ebb_colors.dart';
 import '../theme/ebb_type.dart';
 import '../widgets/ebb_marks.dart';
+import 'nav_tab.dart';
 
-/// The wide layout's navigation: the brand on top, then the tabs.
+const _width = 220.0;
+
+/// The wide layout's sidebar: the brand on top, then the tabs; the
+/// selected one on the soft accent.
 class SideNavigation extends StatelessWidget {
   const SideNavigation({
     super.key,
@@ -19,43 +23,75 @@ class SideNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    return SizedBox(
+      width: _width,
+      child: SafeArea(
+        right: false,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: 24,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Row(
+                  spacing: 10,
+                  children: [
+                    const EbbMarks(size: 28),
+                    Text(
+                      l10n.appTitle,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ],
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                spacing: 2,
+                children: [
+                  for (final (i, tab) in navTabs.indexed)
+                    _tab(context, tab, i == selected, i),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _tab(BuildContext context, NavTab tab, bool on, int index) {
     final c = context.colors;
-    return NavigationRail(
-      extended: true,
-      minExtendedWidth: 220,
-      backgroundColor: c.bg,
-      indicatorColor: c.accentSoft,
-      selectedIndex: selected,
-      onDestinationSelected: onSelected,
-      selectedIconTheme: IconThemeData(color: c.accent),
-      unselectedIconTheme: IconThemeData(color: c.ink2),
-      selectedLabelTextStyle: EbbType.body.copyWith(
-        color: c.accent,
-        fontWeight: EbbType.strong,
-      ),
-      unselectedLabelTextStyle: EbbType.body.copyWith(color: c.ink2),
-      leading: Padding(
-        padding: const EdgeInsets.fromLTRB(4, 16, 0, 16),
-        child: Row(
-          spacing: 6,
-          children: [
-            const EbbMarks(size: 32),
-            Text(l10n.appTitle, style: Theme.of(context).textTheme.titleMedium),
-          ],
+    final color = on ? c.accent : c.ink2;
+    return Semantics(
+      selected: on,
+      button: true,
+      child: Material(
+        color: on ? c.accentSoft : Colors.transparent,
+        borderRadius: BorderRadius.circular(10),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(10),
+          onTap: () => onSelected(index),
+          child: Container(
+            height: 40,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              spacing: 10,
+              children: [
+                Icon(tab.icon, size: 20, color: color),
+                Text(
+                  tab.label(context.l10n),
+                  style: EbbType.body.copyWith(
+                    color: color,
+                    fontWeight: on ? EbbType.strong : FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
-      destinations: [
-        NavigationRailDestination(
-          icon: const Icon(Icons.home_outlined),
-          selectedIcon: const Icon(Icons.home),
-          label: Text(l10n.navHome),
-        ),
-        NavigationRailDestination(
-          icon: const Icon(Icons.settings_outlined),
-          selectedIcon: const Icon(Icons.settings),
-          label: Text(l10n.navSettings),
-        ),
-      ],
     );
   }
 }

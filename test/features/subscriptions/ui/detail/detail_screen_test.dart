@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart' show Value;
+import 'package:ebb/app/shell/bottom_tabs.dart';
 import 'package:ebb/data/database.dart';
 import 'package:ebb/data/enums.dart';
 import 'package:ebb/data/seed/categories.dart';
@@ -42,7 +43,7 @@ void main() {
     await seedSubscriptions(tester, db, [flix], tagIds: {tag!});
     await open(tester, 'Flix');
 
-    expect(find.byType(NavigationBar), findsNothing);
+    expect(find.byType(BottomTabs), findsNothing);
     expect(find.text('我的份额'), findsOneWidget);
     expect(find.text('\$5.16 / 月', findRichText: true), findsOneWidget);
     expect(find.text('总价 \$15.49 / 月'), findsOneWidget);
@@ -58,7 +59,7 @@ void main() {
 
     await tester.tap(find.byType(BackButton));
     await tester.pumpAndSettle();
-    expect(find.byType(NavigationBar), findsOneWidget);
+    expect(find.byType(BottomTabs), findsOneWidget);
     await unmountEbb(tester);
   });
 

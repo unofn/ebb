@@ -5,29 +5,33 @@ import 'service_preset.dart';
 /// search.
 class PresetSearch {
   PresetSearch(this.presets)
-    : _keys = [
-        for (final p in presets)
-          [p.nameZh, p.nameEn, ...p.aliases].map(normalizeName).toList(),
-      ];
+    : _names = [
+        for (final p in presets) [p.nameZh, p.nameEn].map(normalizeName),
+      ],
+      _aliases = [for (final p in presets) p.aliases.map(normalizeName)];
 
   final List<ServicePreset> presets;
-  final List<List<String>> _keys;
+  final List<Iterable<String>> _names;
+  final List<Iterable<String>> _aliases;
 
-  /// Presets whose name or an alias contains [query] (NFKC, case-folded).
-  /// Those where a name starts with it come first; otherwise file order.
+  /// Presets whose name or an alias contains [query] (NFKC, case-folded),
+  /// best first: a name starting with it, an alias starting with it, a
+  /// name containing it, an alias containing it; file order within each.
   /// A blank query returns every preset.
   List<ServicePreset> search(String query) {
     final q = normalizeName(query);
     if (q.isEmpty) return presets;
-    final starts = <ServicePreset>[];
-    final contains = <ServicePreset>[];
-    for (final (i, keys) in _keys.indexed) {
-      if (keys.any((k) => k.startsWith(q))) {
-        starts.add(presets[i]);
-      } else if (keys.any((k) => k.contains(q))) {
-        contains.add(presets[i]);
-      }
+    final tiers = List.generate(4, (_) => <ServicePreset>[]);
+    for (final (i, preset) in presets.indexed) {
+      final tier = switch ((_names[i], _aliases[i])) {
+        (final n, _) when n.any((k) => k.startsWith(q)) => 0,
+        (_, final a) when a.any((k) => k.startsWith(q)) => 1,
+        (final n, _) when n.any((k) => k.contains(q)) => 2,
+        (_, final a) when a.any((k) => k.contains(q)) => 3,
+        _ => null,
+      };
+      if (tier != null) tiers[tier].add(preset);
     }
-    return [...starts, ...contains];
+    return tiers.expand((tier) => tier).toList();
   }
 }

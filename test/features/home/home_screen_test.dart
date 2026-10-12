@@ -1,6 +1,8 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:ebb/data/database.dart';
 import 'package:ebb/data/enums.dart';
+import 'package:ebb/data/seed/categories.dart';
+import 'package:ebb/features/subscriptions/data/tag_repository.dart';
 import 'package:ebb/features/subscriptions/ui/edit/edit_subscription_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -48,7 +50,7 @@ void main() {
     expect(find.text('月均成本'), findsOneWidget);
     expect(find.text('¥12.00'), findsWidgets);
     expect(find.text('汇率未更新'), findsOneWidget);
-    expect(find.text('每年约 ¥144.00 · 2 个订阅'), findsOneWidget);
+    expect(find.text('每年约 ¥144.00'), findsOneWidget);
     expect(find.text('另有 \$20.00 没有汇率，未计入'), findsOneWidget);
     expect(find.text('本周'), findsOneWidget);
     expect(find.text('¥12.00 + \$20.00'), findsOneWidget, reason: 'group');
@@ -96,7 +98,7 @@ void main() {
     expect(find.text('不取消的话，之后 ¥25.00 / 月'), findsOneWidget);
     expect(find.text('试用中'), findsOneWidget);
     expect(find.text('¥0.00'), findsOneWidget);
-    expect(find.text('之后 ¥25.00 / 月'), findsOneWidget);
+    expect(find.text('之后 ¥25/月'), findsOneWidget);
     expect(find.text('合租'), findsOneWidget);
     expect(find.text('\$5.16'), findsOneWidget);
     expect(find.text('我的份额'), findsOneWidget);
@@ -137,6 +139,43 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Old'), findsOneWidget);
     expect(find.text('Stream'), findsNothing);
+    await unmountEbb(tester);
+  });
+
+  testWidgets('search narrows the tab by name, category or tag', (
+    tester,
+  ) async {
+    final tag = await tester.runAsync(() => TagRepository(db).create('家庭共享'));
+    await seedSubscriptions(tester, db, [
+      seedable('Stream').copyWith(categoryId: Value(categoryIdOf('video'))),
+      seedable('Music'),
+    ]);
+    await seedSubscriptions(tester, db, [seedable('Disk')], tagIds: {tag!});
+    await pumpEbb(tester, db);
+
+    await tester.tap(find.byTooltip('搜索'));
+    await tester.pumpAndSettle();
+    Future<void> type(String text) async {
+      await tester.enterText(find.byType(TextField), text);
+      await tester.pumpAndSettle();
+    }
+
+    await type('STR');
+    expect(find.text('Stream'), findsOneWidget);
+    expect(find.text('Music'), findsNothing);
+    await type('视频');
+    expect(find.text('Stream'), findsOneWidget);
+    await type('家庭');
+    expect(find.text('Disk'), findsOneWidget);
+    expect(find.text('Stream'), findsNothing);
+    await type('nothing');
+    expect(find.text('没有匹配的订阅'), findsOneWidget);
+    expect(find.text('¥36.00'), findsOneWidget, reason: 'totals unfiltered');
+
+    await tester.tap(find.byTooltip('关闭搜索'));
+    await tester.pumpAndSettle();
+    expect(find.byType(TextField), findsNothing);
+    expect(find.text('Music'), findsOneWidget);
     await unmountEbb(tester);
   });
 }

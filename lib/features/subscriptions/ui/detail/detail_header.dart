@@ -7,11 +7,15 @@ import '../../../../app/theme/ebb_type.dart';
 import '../../../presets/service_tile.dart';
 import '../../data/subscription_entry.dart';
 
-/// The service tile with the name and category beside it.
+/// The service tile with the name and category beside it, then
+/// [trailing].
 class DetailHeader extends StatelessWidget {
-  const DetailHeader({super.key, required this.entry});
+  const DetailHeader({super.key, required this.entry, this.trailing});
 
   final SubscriptionEntry entry;
+
+  /// Buttons beside the name (wide layout).
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +42,7 @@ class DetailHeader extends StatelessWidget {
             ],
           ),
         ),
+        ?trailing,
       ],
     );
   }

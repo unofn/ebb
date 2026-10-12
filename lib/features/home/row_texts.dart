@@ -74,7 +74,11 @@ class RowTexts {
     if (s.kind == SubscriptionKind.oneTime) return l10n.oneTime;
     if (s.isInTrial(today) && s.status != SubscriptionStatus.cancelled) {
       return l10n.homeThen(
-        pricePer(l10n, moneyText(regularOf(s), s.currency), s.cycle),
+        compactPricePer(
+          l10n,
+          compactMoneyText(regularOf(s), s.currency),
+          s.cycle,
+        ),
       );
     }
     if (s.isShared) return l10n.homeMyShare;

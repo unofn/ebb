@@ -19,3 +19,13 @@ String moneyText(int minor, String code) {
       ? '${currency.symbol}$number'
       : '${code.toUpperCase()} $number';
 }
+
+/// [moneyText] without the decimals when they are all zero, for tight
+/// notes: `¥25`, but `¥25.50`.
+String compactMoneyText(int minor, String code) {
+  final unit = pow(10, currencyOf(code).decimalDigits).toInt();
+  final text = moneyText(minor, code);
+  if (minor % unit != 0) return text;
+  final point = text.lastIndexOf('.');
+  return point < 0 ? text : text.substring(0, point);
+}

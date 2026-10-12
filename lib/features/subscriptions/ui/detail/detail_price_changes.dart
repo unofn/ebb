@@ -10,7 +10,7 @@ import '../../domain/price_changes.dart';
 import 'detail_line.dart';
 
 /// Price segments, newest first, each with its change from the one
-/// before; nothing until the price has changed at least once.
+/// before; show it once the price has changed (two segments or more).
 class DetailPriceChanges extends StatelessWidget {
   const DetailPriceChanges({super.key, required this.segments});
 
@@ -18,7 +18,6 @@ class DetailPriceChanges extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (segments.length < 2) return const SizedBox.shrink();
     final l10n = context.l10n;
     final c = context.colors;
     final locale = Localizations.localeOf(context).toString();

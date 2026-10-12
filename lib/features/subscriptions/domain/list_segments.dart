@@ -1,5 +1,6 @@
 import '../../../data/database.dart';
 import '../../../data/enums.dart';
+import 'name_order.dart';
 
 /// The home list's tabs.
 enum ListSegment {
@@ -40,7 +41,7 @@ List<Subscription> subscriptionsIn(
   if (segment == ListSegment.upcoming) {
     selected.sort(
       (a, b) => switch (a.nextDate!.compareTo(b.nextDate!)) {
-        0 => a.name.compareTo(b.name),
+        0 => compareNames(a.name, b.name),
         final order => order,
       },
     );

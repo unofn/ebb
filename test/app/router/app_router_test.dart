@@ -1,3 +1,5 @@
+import 'package:ebb/app/shell/bottom_tabs.dart';
+import 'package:ebb/app/shell/side_navigation.dart';
 import 'package:ebb/app/providers/reminder_providers.dart';
 import 'package:ebb/core/local_date.dart';
 import 'package:ebb/data/database.dart';
@@ -54,9 +56,11 @@ void main() {
     await seedSubscriptions(tester, db, [seedable('Gym'), seedable('Stream')]);
     await pump(tester, size: _wide);
 
-    expect(find.byType(NavigationRail), findsOneWidget);
-    expect(find.byType(NavigationBar), findsNothing);
+    expect(find.byType(SideNavigation), findsOneWidget);
+    expect(find.byType(BottomTabs), findsNothing);
     expect(find.text('选择一个订阅查看详情'), findsOneWidget);
+    expect(find.text('每年约 ¥288.00 · 2 个订阅'), findsOneWidget);
+    expect(find.text('搜索名称、品类、标签'), findsOneWidget, reason: 'always open');
 
     await tester.tap(find.text('Gym'));
     await tester.pumpAndSettle();
@@ -64,6 +68,7 @@ void main() {
     expect(find.byType(SubscriptionDetailScreen), findsOneWidget);
     expect(find.text('Gym'), findsNWidgets(2), reason: 'row and detail');
     expect(find.byType(BackButton), findsNothing);
+    expect(find.widgetWithText(OutlinedButton, '编辑'), findsOneWidget);
     expect(find.text('计入月均成本'), findsOneWidget, reason: 'wide only');
 
     await tester.tap(find.text('Stream'));
@@ -83,7 +88,7 @@ void main() {
     await responses.handle(payload: tapPayload(gym.id));
     await tester.pumpAndSettle();
     expect(find.byType(SubscriptionDetailScreen), findsOneWidget);
-    expect(find.byType(NavigationBar), findsNothing);
+    expect(find.byType(BottomTabs), findsNothing);
     await unmountEbb(tester);
 
     await pump(tester, size: _wide);

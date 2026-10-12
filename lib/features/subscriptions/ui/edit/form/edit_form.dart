@@ -56,6 +56,10 @@ abstract class EditForm with _$EditForm {
 
     /// 0xRRGGBB.
     int? color,
+
+    /// Whether [color] is the user's choice (picked here, or stored);
+    /// otherwise it follows the preset the name matches.
+    @Default(false) bool colorChosen,
   }) = _EditForm;
 
   const EditForm._();

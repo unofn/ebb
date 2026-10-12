@@ -6,6 +6,7 @@ import '../../../../../app/providers/catalog_providers.dart';
 import '../../../../../app/providers/preset_providers.dart';
 import '../../../../../app/theme/ebb_colors.dart';
 import '../../../../../app/theme/ebb_type.dart';
+import '../../../../presets/preset_match_provider.dart';
 import '../../../../presets/service_preset.dart';
 import '../fields/form_text_field.dart';
 import '../fields/labeled_field.dart';
@@ -81,8 +82,10 @@ class _NameSectionState extends ConsumerState<NameSection> {
                   value: form.name,
                   focusNode: _focus,
                   error: binding.errors.contains(FormError.nameMissing),
-                  onChanged: (name) =>
-                      binding.update((f) => f.copyWith(name: name)),
+                  onChanged: (name) {
+                    final match = ref.read(presetMatcherProvider).value;
+                    binding.update((f) => rename(f, name, match?.match(name)));
+                  },
                 ),
               ),
             ),

@@ -46,6 +46,7 @@ EditForm formOf(Subscription sub, Set<String> tagIds) {
     url: sub.url ?? '',
     notes: sub.notes ?? '',
     color: sub.color,
+    colorChosen: sub.color != null,
   );
 }
 

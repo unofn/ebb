@@ -13,10 +13,13 @@ import 'trial_hints.dart';
 /// Monthly cost, trials about to charge, then the subscriptions by tab;
 /// the empty state before there are any.
 class HomeScreen extends ConsumerWidget {
-  const HomeScreen({super.key, this.selectedId});
+  const HomeScreen({super.key, this.selectedId, this.wide = false});
 
   /// The subscription shown beside the list (wide layout).
   final String? selectedId;
+
+  /// The list column of the wide layout.
+  final bool wide;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,7 +37,7 @@ class HomeScreen extends ConsumerWidget {
             child: ListView(
               padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
               children: [
-                HomeHeader(view: view, today: now),
+                HomeHeader(view: view, today: now, wide: wide),
                 const SizedBox(height: 20),
                 TrialHints(subscriptions: view.subscriptions, today: now),
                 HomeSegmentList(view: view, today: now, selectedId: selectedId),

@@ -22,7 +22,7 @@ class HomeLayout extends StatelessWidget {
       children: [
         SizedBox(
           width: _listWidth,
-          child: HomeScreen(selectedId: selectedId),
+          child: HomeScreen(selectedId: selectedId, wide: true),
         ),
         const VerticalDivider(width: 1, thickness: 1),
         Expanded(child: child),

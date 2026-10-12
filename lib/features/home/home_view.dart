@@ -26,6 +26,14 @@ class HomeView {
   /// The cached rates are stale; converted amounts say so.
   final bool ratesOutdated;
 
+  /// The same, with only the [entries] that pass [test].
+  HomeView where(bool Function(SubscriptionEntry entry) test) => HomeView(
+    entries: entries.where(test).toList(),
+    baseCurrency: baseCurrency,
+    rates: rates,
+    ratesOutdated: ratesOutdated,
+  );
+
   List<Subscription> get subscriptions => [
     for (final entry in entries) entry.subscription,
   ];

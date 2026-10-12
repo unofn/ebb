@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../l10n/l10n.dart';
+import '../theme/ebb_colors.dart';
 import '../widgets/content_width.dart';
+import 'bottom_tabs.dart';
 import 'side_navigation.dart';
 
 /// The tabs (home, settings): a bottom bar on phones, a side rail from
@@ -18,13 +19,12 @@ class AppShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     if (MediaQuery.sizeOf(context).width >= wideLayoutFrom) {
       return Scaffold(
         body: Row(
           children: [
             SideNavigation(selected: shell.currentIndex, onSelected: _select),
-            const VerticalDivider(width: 1, thickness: 1),
+            VerticalDivider(width: 1, thickness: 1, color: context.colors.line),
             Expanded(child: shell),
           ],
         ),
@@ -35,22 +35,7 @@ class AppShell extends StatelessWidget {
       body: shell,
       bottomNavigationBar: onDetail
           ? null
-          : NavigationBar(
-              selectedIndex: shell.currentIndex,
-              onDestinationSelected: _select,
-              destinations: [
-                NavigationDestination(
-                  icon: const Icon(Icons.home_outlined),
-                  selectedIcon: const Icon(Icons.home),
-                  label: l10n.navHome,
-                ),
-                NavigationDestination(
-                  icon: const Icon(Icons.settings_outlined),
-                  selectedIcon: const Icon(Icons.settings),
-                  label: l10n.navSettings,
-                ),
-              ],
-            ),
+          : BottomTabs(selected: shell.currentIndex, onSelected: _select),
     );
   }
 }

@@ -28,3 +28,8 @@ String pricePer(AppLocalizations l10n, String price, Cycle? cycle) =>
       CycleUnit.month => l10n.perMonths(price, cycle!.count),
       CycleUnit.year => l10n.perYears(price, cycle!.count),
     };
+
+/// 「¥25/月」: [pricePer] without the spaces around the slash, for tight
+/// notes.
+String compactPricePer(AppLocalizations l10n, String price, Cycle? cycle) =>
+    pricePer(l10n, price, cycle).replaceAll(' / ', '/');

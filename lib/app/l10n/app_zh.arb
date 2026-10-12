@@ -269,6 +269,10 @@
     }
   },
   "homeSelectHint": "选择一个订阅查看详情",
+  "homeSearch": "搜索",
+  "homeSearchHint": "搜索名称、品类、标签",
+  "homeSearchClose": "关闭搜索",
+  "homeSearchEmpty": "没有匹配的订阅",
   "archiveRestore": "恢复",
   "archiveDelete": "删除",
   "detailEdit": "编辑",
