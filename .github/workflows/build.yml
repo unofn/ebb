@@ -33,8 +33,9 @@ jobs:
           - target: apk
             os: ubuntu-latest
             output: build/app/outputs/flutter-apk/app-release.apk
+          # 在最低支持的 Ubuntu 上构建，见 release.yml。
           - target: linux
-            os: ubuntu-latest
+            os: ubuntu-22.04
             output: build/linux/x64/release/bundle
           - target: macos
             os: macos-latest
