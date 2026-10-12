@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:file_selector/file_selector.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'export_file.g.dart';
@@ -24,7 +24,7 @@ ExportFilePicker exportFilePicker(Ref ref) => pickExportFile;
 /// `.subscriptions`. Bytes that are not UTF-8 are kept (replaced) so
 /// decoding fails later with the "unsupported file" message.
 Future<ExportFile?> pickExportFile() async {
-  final file = await openFile();
+  final file = await FilePicker.pickFile();
   if (file == null) return null;
   final bytes = await file.readAsBytes();
   return ExportFile(
