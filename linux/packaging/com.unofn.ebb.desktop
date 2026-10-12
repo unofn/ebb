@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Name=Ebb
+GenericName=Subscription Tracker
+GenericName[zh_CN]=订阅管理
+Comment=Track your subscriptions; data stays on your device
+Comment[zh_CN]=开源、全平台的订阅管理器，数据只存在你的设备上
+Exec=ebb
+Icon=com.unofn.ebb
+Terminal=false
+Categories=Office;Finance;
+Keywords=subscription;billing;budget;
+Keywords[zh_CN]=订阅;账单;预算;
+StartupWMClass=com.unofn.ebb
+StartupNotify=true

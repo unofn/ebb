@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none">
+  <!-- macOS、Windows、Linux：照 Apple 模板，1024 画布里放 824 的圆角方形，四周留边，加细描边和轻微阴影。 -->
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#000000" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+  <rect x="100" y="100" width="824" height="824" rx="185" fill="#F5F5F3" filter="url(#shadow)"/>
+  <!-- 以下按画板 34 单位的底板等比放大（1 单位 = 824 / 34）。 -->
+  <g transform="translate(100 100) scale(24.235)">
+    <rect width="34" height="34" rx="7.634" stroke="#C9CCD2" stroke-width="0.5"/>
+    <path d="M8 11h18" stroke="#15171C" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M8 17h12" stroke="#15171C" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M8 23h6" stroke="#0B6E69" stroke-width="2.6" stroke-linecap="round"/>
+  </g>
+</svg>

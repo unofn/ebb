@@ -1,0 +1,128 @@
+# 推送 v* 标签时构建四个平台的安装包，建一个 GitHub Release 草稿，检查后手动发布。
+# 手动触发（workflow_dispatch）是演练：只构建和打包，产物作为 artifact 上传，不建 Release。
+# 打包脚本在 tool/packaging/。
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v5
+      # 标签去掉 v 必须等于 pubspec 的版本；演练时直接读 pubspec。
+      - id: version
+        run: echo "version=$(tool/packaging/version.sh ${{ github.ref_type == 'tag' && github.ref_name || '' }})" >> "$GITHUB_OUTPUT"
+
+  android:
+    needs: version
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
+      ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+      ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+      ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+      ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/setup
+        with:
+          java: true
+          linux-deps: false
+      # 发布时缺 Secret 直接失败；演练时没配密钥就用 debug 签名，产物不会发出去。
+      - if: github.event_name == 'push' || env.ANDROID_KEYSTORE_BASE64 != ''
+        run: tool/packaging/android/restore_keystore.sh
+      - run: flutter build apk --release
+      # 用了发布密钥就检查 APK 确实不是 debug 签名。
+      - run: tool/packaging/android/package_apk.sh "$VERSION" ${{ (github.event_name == 'push' || env.ANDROID_KEYSTORE_BASE64 != '') && '--require-release-key' || '' }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ebb-android
+          path: build/dist/*
+          if-no-files-found: error
+
+  macos:
+    needs: version
+    runs-on: macos-latest
+    timeout-minutes: 45
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/setup
+      - run: flutter build macos --release
+      - run: tool/packaging/macos/package_dmg.sh "$VERSION"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ebb-macos
+          path: build/dist/*
+          if-no-files-found: error
+
+  windows:
+    needs: version
+    runs-on: windows-latest
+    timeout-minutes: 45
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/setup
+      - run: flutter build windows --release
+      - shell: pwsh
+        run: ./tool/packaging/windows/package.ps1 -Version $env:VERSION
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ebb-windows
+          path: build/dist/*
+          if-no-files-found: error
+
+  linux:
+    needs: version
+    # 在最低支持的 Ubuntu 上构建：24.04 编出来的程序要求更新的 glibc，22.04 上跑不起来。
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/setup
+      - run: flutter build linux --release
+      - run: tool/packaging/linux/package_deb.sh "$VERSION"
+      - run: tool/packaging/linux/package_tarball.sh "$VERSION"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ebb-linux
+          path: build/dist/*
+          if-no-files-found: error
+
+  # 四个平台都成功才建 Release，而且建成草稿：新版本检查只读 latest，草稿读不到。
+  release:
+    needs: [version, android, macos, windows, linux]
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
+      TAG: ${{ github.ref_name }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v5
+      # checkout 拿到的标签可能是轻量的，重新取一次，发布说明要读带注释标签的标题。
+      - run: git fetch --force origin "refs/tags/$TAG:refs/tags/$TAG"
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - run: tool/packaging/release_notes.sh "$VERSION" "$TAG" > release-notes.md
+      - run: |
+          gh release create "$TAG" dist/* \
+            --draft --verify-tag \
+            --title "Ebb $VERSION" \
+            --notes-file release-notes.md

@@ -1,0 +1,39 @@
+# 检查和发布共用的准备步骤：系统依赖、Flutter、pub 依赖、代码生成。
+name: Setup
+description: Install Flutter and project dependencies, then run code generation.
+
+inputs:
+  flutter-version:
+    description: Flutter version, the one the project is developed with.
+    default: 3.47.7
+  java:
+    description: Set up JDK 17 for Android builds.
+    default: 'false'
+  linux-deps:
+    description: On Linux, install the GTK, X11 and tray packages the desktop build needs.
+    default: 'true'
+
+runs:
+  using: composite
+  steps:
+    - if: inputs.java == 'true'
+      uses: actions/setup-java@v5
+      with:
+        distribution: temurin
+        java-version: 17
+    # 托盘插件的原生资源在测试时也要编译，需要 GTK 和 X11 开发包。
+    - if: runner.os == 'Linux' && inputs.linux-deps == 'true'
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clang cmake ninja-build pkg-config \
+          libgtk-3-dev libx11-dev libxi-dev liblzma-dev libstdc++-12-dev libayatana-appindicator3-dev
+    - uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ inputs.flutter-version }}
+        channel: stable
+        cache: true
+    - shell: bash
+      run: flutter pub get
+    - shell: bash
+      run: dart run build_runner build --delete-conflicting-outputs

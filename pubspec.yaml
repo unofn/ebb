@@ -89,6 +89,7 @@ dev_dependencies:
   json_serializable: ^6.14.1
   riverpod_generator: ^4.0.9
   riverpod_lint: ^3.1.9
+  icons_launcher: ^3.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -115,3 +116,26 @@ flutter:
         - asset: assets/fonts/NotoSansSC-Regular.ttf
         - asset: assets/fonts/NotoSansSC-SemiBold.ttf
           weight: 600
+
+# 应用图标：源文件在 assets/icon/，改完运行 tool/icons/build_icons.sh。
+# Linux 的图标由脚本直接生成到 linux/packaging/icons/，不走这里
+# （icons_launcher 的 Linux 输出是给 snap 用的）。
+icons_launcher:
+  platforms:
+    android:
+      enable: true
+      image_path: "assets/icon/ebb.png"
+      adaptive_background_color: "#F5F5F3"
+      adaptive_foreground_image: "assets/icon/android-foreground.png"
+      adaptive_monochrome_image: "assets/icon/android-monochrome.png"
+    ios:
+      enable: true
+      image_path: "assets/icon/ebb.png"
+      dark_path: "assets/icon/ebb-dark.png"
+      tinted_path: "assets/icon/ebb-tinted.png"
+    macos:
+      enable: true
+      image_path: "assets/icon/ebb-desktop.png"
+    windows:
+      enable: true
+      image_path: "assets/icon/ebb-desktop.png"

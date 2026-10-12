@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 108 108" fill="none">
+  <!-- Android 自适应图标前景：108dp 画布，图形收在中间 66dp 安全区内；底色 #F5F5F3 另配。 -->
+  <path d="M40 44h28" stroke="#15171C" stroke-width="4.8" stroke-linecap="round"/>
+  <path d="M40 54h19" stroke="#15171C" stroke-width="4.8" stroke-linecap="round"/>
+  <path d="M40 64h10" stroke="#0B6E69" stroke-width="4.8" stroke-linecap="round"/>
+</svg>

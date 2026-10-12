@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.unofn" "\0"
-            VALUE "FileDescription", "ebb" "\0"
+            VALUE "CompanyName", "unofn" "\0"
+            VALUE "FileDescription", "Ebb" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "ebb" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2026 com.unofn. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 unofn. All rights reserved." "\0"
             VALUE "OriginalFilename", "ebb.exe" "\0"
-            VALUE "ProductName", "ebb" "\0"
+            VALUE "ProductName", "Ebb" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

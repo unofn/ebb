@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 36 36" fill="none">
+  <!-- 方向 C「退潮刻度」：满版方图，系统自己切圆角（iOS、商店图标）。 -->
+  <rect width="36" height="36" fill="#F5F5F3"/>
+  <path d="M9 12h18" stroke="#15171C" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M9 18h12" stroke="#15171C" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M9 24h6" stroke="#0B6E69" stroke-width="2.6" stroke-linecap="round"/>
+</svg>
