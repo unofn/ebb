@@ -29,6 +29,9 @@ void main() {
 
     expect(find.text('导入预览'), findsNothing);
     expect(find.textContaining('已导入：新增 3 个、更新 0 个订阅'), findsOneWidget);
+    // Fake Host 没有扣费日期，不在「即将扣费」里。
+    await tester.tap(find.text('全部 3'));
+    await tester.pumpAndSettle();
     for (final name in ['Fake Disk', 'Fake Tunes', 'Fake Host']) {
       expect(find.text(name), findsOneWidget);
     }

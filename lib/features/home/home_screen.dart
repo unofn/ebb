@@ -1,37 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
-import '../../app/l10n/l10n.dart';
 import '../../app/widgets/content_width.dart';
+import '../../core/local_date.dart';
 import 'empty_home.dart';
-import 'home_list.dart';
-import 'start_import.dart';
-import 'subscription_groups.dart';
+import 'home_header.dart';
+import 'home_segment_list.dart';
+import 'home_view.dart';
+import 'trial_hints.dart';
 
-/// M1 home: the empty state, or the imported subscriptions to check them.
+/// Monthly cost, trials about to charge, then the subscriptions by tab;
+/// the empty state before there are any.
 class HomeScreen extends ConsumerWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, this.selectedId});
+
+  /// The subscription shown beside the list (wide layout).
+  final String? selectedId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final groups = ref.watch(subscriptionGroupsProvider);
     // 数据都在本机，读库几乎瞬时完成，不放加载态。
-    return switch (groups.value) {
-      null => const Scaffold(),
-      [] => const Scaffold(body: ContentWidth(child: EmptyHome())),
-      final groups => Scaffold(
-        appBar: AppBar(
-          title: Text(context.l10n.homeTitle),
-          actions: [
-            IconButton(
-              tooltip: context.l10n.importData,
-              icon: const Icon(Icons.file_download_outlined),
-              onPressed: () => startImport(context, ref),
+    final view = ref.watch(homeViewProvider).value;
+    if (view == null) return const Scaffold();
+    if (view.entries.isEmpty) {
+      return const Scaffold(body: ContentWidth(child: EmptyHome()));
+    }
+    final now = today();
+    return Scaffold(
+      body: SafeArea(
+        child: SlidableAutoCloseBehavior(
+          child: ContentWidth(
+            child: ListView(
+              padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+              children: [
+                HomeHeader(view: view, today: now),
+                const SizedBox(height: 20),
+                TrialHints(subscriptions: view.subscriptions, today: now),
+                HomeSegmentList(view: view, today: now, selectedId: selectedId),
+              ],
             ),
-          ],
+          ),
         ),
-        body: ContentWidth(child: HomeList(groups: groups)),
       ),
-    };
+    );
   }
 }

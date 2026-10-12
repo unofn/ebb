@@ -1,6 +1,365 @@
 {
   "@@locale": "zh",
   "appTitle": "Ebb",
+  "editTitleNew": "添加订阅",
+  "editTitleEdit": "编辑订阅",
+  "editCancel": "取消",
+  "editSave": "保存",
+  "editChangeColor": "更换颜色",
+  "editColorDefault": "默认",
+  "editName": "名称",
+  "editPresetNote": "选预设会填好品牌色、图标、品类和管理链接；也可以直接用你输入的名称。",
+  "editPlan": "套餐（可选）",
+  "editPriceSection": "价格与周期",
+  "editKindRecurring": "周期订阅",
+  "editKindOneTime": "一次性买断",
+  "editCurrency": "币种",
+  "editPrice": "价格",
+  "editTotalPrice": "总价",
+  "editEvery": "每",
+  "editUnitDay": "{count, plural, other{天}}",
+  "@editUnitDay": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "editUnitWeek": "{count, plural, other{周}}",
+  "@editUnitWeek": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "editUnitMonth": "{count, plural, other{月}}",
+  "@editUnitMonth": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "editUnitYear": "{count, plural, other{年}}",
+  "@editUnitYear": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "editFirstCharge": "首次扣费",
+  "editPurchaseDate": "购买日期",
+  "editNextCharge": "下次扣费 {date}",
+  "@editNextCharge": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "editNoNextCharge": "设置下次扣费日",
+  "editMonthlyAbout": "月均 ≈ {amount}",
+  "@editMonthlyAbout": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "editAutoRenew": "自动续费",
+  "editAutoRenewHint": "到期自动记一笔；关掉则到期前提醒你确认",
+  "editTrial": "免费试用",
+  "editTrialHint": "试用期内不计入月均",
+  "editTrialEnds": "试用到期",
+  "editIntro": "首期优惠",
+  "editIntroHint": "月均按原价计算，恢复原价前提醒",
+  "editIntroPrice": "优惠价",
+  "editIntroEnds": "优惠截止",
+  "editShared": "合租",
+  "editSharedHint": "统计只算我的份额",
+  "editMyShare": "我的份额",
+  "editReimbursed": "报销",
+  "editReimbursedHint": "不计入个人支出，单独显示",
+  "editReminder": "提醒",
+  "editReminderHint": "{days, plural, =0{默认当天} other{默认提前 {days} 天}} · {time}",
+  "@editReminderHint": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "editReminderDays": "提前天数",
+  "editReminderTime": "时间",
+  "editInfoSection": "信息",
+  "editCategory": "品类",
+  "editTags": "标签",
+  "editAddTag": "+ 添加",
+  "editNewTag": "新标签",
+  "editCreateTag": "添加",
+  "editPaymentMethod": "支付方式",
+  "editNoPaymentMethods": "还没有支付方式，可以在设置里添加。",
+  "editAccount": "账号",
+  "editUrl": "管理链接",
+  "editNotes": "备注",
+  "editNone": "无",
+  "editDone": "完成",
+  "editSearchCurrency": "搜索币种",
+  "editDiscardTitle": "放弃修改？",
+  "editDiscardBody": "改动还没有保存。",
+  "editDiscard": "放弃",
+  "editKeepEditing": "继续编辑",
+  "editSaveFailed": "保存失败，请重试",
+  "editMissing": "这个订阅已被删除",
+  "editErrorName": "请填写名称",
+  "editErrorAmount": "请输入 0 或以上的金额",
+  "editErrorCount": "请输入 1 或以上的整数",
+  "editErrorDate": "请选择日期",
+  "editErrorIntroEnd": "要晚于首次扣费日",
+  "editErrorShareOverPrice": "不能超过价格",
+  "editErrorDays": "请输入 0 或以上的整数",
+  "editDelete": "删除订阅",
+  "editDeleteTitle": "删除「{name}」？",
+  "@editDeleteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "editDeleteBody": "它的付款记录会一起删除。",
+  "editDeleteAction": "删除",
+  "navHome": "首页",
+  "navSettings": "设置",
+  "homeMonthlyAverage": "月均成本",
+  "homeYearlyAbout": "每年约 {amount}",
+  "@homeYearlyAbout": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "homeSubscriptionCount": "{count} 个订阅",
+  "@homeSubscriptionCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeUnconverted": "另有 {amounts} 没有汇率，未计入",
+  "@homeUnconverted": {
+    "placeholders": {
+      "amounts": {
+        "type": "String"
+      }
+    }
+  },
+  "homeRatesOutdated": "汇率未更新",
+  "homeAdd": "添加订阅",
+  "homeSegmentUpcoming": "即将扣费",
+  "homeSegmentAll": "全部 {count}",
+  "@homeSegmentAll": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeSegmentOneTime": "一次性",
+  "homeSegmentArchived": "已归档",
+  "homeThisWeek": "本周",
+  "homeLaterThisMonth": "本月晚些时候",
+  "homeApprox": "≈ {amount}",
+  "@homeApprox": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "homeCountActive": "生效 {count}",
+  "@homeCountActive": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeCountTrial": "试用 {count}",
+  "@homeCountTrial": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeCountEnding": "到期不续 {count}",
+  "@homeCountEnding": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeCountPaused": "暂停 {count}",
+  "@homeCountPaused": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeSegmentEmpty": "这里还没有订阅",
+  "homeTrialHint": "{name}试用{days, plural, =0{今天到期} =1{明天到期} other{ {days} 天后到期}}",
+  "@homeTrialHint": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "homeTrialHintThen": "不取消的话，之后 {price}",
+  "@homeTrialHintThen": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "homeTrialSub": "试用{days, plural, =0{今天到期} =1{明天到期} other{ {days} 天后到期}}",
+  "@homeTrialSub": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "homeThen": "之后 {price}",
+  "@homeThen": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "homeMyShare": "我的份额",
+  "homeBadgeAwaiting": "待确认",
+  "homeBadgeTrial": "试用中",
+  "homeBadgeIntro": "首期优惠",
+  "homeBadgeShared": "合租",
+  "homeBadgeReimbursed": "报销",
+  "homeMarkPaid": "已付款",
+  "homeSetEnding": "到期不续",
+  "homePaidRecorded": "已记录 {name} 的付款",
+  "@homePaidRecorded": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "homeSelectHint": "选择一个订阅查看详情",
+  "archiveRestore": "恢复",
+  "archiveDelete": "删除",
+  "detailEdit": "编辑",
+  "detailPrice": "价格",
+  "detailMyShare": "我的份额",
+  "detailInTrial": "试用中",
+  "detailTotalPrice": "总价 {price}",
+  "@detailTotalPrice": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "detailAfterTrial": "试用结束后 {price}",
+  "@detailAfterTrial": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "detailIntroUntil": "首期优惠 {price}，{date}起恢复原价",
+  "@detailIntroUntil": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "detailEndsOnLabel": "到期日",
+  "detailPurchaseDate": "购买日期",
+  "detailPausedNote": "暂停期间不扣费",
+  "detailReminderOff": "不提醒",
+  "detailManage": "管理订阅",
+  "detailMarkPaid": "已付款",
+  "detailPriceChanges": "价格变动",
+  "detailSince": "{date}起",
+  "@detailSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "detailFromNextCharge": "下期起",
+  "detailPaymentHistory": "付款记录",
+  "detailPaymentHistoryShare": "付款记录 · 我的份额",
+  "detailPaymentCount": "共 {count} 笔",
+  "@detailPaymentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "detailNoPayments": "还没有付款记录",
+  "detailInfo": "信息",
+  "detailCategoryName": "品类",
+  "detailTags": "标签",
+  "detailAccount": "账号",
+  "detailNotes": "备注",
+  "detailMonthly": "计入月均成本",
+  "detailMonthlyExcluded": "不计入",
+  "detailSetEnding": "设为到期不续",
+  "detailKeepRenewing": "继续续费",
+  "detailPause": "暂停",
+  "detailResume": "恢复生效",
+  "detailArchive": "退订并归档",
+  "detailArchiveTitle": "退订并归档「{name}」？",
+  "@detailArchiveTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "detailArchiveBody": "订阅会移到「已归档」，付款记录保留。",
+  "detailDelete": "删除",
+  "detailDeleteTitle": "删除「{name}」？",
+  "@detailDeleteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "detailDeleteBody": "订阅和它的付款记录都会删除。",
   "homeTitle": "订阅",
   "emptyTitle": "还没有订阅",
   "emptyBody": "从 Tilla 或 SubscriptionManager 导入，或者手动添加第一个。",
@@ -538,5 +897,183 @@
     }
   },
   "trayOpen": "打开 Ebb",
-  "trayQuit": "退出"
+  "trayQuit": "退出",
+  "settingsTitle": "设置",
+  "settingsReminders": "提醒",
+  "settingsReminderDays": "默认提前",
+  "settingsDaysValue": "{days, plural, =0{当天} other{{days} 天}}",
+  "@settingsDaysValue": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsReminderTime": "提醒时间",
+  "settingsRemindersNote": "每个订阅也可以单独设置。",
+  "notifySystem": "系统通知",
+  "notifyOn": "已开启",
+  "notifyTurnOn": "去开启",
+  "notifyOffHint": "通知已关闭，到期前不会提醒你",
+  "notifyCannotOpen": "打不开系统设置，请到系统设置里允许 Ebb 发送通知",
+  "settingsCurrency": "货币与汇率",
+  "settingsBaseCurrency": "基准货币",
+  "settingsBaseCurrencyHint": "多个币种合计时折算成它",
+  "settingsRates": "汇率",
+  "settingsRatesHint": "来自 open.er-api.com，每天更新",
+  "settingsRatesNever": "未获取",
+  "settingsRatesToday": "今天 {time}",
+  "@settingsRatesToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsManualRates": "手动汇率",
+  "settingsManualRatesNone": "未设置",
+  "settingsCurrencyNote": "手动汇率优先于自动获取的汇率。",
+  "settingsOrganize": "整理",
+  "settingsPaymentMethods": "支付方式",
+  "settingsCategories": "品类",
+  "settingsTags": "标签",
+  "settingsData": "数据",
+  "settingsImportHint": "Tilla、SubscriptionManager",
+  "settingsDataNote": "数据只存在这台设备上。",
+  "settingsAbout": "关于",
+  "settingsVersion": "版本",
+  "settingsLicense": "开源协议",
+  "settingsSource": "源代码",
+  "settingsBaseCurrencyNote": "更换后会重新获取汇率，手动汇率要重新设置。",
+  "settingsCurrencySearch": "搜索币种",
+  "settingsCurrencyCommon": "常用",
+  "settingsCurrencyAll": "全部",
+  "settingsRatesUpdated": "更新于 {time}",
+  "@settingsRatesUpdated": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsRatesInUse": "订阅用到的币种",
+  "settingsRatesNoneInUse": "订阅都用基准货币，不需要汇率。",
+  "settingsRateValue": "1 {currency} = {rate} {base}",
+  "@settingsRateValue": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      },
+      "rate": {
+        "type": "String"
+      },
+      "base": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsRateManual": "手动",
+  "settingsRateMissing": "暂无汇率",
+  "settingsRatesMissingNote": "没有汇率的币种，要等联网获取到汇率后才能手动设置。",
+  "settingsRateInvalid": "请输入大于 0 的数字",
+  "settingsRateClear": "清除手动汇率",
+  "settingsAdd": "新增",
+  "settingsName": "名称",
+  "settingsNameRequired": "名称不能为空",
+  "settingsDeleteTitle": "删除「{name}」？",
+  "@settingsDeleteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsPaymentMethodsEmpty": "还没有支付方式",
+  "settingsPaymentMethodInUse": "{count, plural, =0{没有订阅使用它。} other{{count} 个订阅使用它，删除后它们不再有支付方式。}}",
+  "@settingsPaymentMethodInUse": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsCategoryNew": "新建品类",
+  "settingsCategoryGroup": "分组",
+  "settingsCategoryResetName": "恢复默认名称",
+  "settingsCategoriesNote": "分组固定。内置品类可以改名，不能删除。",
+  "settingsCategoryInUse": "{count, plural, =0{没有订阅在这个品类。} other{{count} 个订阅在这个品类，删除后变为未分类。}}",
+  "@settingsCategoryInUse": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsTagsEmpty": "还没有标签",
+  "settingsTagDeleteBody": "这个标签会从所有订阅上移除。",
+  "batchSelect": "选择订阅",
+  "batchSelected": "已选 {count} 项",
+  "@batchSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "batchDone": "完成",
+  "batchSelectAll": "全选",
+  "batchSelectNone": "全不选",
+  "batchSectionAll": "全部",
+  "batchSectionOneTime": "一次性",
+  "batchSectionArchived": "已归档",
+  "batchCategory": "品类",
+  "batchTags": "标签",
+  "batchStatus": "状态",
+  "batchCategoryTitle": "改为哪个品类",
+  "batchNoCategory": "未分类",
+  "batchAddTag": "+ {name}",
+  "@batchAddTag": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "batchRemoveTag": "− {name}",
+  "@batchRemoveTag": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "batchAddTagHint": "给选中的订阅加上这个标签",
+  "batchRemoveTagHint": "从选中的订阅移除",
+  "batchNewTag": "新建标签…",
+  "batchStatusTitle": "改为哪个状态",
+  "batchStatusActive": "生效",
+  "batchStatusPaused": "暂停",
+  "batchStatusEnding": "到期不续",
+  "batchStatusArchive": "退订并归档",
+  "batchPausedHint": "暂停期间不扣费、不提醒",
+  "batchEndingHint": "用到当前周期结束，不再提醒扣款",
+  "batchArchiveHint": "移到已归档，可恢复",
+  "batchOneTimeNote": "一次性买断不改状态",
+  "batchArchiveConfirmTitle": "退订并归档 {count} 个订阅？",
+  "@batchArchiveConfirmTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "batchArchiveConfirmBody": "它们会移到已归档，付款记录保留，之后可以恢复。",
+  "batchUpdated": "已更新 {count} 个订阅",
+  "@batchUpdated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

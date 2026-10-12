@@ -1,6 +1,11 @@
+import 'dart:async';
+
+import 'package:ebb/app/router/route_paths.dart';
 import 'package:ebb/data/database.dart';
+import 'package:ebb/features/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../support/app_harness.dart';
 import 'fake_exports.dart';
@@ -12,9 +17,13 @@ void main() {
 
   Future<void> openPreview(WidgetTester tester) async {
     await tester.runAsync(() => importFromTilla(db));
-    await pumpEbb(tester, db, files: [smExportFile()]);
-    // 库里已有订阅：导入入口在顶栏。
-    await tester.tap(find.byTooltip('导入数据'));
+    await pumpEbb(tester, db);
+    // 库里已有订阅时导入入口在设置页；这里直接打开预览。
+    unawaited(
+      GoRouter.of(
+        tester.element(find.byType(HomeScreen)),
+      ).push(RoutePaths.import, extra: smExportFile()),
+    );
     await tester.pumpAndSettle();
   }
 

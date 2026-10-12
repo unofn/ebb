@@ -1,63 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../app/format/date_text.dart';
-import '../../app/format/money_text.dart';
-import '../../app/l10n/cycle_names.dart';
 import '../../app/l10n/l10n.dart';
-import '../../app/l10n/status_names.dart';
-import '../../app/widgets/status_badge.dart';
+import '../../app/router/route_paths.dart';
+import '../../app/theme/ebb_colors.dart';
 import '../../app/widgets/subscription_row.dart';
-import '../../core/local_date.dart';
 import '../../data/database.dart';
-import '../../data/enums.dart';
-import '../billing/cycle.dart';
+import '../presets/service_tile.dart';
+import '../subscriptions/domain/subscription_state.dart';
+import 'row_actions.dart';
+import 'row_badge.dart';
+import 'row_texts.dart';
 
-/// A saved subscription as a row: when it next bills, or when it was
-/// bought or ended.
-class HomeRow extends StatelessWidget {
-  const HomeRow({super.key, required this.subscription});
+/// A subscription in the home list: tap opens it, a long press starts
+/// selecting several (batch edit), a left swipe shows quick actions.
+class HomeRow extends ConsumerWidget {
+  const HomeRow({
+    super.key,
+    required this.subscription,
+    required this.texts,
+    this.selected = false,
+  });
 
   final Subscription subscription;
+  final RowTexts texts;
+
+  /// Shown in the wide layout's detail pane.
+  final bool selected;
 
   @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
+  Widget build(BuildContext context, WidgetRef ref) {
     final s = subscription;
-    return SubscriptionRow(
-      name: s.name,
-      rgb: s.color,
-      badge: switch (s.status) {
-        SubscriptionStatus.active => null,
-        final status => StatusBadge(statusName(l10n, status)),
-      },
-      sub: _subLine(l10n, Localizations.localeOf(context).toString()),
-      amount: moneyText(s.priceMinor, s.currency),
-      note: periodNote(l10n, s.kind, s.cycle),
+    final c = context.colors;
+    final today = texts.today;
+    final row = Material(
+      color: selected ? c.surface2 : Colors.transparent,
+      child: SubscriptionRow(
+        name: s.name,
+        tile: ServiceTile(name: s.name, rgb: s.color),
+        badge: rowBadge(context.l10n, s, today),
+        sub: texts.sub(s),
+        subColor: s.isAwaitingConfirmation(today) ? c.warn : null,
+        amount: texts.amount(s),
+        note: texts.note(s),
+        onTap: () => context.go(RoutePaths.subscription(s.id)),
+        onLongPress: () => context.push(RoutePaths.batch, extra: {s.id}),
+      ),
     );
-  }
-
-  String _subLine(AppLocalizations l10n, String locale) {
-    final s = subscription;
-    final now = today();
-    if (s.kind == SubscriptionKind.oneTime) {
-      final bought = s.startDate;
-      return bought == null
-          ? ''
-          : l10n.purchasedOn(fullDayText(locale, bought));
-    }
-    final end = s.endDate;
-    if (s.status == SubscriptionStatus.cancelled) {
-      return end == null
-          ? l10n.itemEndUnknown
-          : l10n.cancelledIn(monthText(locale, end));
-    }
-    if (s.status == SubscriptionStatus.ending && end != null) {
-      return l10n.endsOn(fullDayText(locale, end));
-    }
-    final next = s.nextDate;
-    if (next == null) return l10n.noNextDate;
-    final days = next.difference(now).inDays;
-    final relative = days >= 0 ? l10n.dueIn(days) : l10n.dueAgo(-days);
-    return '$relative · ${dayText(locale, next, now)}';
+    final actions = rowActions(context, ref, s, today);
+    if (actions.isEmpty) return row;
+    return Slidable(
+      key: ValueKey(s.id),
+      groupTag: 'home',
+      endActionPane: ActionPane(
+        motion: const DrawerMotion(),
+        extentRatio: 0.24 * actions.length,
+        children: actions,
+      ),
+      child: row,
+    );
   }
 }

@@ -1,3 +1,4 @@
+import '../../data/database.dart';
 import 'app_localizations.dart';
 
 // 内置品类只存键，名称按语言从这里取；键见 data/seed/categories.dart。
@@ -44,3 +45,8 @@ String categoryGroupName(AppLocalizations l10n, String key) => switch (key) {
   'other' => l10n.groupOther,
   _ => key,
 };
+
+/// [category]'s name as shown: the user's name for it, else the built-in
+/// one in the current language.
+String categoryLabel(AppLocalizations l10n, Category category) =>
+    category.name ?? categoryName(l10n, category.key ?? '');

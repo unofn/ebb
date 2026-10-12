@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 
 import '../../../data/database.dart';
 import '../../../data/enums.dart';
+import '../domain/resume_date.dart';
 
 /// One change applied to many subscriptions (batch edit). Absent fields
 /// stay as they are on each row.
@@ -15,15 +16,45 @@ class SubscriptionBatchEdit {
 
   /// `Value(null)` clears the category.
   final Value<String?> categoryId;
+
+  /// Recurring rows only; one-time purchases keep theirs.
   final SubscriptionStatus? status;
   final Set<String> addTagIds;
   final Set<String> removeTagIds;
 
-  /// The column changes; null when only tags change.
-  SubscriptionsCompanion? get patch => !categoryId.present && status == null
-      ? null
-      : SubscriptionsCompanion(
-          categoryId: categoryId,
-          status: Value.absentIfNull(status),
-        );
+  /// The column changes for [row] on [today]; null when nothing changes.
+  /// Dates follow the status, row by row:
+  /// - ending: `end_date` = the row's own next date;
+  /// - back from paused or archived (to active or ending): the next date
+  ///   is [resumeDateOf] (a past one moves to the first charge from
+  ///   today), so the time off is not charged;
+  /// - active: no end date.
+  SubscriptionsCompanion? patchFor(Subscription row, DateTime today) {
+    var patch = SubscriptionsCompanion(
+      categoryId: categoryId.present && categoryId.value != row.categoryId
+          ? categoryId
+          : const Value.absent(),
+    );
+    final to = status;
+    if (to != null &&
+        to != row.status &&
+        row.kind == SubscriptionKind.recurring) {
+      final resumes =
+          (to == SubscriptionStatus.active ||
+              to == SubscriptionStatus.ending) &&
+          (row.status == SubscriptionStatus.paused ||
+              row.status == SubscriptionStatus.cancelled);
+      final next = resumes ? resumeDateOf(row, today) : row.nextDate;
+      patch = patch.copyWith(
+        status: Value(to),
+        nextDate: next == row.nextDate ? const Value.absent() : Value(next),
+        endDate: switch (to) {
+          SubscriptionStatus.ending => Value(next),
+          SubscriptionStatus.active => const Value(null),
+          _ => const Value.absent(),
+        },
+      );
+    }
+    return patch.toColumns(false).isEmpty ? null : patch;
+  }
 }

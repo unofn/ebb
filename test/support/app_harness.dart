@@ -7,9 +7,11 @@ import 'package:ebb/features/import/apply/attachment_store.dart';
 import 'package:ebb/features/import/ui/export_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'memory_database.dart';
+import 'quiet_jobs.dart';
 
 /// A fresh in-memory database for a widget test. Closing is not awaited:
 /// after a failure the app is still mounted, and closing would wait on
@@ -20,17 +22,20 @@ AppDatabase widgetTestDatabase() {
   return db;
 }
 
-/// Runs the app in [locale] (Chinese by default) on a tall phone-sized window, on [db], with
-/// [files] handed out in turn instead of the system file dialog.
+/// Runs the app in [locale] (Chinese by default) on a tall phone-sized window
+/// (or [size]), on [db], with [files] handed out in turn instead of the
+/// system file dialog; app jobs run without network or notifications.
 Future<void> pumpEbb(
   WidgetTester tester,
   AppDatabase db, {
   List<ExportFile> files = const [],
   Locale locale = const Locale('zh'),
+  Size size = const Size(400, 2000),
+  List<Override> overrides = const [],
 }) async {
   tester.platformDispatcher.localesTestValue = [locale];
   tester.view
-    ..physicalSize = const Size(400, 2000)
+    ..physicalSize = size
     ..devicePixelRatio = 1;
   addTearDown(tester.platformDispatcher.clearLocalesTestValue);
   addTearDown(tester.view.reset);
@@ -45,6 +50,8 @@ Future<void> pumpEbb(
         exportFilePickerProvider.overrideWithValue(
           () async => queue.isEmpty ? null : queue.removeAt(0),
         ),
+        quietAppJobs(),
+        ...overrides,
       ],
       child: const EbbApp(),
     ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../app/l10n/l10n.dart';
+import '../../app/router/route_paths.dart';
 import '../../app/theme/ebb_colors.dart';
 import '../../app/theme/ebb_type.dart';
 import '../../app/widgets/ebb_marks.dart';
@@ -41,13 +43,9 @@ class EmptyHome extends ConsumerWidget {
                   onPressed: () => startImport(context, ref),
                   child: Text(l10n.importData),
                 ),
-                // 手动添加在 M2；先给出入口和说明。
-                Tooltip(
-                  message: l10n.addManuallyLater,
-                  child: OutlinedButton(
-                    onPressed: null,
-                    child: Text(l10n.addManually),
-                  ),
+                OutlinedButton(
+                  onPressed: () => context.push(RoutePaths.newSubscription),
+                  child: Text(l10n.addManually),
                 ),
               ],
             ),

@@ -12,24 +12,30 @@ class SubscriptionRow extends StatelessWidget {
     super.key,
     required this.name,
     this.rgb,
+    this.tile,
     this.badge,
     required this.sub,
     this.subColor,
     required this.amount,
     required this.note,
     this.onTap,
+    this.onLongPress,
   });
 
   final String name;
 
   /// Brand color, 0xRRGGBB.
   final int? rgb;
+
+  /// Replaces the [LetterTile] made from [name] and [rgb].
+  final Widget? tile;
   final StatusBadge? badge;
   final String sub;
   final Color? subColor;
   final String amount;
   final String note;
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +47,13 @@ class SubscriptionRow extends StatelessWidget {
     );
     return InkWell(
       onTap: onTap,
+      onLongPress: onLongPress,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         child: Row(
           spacing: 12,
           children: [
-            LetterTile(name: name, rgb: rgb),
+            tile ?? LetterTile(name: name, rgb: rgb),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

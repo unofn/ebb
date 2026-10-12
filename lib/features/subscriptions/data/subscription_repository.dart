@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 
 import '../../../core/ids.dart';
+import '../../../core/local_date.dart' as local_date;
 import '../../../data/database.dart';
 import '../../../data/enums.dart';
 import 'entry_query.dart';
@@ -74,16 +75,23 @@ class SubscriptionRepository {
     await _db.unlinkTags(id, await _db.linkedTagIds(id));
   });
 
-  /// Applies [edit] to every subscription in [ids]; all or nothing.
-  Future<void> batchUpdate(Set<String> ids, SubscriptionBatchEdit edit) =>
-      _db.transaction(() async {
-        final patch = edit.patch;
-        for (final id in ids) {
-          if (patch != null) {
-            await _db.writer.update(_db.subscriptions, id, patch);
-          }
-          await _db.linkTags(id, edit.addTagIds);
-          await _db.unlinkTags(id, edit.removeTagIds);
-        }
-      });
+  /// Applies [edit] to every subscription in [ids] as of [today]
+  /// (default: the real one); all or nothing.
+  Future<void> batchUpdate(
+    Set<String> ids,
+    SubscriptionBatchEdit edit, {
+    DateTime? today,
+  }) => _db.transaction(() async {
+    final day = today ?? local_date.today();
+    final rows = await (_db.select(
+      _db.subscriptions,
+    )..where((s) => s.id.isIn(ids) & s.deleted.not())).get();
+    for (final row in rows) {
+      if (edit.patchFor(row, day) case final patch?) {
+        await _db.writer.update(_db.subscriptions, row.id, patch);
+      }
+      await _db.linkTags(row.id, edit.addTagIds);
+      await _db.unlinkTags(row.id, edit.removeTagIds);
+    }
+  });
 }
