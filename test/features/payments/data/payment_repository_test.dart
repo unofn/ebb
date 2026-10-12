@@ -51,6 +51,17 @@ void main() {
     expect(await payments.idsFor('s2'), {'q1'});
   });
 
+  test('watchAll lists every subscription\'s live payments', () async {
+    await payments.insertNew([
+      paid('p1', 1),
+      paid('q1', 2, sub: 's2'),
+      paid('p3', 3),
+    ]);
+    await payments.delete('p3');
+    final all = await payments.watchAll().first;
+    expect(all.map((p) => p.id), ['q1', 'p1']);
+  });
+
   test('record writes payments and the subscription patch together', () async {
     await db.writer.insert(
       db.subscriptions,

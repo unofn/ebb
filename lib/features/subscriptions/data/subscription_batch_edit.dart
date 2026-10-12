@@ -9,6 +9,7 @@ import '../domain/resume_date.dart';
 class SubscriptionBatchEdit {
   const SubscriptionBatchEdit({
     this.categoryId = const Value.absent(),
+    this.paymentMethodId = const Value.absent(),
     this.status,
     this.addTagIds = const {},
     this.removeTagIds = const {},
@@ -16,6 +17,10 @@ class SubscriptionBatchEdit {
 
   /// `Value(null)` clears the category.
   final Value<String?> categoryId;
+
+  /// Moves rows to another payment method (e.g. a new card); `Value(null)`
+  /// clears it.
+  final Value<String?> paymentMethodId;
 
   /// Recurring rows only; one-time purchases keep theirs.
   final SubscriptionStatus? status;
@@ -31,9 +36,8 @@ class SubscriptionBatchEdit {
   /// - active: no end date.
   SubscriptionsCompanion? patchFor(Subscription row, DateTime today) {
     var patch = SubscriptionsCompanion(
-      categoryId: categoryId.present && categoryId.value != row.categoryId
-          ? categoryId
-          : const Value.absent(),
+      categoryId: _changed(categoryId, row.categoryId),
+      paymentMethodId: _changed(paymentMethodId, row.paymentMethodId),
     );
     final to = status;
     if (to != null &&
@@ -58,3 +62,7 @@ class SubscriptionBatchEdit {
     return patch.toColumns(false).isEmpty ? null : patch;
   }
 }
+
+/// [value] when it is present and differs from [current], else absent.
+Value<String?> _changed(Value<String?> value, String? current) =>
+    value.present && value.value != current ? value : const Value.absent();

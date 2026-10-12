@@ -1086,5 +1086,44 @@
         "type": "int"
       }
     }
-  }
+  },
+  "payMethodInUse": "在用的订阅",
+  "payMethodNoneInUse": "没有订阅在用这个支付方式。",
+  "payMethodListNote": "已归档的订阅和一次性买断不列出。",
+  "payMethodRename": "改名",
+  "payMethodRebind": "改绑到…",
+  "payMethodRebindTarget": "改绑到哪个支付方式",
+  "payMethodNew": "新建支付方式…",
+  "payMethodRebindPick": "选择要改绑的订阅",
+  "payMethodRebindConfirm": "改绑 {count} 个到「{name}」",
+  "@payMethodRebindConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "payMethodRebound": "已把 {count} 个订阅改绑到「{name}」",
+  "@payMethodRebound": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "payMethodDeleteInUse": "{count} 个订阅在用这个支付方式。可以先改绑；直接删除的话，它们不再有支付方式。",
+  "@payMethodDeleteInUse": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "payMethodRebindFirst": "先改绑"
 }

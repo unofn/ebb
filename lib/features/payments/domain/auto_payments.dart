@@ -4,6 +4,7 @@ import '../../billing/cycle.dart';
 import '../../rates/domain/exchange_rates.dart';
 import 'billing_anchor.dart';
 import 'due_payment.dart';
+import 'one_time_payment.dart';
 import 'payment_run.dart';
 
 /// Brings [sub] up to [today]; idempotent, run on start, resume and after
@@ -18,14 +19,24 @@ import 'payment_run.dart';
 /// - Ending on or after end_date → cancelled with no next date; an ending
 ///   row has no next date when its next occurrence is not before end_date.
 ///
-/// Payments whose ID is in [existingPaymentIds] (deleted ones included)
-/// are not generated again.
+/// A one-time purchase gets its single payment (see `oneTimePayment`).
+///
+/// [existingPaymentIds] are the IDs of all [sub]'s payments, deleted ones
+/// included; those are not generated again.
 PaymentRun autoPayments(
   Subscription sub, {
   required DateTime today,
   required Set<String> existingPaymentIds,
-  required RateLookup rateOf,
+  required ExchangeRates rates,
 }) {
+  if (sub.kind == SubscriptionKind.oneTime) {
+    return oneTimePayment(
+      sub,
+      today: today,
+      existingPaymentIds: existingPaymentIds,
+      rates: rates,
+    );
+  }
   final cycle = sub.cycle;
   final ending = sub.status == SubscriptionStatus.ending;
   if (sub.deleted ||
@@ -45,7 +56,7 @@ PaymentRun autoPayments(
       !first.isAfter(today)) {
     for (final date in dueDates(anchor, cycle, from: first, through: today)) {
       if (endDate != null && !date.isBefore(endDate)) break;
-      final payment = duePayment(sub, date, PaymentOrigin.auto, rateOf);
+      final payment = duePayment(sub, date, PaymentOrigin.auto, rates);
       if (payment == null || existingPaymentIds.contains(payment.id.value)) {
         continue;
       }

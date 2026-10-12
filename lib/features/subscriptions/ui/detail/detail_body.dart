@@ -79,7 +79,7 @@ class DetailBody extends ConsumerWidget {
           if (changes.length > 1) DetailPriceChanges(segments: changes),
           DetailPayments(
             payments: payments,
-            baseCurrency: money.baseCurrency,
+            rates: money.rates,
             shared: s.myShareMinor != null,
             today: now,
           ),

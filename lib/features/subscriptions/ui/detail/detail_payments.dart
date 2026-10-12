@@ -8,20 +8,23 @@ import '../../../../app/theme/ebb_type.dart';
 import '../../../../app/widgets/card_section.dart';
 import '../../../../data/database.dart';
 import '../../../payments/domain/payment_in_base.dart';
+import '../../../rates/domain/exchange_rates.dart';
 
 /// Every payment, newest first, with its base-currency amount at the
-/// rate recorded then.
+/// rate recorded then (today's when none was).
 class DetailPayments extends StatelessWidget {
   const DetailPayments({
     super.key,
     required this.payments,
-    required this.baseCurrency,
+    required this.rates,
     required this.shared,
     required this.today,
   });
 
   final List<Payment> payments;
-  final String baseCurrency;
+
+  /// Today's, against the base currency.
+  final ExchangeRates rates;
 
   /// Amounts are my share.
   final bool shared;
@@ -77,10 +80,12 @@ class DetailPayments extends StatelessWidget {
   }
 
   String? _inBase(AppLocalizations l10n, Payment p) {
-    if (p.currency.toUpperCase() == baseCurrency.toUpperCase()) return null;
-    final minor = paymentInBase(p, baseCurrency);
-    return minor == null
-        ? null
-        : l10n.homeApprox(moneyText(minor, baseCurrency));
+    if (p.currency.toUpperCase() == rates.base.toUpperCase()) return null;
+    return switch (paymentInBase(p, rates)) {
+      ConvertedAmount(:final minor) => l10n.homeApprox(
+        moneyText(minor, rates.base),
+      ),
+      MissingRate() => null,
+    };
   }
 }

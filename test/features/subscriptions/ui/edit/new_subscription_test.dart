@@ -135,7 +135,11 @@ void main() {
       expect(sub.autoRenew, isFalse);
       expect(sub.reminderEnabled, isFalse);
       await settleJobs(tester);
-      expect(await read(tester, () => db.select(db.payments).get()), isEmpty);
+      // 买断当天就记上那一笔。
+      final paid = await read(tester, () => db.select(db.payments).get());
+      expect(paid.single.paidOn, utcDate(2026, 10, 12));
+      expect(paid.single.amountMinor, 9800);
+      expect(paid.single.origin, PaymentOrigin.auto);
       await closeEditor(tester);
     });
   });

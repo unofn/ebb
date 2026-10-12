@@ -417,5 +417,17 @@
   "batchOneTimeNote": "One-time purchases keep their status",
   "batchArchiveConfirmTitle": "Cancel and archive {count} subscriptions?",
   "batchArchiveConfirmBody": "They move to the archive with their payments and can be restored later.",
-  "batchUpdated": "Updated {count} subscriptions"
+  "batchUpdated": "Updated {count} subscriptions",
+  "payMethodInUse": "In use",
+  "payMethodNoneInUse": "No subscription uses this payment method.",
+  "payMethodListNote": "Archived subscriptions and one-time purchases are not listed.",
+  "payMethodRename": "Rename",
+  "payMethodRebind": "Move to…",
+  "payMethodRebindTarget": "Move to which payment method",
+  "payMethodNew": "New payment method…",
+  "payMethodRebindPick": "Choose subscriptions to move",
+  "payMethodRebindConfirm": "Move {count} to \"{name}\"",
+  "payMethodRebound": "Moved {count} subscriptions to \"{name}\"",
+  "payMethodDeleteInUse": "{count, plural, =1{1 subscription uses this payment method.} other{{count} subscriptions use this payment method.}} Move them first, or delete and leave them without one.",
+  "payMethodRebindFirst": "Move first"
 }

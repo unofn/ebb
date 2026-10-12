@@ -56,8 +56,9 @@ Future<void> ensureImportLinks(
     ),
 });
 
-/// Writes [item]'s payments that do not exist yet; returns how many.
-Future<int> addMissingPayments(AppDatabase db, PlanItem item) =>
+/// Writes [item]'s payments that do not exist yet, recorded under base
+/// currency [base] (without a rate); returns how many.
+Future<int> addMissingPayments(AppDatabase db, PlanItem item, String base) =>
     db.insertMissing(db.payments, {
       for (final p in item.payments)
         p.id: PaymentsCompanion.insert(
@@ -67,5 +68,6 @@ Future<int> addMissingPayments(AppDatabase db, PlanItem item) =>
           amountMinor: p.amountMinor,
           currency: p.currency,
           origin: p.origin,
+          baseCurrency: Value(base),
         ),
     });

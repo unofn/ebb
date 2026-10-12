@@ -20,9 +20,8 @@ void main() {
     await pumpEbb(tester, db);
     // 库里已有订阅时导入入口在设置页；这里直接打开预览。
     unawaited(
-      GoRouter.of(
-        tester.element(find.byType(HomeScreen)),
-      ).push(RoutePaths.import, extra: smExportFile()),
+      GoRouter.of(tester.element(find.byType(HomeScreen)))
+          .push(RoutePaths.import, extra: smExportFile()),
     );
     await tester.pumpAndSettle();
   }

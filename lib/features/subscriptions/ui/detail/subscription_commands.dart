@@ -26,7 +26,7 @@ extension SubscriptionCommands on WidgetRef {
     final text = context.l10n.homePaidRecorded(sub.name);
     final base = await read(localSettingsProvider).baseCurrency();
     final rates = await read(rateRepositoryProvider).current(base);
-    final run = markPaid(sub, due, rateOf: rates.rateOf);
+    final run = markPaid(sub, due, rates: rates);
     if (run.isEmpty) return;
     await read(paymentRepositoryProvider).recordManual(sub.id, run);
     messenger.showSnackBar(SnackBar(content: Text(text)));

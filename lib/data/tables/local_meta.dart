@@ -24,4 +24,14 @@ abstract final class LocalMetaKeys {
 
   /// UTC instant (ISO 8601) of the last successful rate fetch.
   static const ratesFetchedAt = 'rates_fetched_at';
+
+  /// Monthly budget in minor units of the base currency; cleared when the
+  /// base currency changes.
+  static const budgetMonthlyMinor = 'budget_monthly_minor';
+
+  /// `YYYY-MM-DD` of the last completed quarterly review.
+  static const reviewLastCompletedOn = 'review_last_completed_on';
+
+  /// JSON array of the hashes of dismissed duplicate groups.
+  static const dismissedDuplicates = 'dismissed_duplicates';
 }

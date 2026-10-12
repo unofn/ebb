@@ -12,13 +12,14 @@ String paymentIdFor(String subscriptionId, DateTime dueDate) =>
     stableId('$subscriptionId:payment:${dueDate.isoDate}');
 
 /// The payment [sub] owes on [dueDate], or null when nothing is charged
-/// (trial). `rate_to_base` is the cached rate as a decimal string, in the
-/// cache's direction: 1 base = rate units of the payment's currency.
+/// (trial). `rate_to_base` is [rates]' rate as a decimal string, in the
+/// cache's direction (1 base = rate units of the payment's currency), and
+/// `base_currency` the base it is against.
 PaymentsCompanion? duePayment(
   Subscription sub,
   DateTime dueDate,
   PaymentOrigin origin,
-  RateLookup rateOf,
+  ExchangeRates rates,
 ) {
   final amount = amountFor(sub, dueDate);
   if (amount == null) return null;
@@ -29,6 +30,7 @@ PaymentsCompanion? duePayment(
     amountMinor: amount,
     currency: sub.currency,
     origin: origin,
-    rateToBase: Value(rateOf(sub.currency)?.toString()),
+    rateToBase: Value(rates.rateOf(sub.currency)?.toString()),
+    baseCurrency: Value(rates.base.toUpperCase()),
   );
 }

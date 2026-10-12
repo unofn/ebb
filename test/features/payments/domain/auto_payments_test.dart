@@ -18,7 +18,7 @@ void main() {
         sub,
         today: today,
         existingPaymentIds: existing,
-        rateOf: rates.rateOf,
+        rates: rates,
       );
 
   test('month ends clamp from the anchor', () {
@@ -36,6 +36,7 @@ void main() {
     expect(first.id.value, paymentIdFor(sub.id, utcDate(2024, 2, 29)));
     expect(first.origin.value, PaymentOrigin.auto);
     expect(first.rateToBase.value, '1');
+    expect(first.baseCurrency.value, 'CNY');
     expect(first.subscriptionId.value, sub.id);
   });
 
@@ -82,11 +83,12 @@ void main() {
     expect(payment.amountMinor.value, 1000);
     expect(payment.currency.value, 'USD');
     expect(payment.rateToBase.value, '0.125');
+    expect(payment.baseCurrency.value, 'CNY');
     final noRate = autoPayments(
       sub,
       today: utcDate(2026, 10, 11),
       existingPaymentIds: const {},
-      rateOf: const ExchangeRates('CNY').rateOf,
+      rates: const ExchangeRates('CNY'),
     );
     expect(noRate.payments.single.rateToBase.value, isNull);
   });
@@ -112,7 +114,7 @@ void main() {
     expect(run(sub, utcDate(2026, 10, 11)).isEmpty, isTrue);
   });
 
-  test('paused, cancelled, one-time and deleted rows do not move', () {
+  test('paused, cancelled and deleted rows do not move', () {
     final sub = fakeSubscription(
       startDate: utcDate(2026, 1, 1),
       nextDate: utcDate(2026, 9, 1),
@@ -120,7 +122,6 @@ void main() {
     for (final row in [
       sub.copyWith(status: SubscriptionStatus.paused),
       sub.copyWith(status: SubscriptionStatus.cancelled),
-      sub.copyWith(kind: SubscriptionKind.oneTime),
       sub.copyWith(deleted: true),
       sub.copyWith(cycleUnit: const Value(null)),
     ]) {

@@ -2,6 +2,7 @@ import 'package:clock/clock.dart';
 import 'package:drift/drift.dart';
 
 import '../../../data/database.dart';
+import '../../../data/local_settings.dart';
 import '../../../data/seed/categories.dart';
 import '../plan/import_plan.dart';
 import '../plan/load_existing.dart';
@@ -23,6 +24,7 @@ Future<ImportResult> applyPlan(
   // 以事务内重新读到的库为准：同一个方案再写一次也不会重复插入。
   final fresh = refreshPlan(plan, await loadExisting(db, plan.sourceApp));
   final importedAt = clock.now().toUtc();
+  final base = await LocalSettings(db).baseCurrency();
   var (created, updated, unchanged, skipped, paymentsAdded) = (0, 0, 0, 0, 0);
   for (final item in fresh.items) {
     if (fresh.isSkipped(item)) {
@@ -32,7 +34,7 @@ Future<ImportResult> applyPlan(
     final rowWritten = await _writeSubscription(db, fresh, item, store);
     await ensureImportLinks(db, item, importedAt);
     await ensureTags(db, item.subscriptionId, item.body.labels);
-    final added = await addMissingPayments(db, item);
+    final added = await addMissingPayments(db, item, base);
     paymentsAdded += added;
     if (item.diff == DiffStatus.create) {
       created++;

@@ -13,11 +13,11 @@ import 'payment_run.dart';
 PaymentRun markPaid(
   Subscription sub,
   DateTime dueDate, {
-  required RateLookup rateOf,
+  required ExchangeRates rates,
 }) {
   final cycle = sub.cycle;
   if (sub.deleted || cycle == null) return PaymentRun.none;
-  final payment = duePayment(sub, dueDate, PaymentOrigin.manual, rateOf);
+  final payment = duePayment(sub, dueDate, PaymentOrigin.manual, rates);
   final anchor = billingAnchor(sub, cycle) ?? dueDate;
   final endDate = sub.status == SubscriptionStatus.ending ? sub.endDate : null;
   final next = occurrenceAfter(anchor, cycle, dueDate);

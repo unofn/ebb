@@ -63,7 +63,7 @@ class ReminderResponses {
       return;
     }
     final rates = await _rates.current(await _settings.baseCurrency());
-    final run = markPaid(sub, reminder.eventDate, rateOf: rates.rateOf);
+    final run = markPaid(sub, reminder.eventDate, rates: rates);
     if (!run.isEmpty) await _payments.recordManual(id, run);
   }
 

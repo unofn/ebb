@@ -90,7 +90,7 @@ class AppJobs {
           sub,
           today: today(),
           existingPaymentIds: await _payments.idsFor(sub.id),
-          rateOf: rates.rateOf,
+          rates: rates,
         );
         if (!run.isEmpty) await _payments.record(sub.id, run);
       });

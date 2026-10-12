@@ -12,8 +12,15 @@ import 'settings_row.dart';
 /// A row of a [NamedListPage].
 typedef NamedItem = ({String id, String name, String? hint});
 
+/// What a tap or the delete button does to a row.
+typedef NamedItemAction = Future<void> Function(
+  BuildContext context,
+  NamedItem item,
+);
+
 /// A flat list of user-named things (payment methods, tags): add from the
-/// app bar, tap to rename, delete after confirming.
+/// app bar; [onOpen] and [onDelete] say what a row's tap and delete
+/// button do ([renameItem], [confirmDeleteItem] for the plain case).
 class NamedListPage extends StatelessWidget {
   const NamedListPage({
     super.key,
@@ -21,8 +28,7 @@ class NamedListPage extends StatelessWidget {
     required this.items,
     required this.emptyText,
     required this.onAdd,
-    required this.onRename,
-    required this.deleteNote,
+    required this.onOpen,
     required this.onDelete,
   });
 
@@ -32,11 +38,8 @@ class NamedListPage extends StatelessWidget {
   final List<NamedItem>? items;
   final String emptyText;
   final Future<void> Function(String name) onAdd;
-  final Future<void> Function(String id, String name) onRename;
-
-  /// What deleting [id] does to subscriptions, for the confirmation.
-  final Future<String> Function(String id) deleteNote;
-  final Future<void> Function(String id) onDelete;
+  final NamedItemAction onOpen;
+  final NamedItemAction onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -71,30 +74,40 @@ class NamedListPage extends StatelessWidget {
   Widget _row(BuildContext context, NamedItem item) => SettingsRow(
     label: item.name,
     hint: item.hint,
-    onTap: () async {
-      final name = await _askName(context, item.name, item.name);
-      if (name != null && name != item.name) await onRename(item.id, name);
-    },
+    onTap: () => onOpen(context, item),
     trailing: IconButton(
       tooltip: MaterialLocalizations.of(context).deleteButtonTooltip,
       icon: Icon(Icons.delete_outline, size: 20, color: context.colors.ink3),
-      onPressed: () => _delete(context, item),
+      onPressed: () => onDelete(context, item),
     ),
   );
+}
 
-  Future<void> _delete(BuildContext context, NamedItem item) async {
-    final l10n = context.l10n;
-    final action = MaterialLocalizations.of(context).deleteButtonTooltip;
-    final note = await deleteNote(item.id);
-    if (!context.mounted) return;
-    final confirmed = await showConfirmDialog(
-      context,
-      title: l10n.settingsDeleteTitle(item.name),
-      body: note,
-      action: action,
-    );
-    if (confirmed) await onDelete(item.id);
-  }
+/// Asks for a new name for [item] and passes a changed one to [rename].
+Future<void> renameItem(
+  BuildContext context,
+  NamedItem item,
+  Future<void> Function(String name) rename,
+) async {
+  final name = await _askName(context, item.name, item.name);
+  if (name != null && name != item.name) await rename(name);
+}
+
+/// Deletes [item] once the user confirms, [note] saying what that does to
+/// subscriptions.
+Future<void> confirmDeleteItem(
+  BuildContext context,
+  NamedItem item, {
+  required String note,
+  required Future<void> Function() delete,
+}) async {
+  final confirmed = await showConfirmDialog(
+    context,
+    title: context.l10n.settingsDeleteTitle(item.name),
+    body: note,
+    action: MaterialLocalizations.of(context).deleteButtonTooltip,
+  );
+  if (confirmed) await delete();
 }
 
 Future<String?> _askName(BuildContext context, String title, String initial) {

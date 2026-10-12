@@ -15,6 +15,10 @@ class Payments extends Table with SyncColumns {
   /// `exchange_rates`: 1 base = rate units of the payment's currency (base
   /// amount = amount ÷ rate).
   TextColumn get rateToBase => text().nullable()();
+
+  /// The base currency when the payment was recorded, which [rateToBase]
+  /// is against; null only for rows synced in without one.
+  TextColumn get baseCurrency => text().nullable()();
   TextColumn get origin => textEnum<PaymentOrigin>()();
   TextColumn get note => text().nullable()();
 }

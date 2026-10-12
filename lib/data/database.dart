@@ -44,7 +44,7 @@ class AppDatabase extends _$AppDatabase {
   late final Writer writer = Writer(this, hlcClock);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -59,6 +59,15 @@ class AppDatabase extends _$AppDatabase {
     onUpgrade: stepByStep(
       from1To2: (m, schema) async {
         await m.createTable(schema.exchangeRates);
+      },
+      from2To3: (m, schema) async {
+        await m.addColumn(schema.payments, schema.payments.baseCurrency);
+        // 已有付款的汇率都是对着当时的基准货币记的；没设过就是默认的 CNY。
+        await customStatement(
+          'UPDATE payments SET base_currency = COALESCE('
+          '(SELECT value FROM local_meta WHERE key = ?), ?)',
+          [LocalMetaKeys.baseCurrency, 'CNY'],
+        );
       },
     ),
   );

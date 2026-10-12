@@ -20,7 +20,7 @@ void main() {
         sub,
         today: today,
         existingPaymentIds: existing,
-        rateOf: rates.rateOf,
+        rates: rates,
       );
 
   group('ending', () {
@@ -118,11 +118,12 @@ void main() {
     expect(run(sub, today).isEmpty, isTrue);
     expect(sub.isAwaitingConfirmation(today), isTrue);
 
-    final paid = markPaid(sub, utcDate(2026, 10, 1), rateOf: rates.rateOf);
+    final paid = markPaid(sub, utcDate(2026, 10, 1), rates: rates);
     final payment = paid.payments.single;
     expect(payment.origin.value, PaymentOrigin.manual);
     expect(payment.id.value, paymentIdFor(sub.id, utcDate(2026, 10, 1)));
     expect(payment.amountMinor.value, 1200);
+    expect(payment.baseCurrency.value, 'CNY');
     final after = applied(sub, paid);
     expect(after.nextDate, utcDate(2026, 11, 1));
     expect(after.isAwaitingConfirmation(today), isFalse);

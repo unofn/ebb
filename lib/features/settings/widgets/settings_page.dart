@@ -10,11 +10,15 @@ class SettingsPage extends StatelessWidget {
     required this.title,
     this.actions = const [],
     required this.children,
+    this.bottom,
   });
 
   final String title;
   final List<Widget> actions;
   final List<Widget> children;
+
+  /// A bar under the list, e.g. the page's main action.
+  final Widget? bottom;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -30,5 +34,6 @@ class SettingsPage extends StatelessWidget {
         ],
       ),
     ),
+    bottomNavigationBar: bottom,
   );
 }

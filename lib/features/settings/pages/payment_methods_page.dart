@@ -1,15 +1,16 @@
-import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../app/l10n/l10n.dart';
 import '../../../app/providers/catalog_providers.dart';
 import '../../../app/providers/repository_providers.dart';
-import '../../../data/database.dart';
+import '../payment_method/delete_payment_method.dart';
+import '../settings_routes.dart';
 import '../widgets/named_list_page.dart';
 
-/// Add, rename and delete payment methods; deleting one leaves its
-/// subscriptions without a payment method.
+/// The payment methods: add one, open one to see and move the
+/// subscriptions on it, delete one (offering to move them first).
 class PaymentMethodsPage extends ConsumerWidget {
   const PaymentMethodsPage({super.key});
 
@@ -28,12 +29,10 @@ class PaymentMethodsPage extends ConsumerWidget {
             ],
       emptyText: l10n.settingsPaymentMethodsEmpty,
       onAdd: repository.create,
-      onRename: (id, name) =>
-          repository.update(id, PaymentMethodsCompanion(name: Value(name))),
-      deleteNote: (id) async => l10n.settingsPaymentMethodInUse(
-        (await repository.subscriptionsUsing(id)).length,
-      ),
-      onDelete: repository.delete,
+      onOpen: (context, method) async =>
+          context.go(SettingsPaths.paymentMethod(method.id)),
+      onDelete: (context, method) =>
+          deletePaymentMethod(context, ref, id: method.id, name: method.name),
     );
   }
 }

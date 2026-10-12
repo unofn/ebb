@@ -25,10 +25,17 @@ class TagsPage extends ConsumerWidget {
           : [for (final tag in tags) (id: tag.id, name: tag.name, hint: null)],
       emptyText: l10n.settingsTagsEmpty,
       onAdd: repository.create,
-      onRename: (id, name) =>
-          repository.update(id, TagsCompanion(name: Value(name))),
-      deleteNote: (_) async => l10n.settingsTagDeleteBody,
-      onDelete: repository.delete,
+      onOpen: (context, tag) => renameItem(
+        context,
+        tag,
+        (name) => repository.update(tag.id, TagsCompanion(name: Value(name))),
+      ),
+      onDelete: (context, tag) => confirmDeleteItem(
+        context,
+        tag,
+        note: l10n.settingsTagDeleteBody,
+        delete: () => repository.delete(tag.id),
+      ),
     );
   }
 }

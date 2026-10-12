@@ -3,7 +3,9 @@ import 'package:ebb/data/database.dart';
 import 'package:ebb/data/enums.dart';
 import 'package:ebb/core/local_date.dart';
 import 'package:ebb/data/seed/categories.dart';
+import 'package:ebb/features/payments/data/payment_method_repository.dart';
 import 'package:ebb/features/payments/domain/auto_payments.dart';
+import 'package:ebb/features/rates/domain/exchange_rates.dart';
 import 'package:ebb/features/subscriptions/data/subscription_batch_edit.dart';
 import 'package:ebb/features/subscriptions/data/subscription_repository.dart';
 import 'package:ebb/features/subscriptions/data/tag_repository.dart';
@@ -149,7 +151,7 @@ void main() {
           row,
           today: today,
           existingPaymentIds: const {},
-          rateOf: (_) => null,
+          rates: const ExchangeRates('CNY'),
         );
         expect(run.payments, isEmpty, reason: 'nothing due before 10-20');
       }
@@ -225,5 +227,39 @@ void main() {
 
       expect((await storedSubscription(db, id)).updatedAt, before);
     });
+  });
+
+  test('moves rows to another payment method, others untouched', () async {
+    final methods = PaymentMethodRepository(db);
+    final oldCard = await methods.create('Old card');
+    final newCard = await methods.create('New card');
+    final a = await subs.create(
+      fakeSubscriptionDraft('A', paymentMethodId: oldCard),
+    );
+    final b = await subs.create(
+      fakeSubscriptionDraft('B', paymentMethodId: oldCard),
+    );
+    final already = await subs.create(
+      fakeSubscriptionDraft('C', paymentMethodId: newCard),
+    );
+    final before = (await storedSubscription(db, already)).updatedAt;
+
+    await subs.batchUpdate({
+      a,
+      already,
+    }, SubscriptionBatchEdit(paymentMethodId: Value(newCard)));
+
+    expect((await storedSubscription(db, a)).paymentMethodId, newCard);
+    expect((await storedSubscription(db, b)).paymentMethodId, oldCard);
+    expect(
+      (await storedSubscription(db, already)).updatedAt,
+      before,
+      reason: 'already on the new card: not written again',
+    );
+
+    await subs.batchUpdate({
+      b,
+    }, const SubscriptionBatchEdit(paymentMethodId: Value(null)));
+    expect((await storedSubscription(db, b)).paymentMethodId, isNull);
   });
 }

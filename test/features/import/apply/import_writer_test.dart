@@ -1,5 +1,6 @@
 import 'package:ebb/core/local_date.dart';
 import 'package:ebb/data/database.dart';
+import 'package:ebb/data/local_settings.dart';
 import 'package:ebb/features/import/apply/attachment_store.dart';
 import 'package:ebb/features/import/apply/import_result.dart';
 import 'package:ebb/features/import/apply/import_writer.dart';
@@ -107,5 +108,16 @@ void main() {
       db.payments,
     )..where((p) => p.id.equals(paymentId))).getSingle();
     expect(payment.deleted, isTrue);
+  });
+
+  test('payments are recorded under the base currency, no rate', () async {
+    await LocalSettings(db).setBaseCurrency('USD');
+    await importDrafts(db, [stream]);
+    final payments = await paymentsIn(db);
+    expect(payments, hasLength(3));
+    expect(
+      {for (final p in payments) (p.baseCurrency, p.rateToBase)},
+      {('USD', null)},
+    );
   });
 }

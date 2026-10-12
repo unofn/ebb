@@ -12,15 +12,11 @@ class PaymentRepository {
 
   /// Non-deleted payments of [subscriptionId], newest first.
   Stream<List<Payment>> watchFor(String subscriptionId) =>
-      (_db.select(_db.payments)
-            ..where(
-              (p) => p.subscriptionId.equals(subscriptionId) & p.deleted.not(),
-            )
-            ..orderBy([
-              (p) => OrderingTerm.desc(p.paidOn),
-              (p) => OrderingTerm.desc(p.id),
-            ]))
-          .watch();
+      _newestFirst((p) => p.subscriptionId.equals(subscriptionId)).watch();
+
+  /// Every non-deleted payment, newest first (statistics, calendar).
+  Stream<List<Payment>> watchAll() =>
+      _newestFirst((p) => const Constant(true)).watch();
 
   /// IDs of every payment of [subscriptionId], deleted ones included, so
   /// generated payments the user deleted are not generated again.
@@ -70,4 +66,13 @@ class PaymentRepository {
       });
 
   Future<void> delete(String id) => _db.writer.delete(_db.payments, id);
+
+  SimpleSelectStatement<$PaymentsTable, Payment> _newestFirst(
+    Expression<bool> Function($PaymentsTable p) filter,
+  ) => _db.select(_db.payments)
+    ..where((p) => filter(p) & p.deleted.not())
+    ..orderBy([
+      (p) => OrderingTerm.desc(p.paidOn),
+      (p) => OrderingTerm.desc(p.id),
+    ]);
 }
