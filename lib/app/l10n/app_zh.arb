@@ -1422,6 +1422,34 @@
   "settingsVersion": "版本",
   "settingsLicense": "开源协议",
   "settingsSource": "源代码",
+  "updateCurrent": "当前 {version}",
+  "@updateCurrent": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updateAvailable": "{version} 可更新",
+  "@updateAvailable": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updateAutoCheck": "自动检查新版本",
+  "updateAutoCheckHint": "每天最多一次，只连接 GitHub",
+  "updateHintTitle": "Ebb {version} 可以更新了",
+  "@updateHintTitle": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updateView": "查看",
+  "updateDismiss": "不再提示这个版本",
   "settingsBaseCurrencyNote": "更换后会重新获取汇率，手动汇率要重新设置。",
   "settingsCurrencySearch": "搜索币种",
   "settingsCurrencyCommon": "常用",

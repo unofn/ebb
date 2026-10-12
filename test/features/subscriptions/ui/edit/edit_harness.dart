@@ -70,6 +70,7 @@ Future<void> openEditor(
             settings: settings,
             refreshRates: () async {},
             reschedule: (_) async {},
+            checkUpdate: ({force = false}) async {},
           ),
         ),
       ],

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../app/providers/job_providers.dart';
@@ -71,11 +70,6 @@ Future<DateTime?> ratesFetchedAt(Ref ref) async {
   await ref.watch(exchangeRatesProvider.future);
   return ref.watch(localSettingsProvider).ratesFetchedAt();
 }
-
-/// The app's version name, e.g. `0.2.0`.
-@riverpod
-Future<String> appVersion(Ref ref) async =>
-    (await PackageInfo.fromPlatform()).version;
 
 /// Currencies of the subscriptions (deleted ones left out), uppercase.
 @riverpod

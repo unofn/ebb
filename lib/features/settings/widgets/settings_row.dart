@@ -4,7 +4,7 @@ import '../../../app/theme/ebb_colors.dart';
 import '../../../app/theme/ebb_type.dart';
 
 /// A settings line: label with an optional hint below, the current value
-/// and a chevron on the right.
+/// and a chevron (unless [chevron] is false) on the right.
 class SettingsRow extends StatelessWidget {
   const SettingsRow({
     super.key,
@@ -12,6 +12,8 @@ class SettingsRow extends StatelessWidget {
     this.hint,
     this.value = '',
     this.attention = false,
+    this.highlight = false,
+    this.chevron = true,
     this.onTap,
     this.trailing,
   });
@@ -22,6 +24,10 @@ class SettingsRow extends StatelessWidget {
 
   /// Something needs the user: the hint in amber, the value in accent.
   final bool attention;
+
+  /// Good news in the value (a new version): bold, in accent.
+  final bool highlight;
+  final bool chevron;
   final VoidCallback? onTap;
 
   /// Replaces the chevron, e.g. a delete button.
@@ -58,11 +64,14 @@ class SettingsRow extends StatelessWidget {
                   Text(
                     value,
                     style: EbbType.body.tabular.copyWith(
-                      color: attention ? c.accent : c.ink2,
+                      color: attention || highlight ? c.accent : c.ink2,
+                      fontWeight: highlight ? EbbType.strong : null,
                     ),
                   ),
-                  trailing ??
-                      Icon(Icons.chevron_right, size: 18, color: c.ink3),
+                  if (trailing != null)
+                    trailing!
+                  else if (chevron)
+                    Icon(Icons.chevron_right, size: 18, color: c.ink3),
                 ],
               ),
             ],

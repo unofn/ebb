@@ -3,13 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/l10n/l10n.dart';
+import '../../../app/providers/update_providers.dart';
 import '../../../app/widgets/card_section.dart';
-import '../settings_providers.dart';
 import '../widgets/settings_row.dart';
+import 'update_check_row.dart';
+import 'version_row.dart';
 
 final sourceUrl = Uri.parse('https://github.com/unofn/ebb');
 
-/// Version, license and where the source lives.
+/// Version (and a newer one, if found), whether to look for new ones,
+/// license and where the source lives.
 class AboutSection extends ConsumerWidget {
   const AboutSection({super.key});
 
@@ -20,7 +23,8 @@ class AboutSection extends ConsumerWidget {
     return CardSection(
       title: l10n.settingsAbout,
       children: [
-        SettingsRow(label: l10n.settingsVersion, value: version),
+        const VersionRow(),
+        const UpdateCheckRow(),
         SettingsRow(
           label: l10n.settingsLicense,
           value: 'GPL-3.0',

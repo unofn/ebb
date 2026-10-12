@@ -59,6 +59,7 @@ dependencies:
   package_info_plus: ^10.2.2
   path: ^1.9.1
   path_provider: ^2.1.6
+  pub_semver: ^2.2.1
   riverpod_annotation: ^4.0.7
   simple_icons: ^16.23.0
   table_calendar: ^3.3.0

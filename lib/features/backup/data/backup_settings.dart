@@ -4,7 +4,8 @@ import '../../../data/tables/local_meta.dart';
 
 /// The `local_meta` keys a backup carries: the user's settings.
 // 以后新增用户设置要加进来。设备自身的状态（device_id、hlc、
-// rates_fetched_at、last_backup_at）不跟着备份走，不要加。
+// rates_fetched_at、last_backup_at、update_checked_at、update_latest、
+// update_dismissed_version）不跟着备份走，不要加。
 const backedUpSettings = [
   LocalMetaKeys.baseCurrency,
   LocalMetaKeys.reminderDaysDefault,
@@ -12,6 +13,7 @@ const backedUpSettings = [
   LocalMetaKeys.budgetMonthlyMinor,
   LocalMetaKeys.reviewLastCompletedOn,
   LocalMetaKeys.dismissedDuplicates,
+  LocalMetaKeys.updateCheckEnabled,
 ];
 
 extension BackupSettings on AppDatabase {

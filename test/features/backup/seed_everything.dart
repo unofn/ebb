@@ -6,6 +6,7 @@ import 'package:ebb/data/database.dart';
 import 'package:ebb/data/enums.dart';
 import 'package:ebb/features/rates/data/rate_fetch_result.dart';
 import 'package:ebb/features/rates/data/rate_repository.dart';
+import 'package:ebb/features/updates/data/update_settings.dart';
 
 import '../../support/fake_rows.dart';
 import '../../support/fake_subscription.dart';
@@ -88,6 +89,11 @@ Future<void> seedEverything(BackupBench bench, {DateTime? at}) =>
       await settings.setBudgetMonthlyMinor(50000);
       await settings.setReviewLastCompletedOn(utcDate(2026, 7, 1));
       await settings.dismissDuplicate('hash-1');
+      final update = UpdateSettings(db);
+      await update.setEnabled(false);
+      await update.setCheckedAt(DateTime.utc(2026, 10, 1));
+      await update.setLatest('{"version":"0.2.0"}');
+      await update.setDismissedVersion('0.2.0');
       final rates = RateRepository(db, settings);
       await rates.save(
         FetchedRates(

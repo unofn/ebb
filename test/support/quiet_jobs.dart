@@ -5,7 +5,7 @@ import 'package:ebb/app/providers/repository_providers.dart';
 import 'package:flutter_riverpod/misc.dart';
 
 /// [AppJobs] on the test database that record payments but neither fetch
-/// rates nor touch the notification plugin.
+/// rates or releases nor touch the notification plugin.
 Override quietAppJobs() => appJobsProvider.overrideWith((ref) {
   final jobs = AppJobs(
     subscriptions: ref.watch(subscriptionRepositoryProvider),
@@ -14,6 +14,7 @@ Override quietAppJobs() => appJobsProvider.overrideWith((ref) {
     settings: ref.watch(localSettingsProvider),
     refreshRates: () async {},
     reschedule: (_) async {},
+    checkUpdate: ({force = false}) async {},
   );
   ref.onDispose(jobs.dispose);
   return jobs;

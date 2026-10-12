@@ -8,6 +8,7 @@ import 'package:ebb/core/local_date.dart';
 import 'package:ebb/data/local_meta_store.dart';
 import 'package:ebb/data/tables/local_meta.dart';
 import 'package:ebb/features/rates/data/rate_repository.dart';
+import 'package:ebb/features/updates/data/update_settings.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../backup_bench.dart';
@@ -32,12 +33,20 @@ void main() {
     expect(await settings.budgetMonthlyMinor(), 50000);
     expect(await settings.reviewLastCompletedOn(), utcDate(2026, 7, 1));
     expect(await settings.dismissedDuplicates(), {'hash-1'});
+    expect(await UpdateSettings(target.db).enabled(), isFalse);
     final rates = await RateRepository(target.db, settings).current('CNY');
     expect(rates.overrides, {'USD': Decimal.parse('0.15')});
     expect(rates.rates.keys, ['USD'], reason: 'fetched rates stay behind');
     expect(await target.db.hlcClock.deviceId, deviceId);
     expect(await settings.lastBackupAt(), isNull);
     expect(await target.db.readMeta(LocalMetaKeys.ratesFetchedAt), isNull);
+    for (final key in [
+      LocalMetaKeys.updateCheckedAt,
+      LocalMetaKeys.updateLatest,
+      LocalMetaKeys.updateDismissedVersion,
+    ]) {
+      expect(await target.db.readMeta(key), isNull, reason: key);
+    }
   });
 
   test('the backup leaves device state out of data.json', () async {
@@ -57,6 +66,7 @@ void main() {
     expect(settings.keys, isNot(contains(LocalMetaKeys.hlc)));
     expect(settings.keys, isNot(contains(LocalMetaKeys.ratesFetchedAt)));
     expect(settings.keys, isNot(contains(LocalMetaKeys.lastBackupAt)));
+    expect(settings.keys, isNot(contains(LocalMetaKeys.updateLatest)));
     expect(data['manualRates'], [
       {'base': 'CNY', 'currency': 'USD', 'overrideRate': '0.15'},
     ]);

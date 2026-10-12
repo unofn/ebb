@@ -5,6 +5,7 @@ import 'package:ebb/app/providers/rate_providers.dart';
 import 'package:ebb/app/providers/reminder_providers.dart';
 import 'package:ebb/app/providers/repository_providers.dart';
 import 'package:ebb/app/providers/storage_providers.dart';
+import 'package:ebb/app/providers/update_providers.dart';
 import 'package:ebb/app/theme/ebb_theme.dart';
 import 'package:ebb/data/database.dart';
 import 'package:ebb/features/import/ui/export_file.dart';
@@ -27,6 +28,10 @@ class ScreenCalls {
   final port = FakeNotificationPort(allowed: true);
   int reschedules = 0;
   int settingsOpened = 0;
+
+  /// Release checks asked for, and how many of those were forced.
+  int updateChecks = 0;
+  int forcedUpdateChecks = 0;
 
   /// Whether the platform has a notification settings page to open.
   bool canOpenSettings = true;
@@ -86,6 +91,10 @@ Future<GoRouter> pumpScreens(
             settings: ref.watch(localSettingsProvider),
             refreshRates: () async {},
             reschedule: (_) async => calls.reschedules++,
+            checkUpdate: ({force = false}) async {
+              calls.updateChecks++;
+              if (force) calls.forcedUpdateChecks++;
+            },
           );
           ref.onDispose(jobs.dispose);
           return jobs;

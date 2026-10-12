@@ -12,13 +12,15 @@ import '../../features/rates/data/rate_repository.dart';
 import '../../features/reminders/domain/plan_reminders.dart';
 import '../../features/reminders/domain/planned_reminder.dart';
 import '../../features/subscriptions/data/subscription_repository.dart';
+import '../../features/updates/data/check_for_update.dart';
 
 /// Replaces the scheduled reminders with a new plan.
 typedef Reschedule = Future<void> Function(List<PlannedReminder> planned);
 
 /// The work on app start and resume, in order: refresh rates (when due),
-/// record automatic payments, reschedule reminders. Runs one at a time; a
-/// step that fails is logged and the next one still runs.
+/// record automatic payments, reschedule reminders, check for a new
+/// release (when due). Runs one at a time; a step that fails is logged and
+/// the next one still runs.
 class AppJobs {
   AppJobs({
     required this._subscriptions,
@@ -27,6 +29,7 @@ class AppJobs {
     required this._settings,
     required this._refreshRates,
     required this._reschedule,
+    required this._checkUpdate,
     this.debounce = const Duration(seconds: 1),
   });
 
@@ -36,6 +39,7 @@ class AppJobs {
   final LocalSettings _settings;
   final Future<void> Function() _refreshRates;
   final Reschedule _reschedule;
+  final CheckUpdate _checkUpdate;
   final Duration debounce;
 
   Future<void> _tail = Future.value();
@@ -47,6 +51,8 @@ class AppJobs {
     await _step('refresh rates', _refreshRates);
     await _step('auto payments', _recordPayments);
     await _step('reminders', _replan);
+    // 联网的放最后，不耽误记账和提醒。
+    await _step('update check', _checkUpdate);
   });
 
   /// Subscriptions changed: replan once they have been quiet for
@@ -60,6 +66,13 @@ class AppJobs {
   /// after the reminder defaults change.
   Future<void> replanReminders() =>
       _enqueue(_Job.reminders, () => _step('reminders', _replan));
+
+  /// Checks for a new release now (after the running job), ignoring the
+  /// once-a-day limit, e.g. when the user turns checking on.
+  Future<void> checkUpdateNow() => _enqueue(
+    _Job.update,
+    () => _step('update check', () => _checkUpdate(force: true)),
+  );
 
   void dispose() => _debounceTimer?.cancel();
 
@@ -113,4 +126,4 @@ class AppJobs {
   ];
 }
 
-enum _Job { all, reminders }
+enum _Job { all, reminders, update }

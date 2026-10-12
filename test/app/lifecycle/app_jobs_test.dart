@@ -51,6 +51,8 @@ void main() {
         steps.add('reminders');
         plans.add(planned);
       },
+      checkUpdate: ({force = false}) async =>
+          steps.add(force ? 'update now' : 'update'),
       debounce: debounce,
     );
   }
@@ -58,14 +60,14 @@ void main() {
   Future<List<DateTime>> paidDays() async =>
       [for (final p in await db.select(db.payments).get()) p.paidOn]..sort();
 
-  test('rates, then automatic payments, then reminders', () async {
+  test('rates, automatic payments, reminders, then the update', () async {
     refresh = () async {
       expect(await paidDays(), isEmpty);
       steps.add('rates');
     };
     await withClock(Clock.fixed(now), () => jobs().runAll());
 
-    expect(steps, ['rates', 'reminders']);
+    expect(steps, ['rates', 'reminders', 'update']);
     expect(await paidDays(), [utcDate(2026, 9, 1), utcDate(2026, 10, 1)]);
     final sub = await storedSubscription(db, 's1');
     expect(sub.nextDate, utcDate(2026, 11, 1));
@@ -113,6 +115,23 @@ void main() {
     });
     expect(refreshes, 2);
     expect(plans, hasLength(2));
+  });
+
+  test('checkUpdateNow forces a check after the running job', () async {
+    final gate = Completer<void>();
+    refresh = () async {
+      steps.add('rates');
+      await gate.future;
+    };
+    final runner = jobs();
+    await withClock(Clock.fixed(now), () async {
+      final all = runner.runAll();
+      await pumpEventQueue();
+      final forced = runner.checkUpdateNow();
+      gate.complete();
+      await Future.wait([all, forced]);
+    });
+    expect(steps, ['rates', 'reminders', 'update', 'update now']);
   });
 
   test('subscription changes replan once, after a quiet spell', () async {

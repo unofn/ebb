@@ -5,6 +5,7 @@ import '../lifecycle/app_jobs.dart';
 import 'rate_providers.dart';
 import 'reminder_providers.dart';
 import 'repository_providers.dart';
+import 'update_providers.dart';
 
 part 'job_providers.g.dart';
 
@@ -22,6 +23,7 @@ AppJobs appJobs(Ref ref) {
     refreshRates: () =>
         refreshRates(repository: rates, fetcher: fetcher, settings: settings),
     reschedule: ref.watch(reminderSchedulerProvider).reschedule,
+    checkUpdate: ref.watch(checkUpdateProvider),
   );
   ref.onDispose(jobs.dispose);
   return jobs;

@@ -38,4 +38,16 @@ abstract final class LocalMetaKeys {
   /// UTC instant (ISO 8601) of the last backup the user made; automatic
   /// saves before a restore leave it alone.
   static const lastBackupAt = 'last_backup_at';
+
+  /// `true` / `false`: whether to look for a new release on GitHub.
+  static const updateCheckEnabled = 'update_check_enabled';
+
+  /// UTC instant (ISO 8601) of the last successful release check.
+  static const updateCheckedAt = 'update_checked_at';
+
+  /// JSON of the latest release found: version, note line, link.
+  static const updateLatest = 'update_latest';
+
+  /// The version whose home hint the user closed.
+  static const updateDismissedVersion = 'update_dismissed_version';
 }

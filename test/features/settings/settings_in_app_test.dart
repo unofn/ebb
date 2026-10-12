@@ -1,8 +1,8 @@
 import 'package:ebb/app/l10n/l10n.dart';
 import 'package:ebb/app/providers/reminder_providers.dart';
+import 'package:ebb/app/providers/update_providers.dart';
 import 'package:ebb/features/budget/ui/budget_form.dart';
 import 'package:ebb/features/reminders/platform/reminder_scheduler.dart';
-import 'package:ebb/features/settings/settings_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
