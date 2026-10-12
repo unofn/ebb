@@ -1,3 +1,4 @@
+import 'package:ebb/features/import/plan/category_choice.dart';
 import 'package:ebb/core/local_date.dart';
 import 'package:ebb/data/enums.dart';
 import 'package:ebb/features/import/draft/import_warning.dart';
@@ -75,24 +76,43 @@ void main() {
       ),
       ExistingSnapshot.empty(SourceApp.tilla),
     );
-    expect(tilla.categoryMapping, {'3': null});
+    const undecided = CategoryChoice.undecided();
+    expect(tilla.categoryMapping, {'3': undecided});
     expect(plan().labelCategoryMapping, {
-      'Video': null,
-      'Family': null,
-      'Work': null,
+      'Video': undecided,
+      'Family': undecided,
+      'Work': undecided,
     });
   });
 
   test('the category comes from the source category, else the first '
       'mapped label', () {
-    final mapped = plan().mapLabel('Family', 'video').mapLabel('Work', 'cloud');
+    final mapped = plan()
+        .mapLabel('Family', const CategoryChoice.category('video'))
+        .mapLabel('Work', const CategoryChoice.category('cloud'));
     final chain = mapped.items.first.body;
     expect(mapped.categoryKeyFor(chain), 'video');
     final tillaBody = fakeDraft('t', sourceCategoryId: '3', labels: ['Work']);
     expect(mapped.categoryKeyFor(tillaBody), 'cloud');
     expect(
-      mapped.mapCategory('3', 'gaming').categoryKeyFor(tillaBody),
+      mapped
+          .mapCategory('3', const CategoryChoice.category('gaming'))
+          .categoryKeyFor(tillaBody),
       'gaming',
+    );
+  });
+
+  test('「no category」 is a decision but maps nothing, like undecided', () {
+    final body = fakeDraft('t', sourceCategoryId: '3', labels: ['Work']);
+    final none = plan()
+        .mapCategory('3', const CategoryChoice.none())
+        .mapLabel('Work', const CategoryChoice.category('cloud'));
+    expect(none.categoryMapping['3'], const CategoryChoice.none());
+    expect(none.categoryMapping['3'], isNot(const CategoryChoice.undecided()));
+    expect(none.categoryKeyFor(body), 'cloud', reason: 'falls to the label');
+    expect(
+      plan().mapCategory('3', const CategoryChoice.none()).categoryKeyFor(body),
+      isNull,
     );
   });
 

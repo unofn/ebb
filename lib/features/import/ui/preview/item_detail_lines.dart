@@ -25,7 +25,7 @@ List<DetailLine> itemDetailLines(
     (l10n.detailWarning, warningMessage(l10n, warning)),
   if (item.diff == DiffStatus.update) ...[
     for (final change in item.changes)
-      (fieldLabel(l10n, change.field), changeValues(change)),
+      (fieldLabel(l10n, change.field), changeValues(l10n, change)),
     if (item.newPaymentCount > 0)
       (
         l10n.detailPayments,

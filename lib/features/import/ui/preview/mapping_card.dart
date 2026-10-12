@@ -6,6 +6,7 @@ import '../../../../app/theme/ebb_colors.dart';
 import '../../../../app/theme/ebb_type.dart';
 import '../../../../app/widgets/card_section.dart';
 import '../../draft/source_app.dart';
+import '../../plan/category_choice.dart';
 import '../import_controller.dart';
 import '../import_session.dart';
 import 'category_dropdown.dart';
@@ -27,7 +28,7 @@ class MappingCard extends ConsumerWidget {
     final controller = ref.read(
       importControllerProvider(session.file).notifier,
     );
-    final unmapped = rows.where((r) => r.categoryKey == null).length;
+    final unmapped = rows.where((r) => r.choice is Undecided).length;
     return CardSection(
       title: tilla ? l10n.mapSourceCategories : l10n.mapLabels,
       trailing: tilla ? l10n.mappingLeft(unmapped) : l10n.optional,
@@ -68,12 +69,12 @@ class MappingCard extends ConsumerWidget {
                   ),
                 ),
                 CategoryDropdown(
-                  value: row.categoryKey,
+                  value: row.choice,
                   onChanged: session.applying
                       ? null
-                      : (key) => tilla
-                            ? controller.mapSourceCategory(row.source, key)
-                            : controller.mapLabel(row.source, key),
+                      : (choice) => tilla
+                            ? controller.mapSourceCategory(row.source, choice)
+                            : controller.mapLabel(row.source, choice),
                 ),
               ],
             ),

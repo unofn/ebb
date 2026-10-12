@@ -4,6 +4,7 @@ import '../../../app/providers/storage_providers.dart';
 import '../apply/import_result.dart';
 import '../apply/import_writer.dart';
 import '../decode/read_export.dart';
+import '../plan/category_choice.dart';
 import '../plan/import_plan.dart';
 import '../plan/load_existing.dart';
 import '../plan/plan_builder.dart';
@@ -37,11 +38,11 @@ class ImportController extends _$ImportController {
     ),
   );
 
-  void mapSourceCategory(String sourceCategoryId, String? categoryKey) =>
-      _decide((plan) => plan.mapCategory(sourceCategoryId, categoryKey));
+  void mapSourceCategory(String sourceCategoryId, CategoryChoice choice) =>
+      _decide((plan) => plan.mapCategory(sourceCategoryId, choice));
 
-  void mapLabel(String label, String? categoryKey) =>
-      _decide((plan) => plan.mapLabel(label, categoryKey));
+  void mapLabel(String label, CategoryChoice choice) =>
+      _decide((plan) => plan.mapLabel(label, choice));
 
   /// Writes the plan; throws if writing fails (then nothing was written).
   Future<ImportResult> apply() async {

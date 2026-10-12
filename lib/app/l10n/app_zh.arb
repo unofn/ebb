@@ -228,9 +228,12 @@
       }
     }
   },
-  "homeTrialHintThen": "不取消的话，之后 {price}",
+  "homeTrialHintThen": "不取消的话，之后{cycle} {price}",
   "@homeTrialHintThen": {
     "placeholders": {
+      "cycle": {
+        "type": "String"
+      },
       "price": {
         "type": "String"
       }
@@ -366,7 +369,11 @@
   "detailDeleteBody": "订阅和它的付款记录都会删除。",
   "homeTitle": "订阅",
   "emptyTitle": "还没有订阅",
-  "emptyBody": "从 Tilla 或 SubscriptionManager 导入，或者手动添加第一个。",
+  "emptyBody": "从 Tilla 或 SubscriptionManager 导入，\n或者手动添加第一个。",
+  "changeYes": "是",
+  "changeNo": "否",
+  "changeOn": "开启",
+  "changeRecurring": "周期订阅",
   "importData": "导入数据",
   "addManually": "手动添加",
   "addManuallyLater": "手动添加会在下个版本提供",

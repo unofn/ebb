@@ -19,6 +19,11 @@ void main() {
     await pumpEbb(tester, db);
 
     expect(find.text('还没有订阅'), findsOneWidget);
+    // 断在逗号后，窄屏最后一行不会只剩「个。」。
+    expect(
+      find.text('从 Tilla 或 SubscriptionManager 导入，\n或者手动添加第一个。'),
+      findsOneWidget,
+    );
     expect(find.widgetWithText(FilledButton, '导入数据'), findsOneWidget);
     await tester.tap(find.widgetWithText(OutlinedButton, '手动添加'));
     await tester.pumpAndSettle();
@@ -95,7 +100,7 @@ void main() {
     await pumpEbb(tester, db);
 
     expect(find.text('Keep试用 3 天后到期'), findsOneWidget);
-    expect(find.text('不取消的话，之后 ¥25.00 / 月'), findsOneWidget);
+    expect(find.text('不取消的话，之后每月 ¥25'), findsOneWidget);
     expect(find.text('试用中'), findsOneWidget);
     expect(find.text('¥0.00'), findsOneWidget);
     expect(find.text('之后 ¥25/月'), findsOneWidget);

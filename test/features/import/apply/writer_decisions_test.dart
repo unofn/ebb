@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart' show Value;
+import 'package:ebb/features/import/plan/category_choice.dart';
 import 'package:ebb/core/local_date.dart';
 import 'package:ebb/data/database.dart';
 import 'package:ebb/data/seed/categories.dart';
@@ -61,9 +62,12 @@ void main() {
     await importDrafts(db, [stream]);
     expect((await row()).categoryId, isNull);
 
-    await importDrafts(db, [
-      stream,
-    ], decide: (p) => p.mapLabel('Video', 'video'));
+    await importDrafts(
+      db,
+      [stream],
+      decide: (p) =>
+          p.mapLabel('Video', const CategoryChoice.category('video')),
+    );
     expect((await row()).categoryId, categoryIdOf('video'));
 
     await db.writer.update(
@@ -71,16 +75,22 @@ void main() {
       subId,
       SubscriptionsCompanion(categoryId: Value(categoryIdOf('gaming'))),
     );
-    await importDrafts(db, [
-      stream,
-    ], decide: (p) => p.mapLabel('Video', 'audio'));
+    await importDrafts(
+      db,
+      [stream],
+      decide: (p) =>
+          p.mapLabel('Video', const CategoryChoice.category('audio')),
+    );
     expect((await row()).categoryId, categoryIdOf('gaming'));
   });
 
   test('a new subscription takes its mapped category', () async {
-    await importDrafts(db, [
-      stream,
-    ], decide: (p) => p.mapLabel('Video', 'video'));
+    await importDrafts(
+      db,
+      [stream],
+      decide: (p) =>
+          p.mapLabel('Video', const CategoryChoice.category('video')),
+    );
     expect((await row()).categoryId, categoryIdOf('video'));
   });
 

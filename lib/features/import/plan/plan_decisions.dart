@@ -1,3 +1,4 @@
+import 'category_choice.dart';
 import 'import_plan.dart';
 import 'plan_builder.dart';
 
@@ -18,14 +19,11 @@ extension PlanDecisions on ImportPlan {
   ImportPlan mergeChain(String chainId) =>
       withItems(copyWith(splitChainIds: {...splitChainIds}..remove(chainId)));
 
-  /// Maps a source category ID to an Ebb category key (null = none).
-  ImportPlan mapCategory(String sourceCategoryId, String? categoryKey) =>
-      copyWith(
-        categoryMapping: {...categoryMapping, sourceCategoryId: categoryKey},
-      );
+  /// Maps a source category ID to [choice].
+  ImportPlan mapCategory(String sourceCategoryId, CategoryChoice choice) =>
+      copyWith(categoryMapping: {...categoryMapping, sourceCategoryId: choice});
 
-  /// Maps a label to an Ebb category key (null = none).
-  ImportPlan mapLabel(String label, String? categoryKey) => copyWith(
-    labelCategoryMapping: {...labelCategoryMapping, label: categoryKey},
-  );
+  /// Maps a label to [choice].
+  ImportPlan mapLabel(String label, CategoryChoice choice) =>
+      copyWith(labelCategoryMapping: {...labelCategoryMapping, label: choice});
 }

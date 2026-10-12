@@ -1,7 +1,3 @@
-import 'package:money2/money2.dart';
-
-import '../../../core/local_date.dart';
-import '../../../core/money.dart';
 import '../../../data/database.dart';
 import '../../billing/cycle.dart';
 import '../draft/import_draft.dart';
@@ -29,14 +25,10 @@ List<FieldChange> fieldChanges(
           field == ImportField.paymentMethod
               ? FieldChange(
                   field,
-                  oldValue: paymentMethodNames[old] ?? old as String?,
+                  oldValue: paymentMethodNames[old] ?? old,
                   newValue: method?.name,
                 )
-              : FieldChange(
-                  field,
-                  oldValue: _show(field, old),
-                  newValue: _show(field, now),
-                ),
+              : FieldChange(field, oldValue: old, newValue: now),
   ];
 }
 
@@ -50,8 +42,8 @@ List<FieldChange> fieldChanges(
   ImportField.description => (row.description, body.description),
   ImportField.kind => (row.kind, body.kind),
   ImportField.price => (
-    (row.priceMinor, row.currency),
-    (body.priceMinor, body.currency),
+    (minor: row.priceMinor, currency: row.currency),
+    (minor: body.priceMinor, currency: body.currency),
   ),
   ImportField.cycle => (row.cycle, body.cycle),
   ImportField.startDate => (row.startDate, body.startDate),
@@ -65,25 +57,8 @@ List<FieldChange> fieldChanges(
   ImportField.url => (row.url, body.url),
   ImportField.notes => (row.notes, body.notes),
   ImportField.reminder => (
-    (row.reminderEnabled, row.reminderDays),
-    (body.reminderEnabled, body.reminderDays),
+    (enabled: row.reminderEnabled, days: row.reminderDays),
+    (enabled: body.reminderEnabled, days: body.reminderDays),
   ),
   ImportField.reminderTime => (row.reminderTime, body.reminderTime),
 };
-
-String? _show(ImportField field, Object? value) => switch ((field, value)) {
-  (_, null) => null,
-  (ImportField.color, final int rgb) =>
-    '#${rgb.toRadixString(16).padLeft(6, '0').toUpperCase()}',
-  (ImportField.reminderTime, final int minutes) =>
-    '${_twoDigits(minutes ~/ 60)}:${_twoDigits(minutes % 60)}',
-  (_, final DateTime date) => date.isoDate,
-  (_, Cycle(:final unit, :final count)) => '$count ${unit.name}',
-  (_, (final int minor, final String code)) =>
-    '${Money.fromIntWithCurrency(minor, currencyOf(code)).amount} $code',
-  (_, (final bool on, final int? days)) => on ? 'on, ${days ?? '?'}d' : 'off',
-  (_, final Enum value) => value.name,
-  (_, final value) => '$value',
-};
-
-String _twoDigits(int n) => '$n'.padLeft(2, '0');

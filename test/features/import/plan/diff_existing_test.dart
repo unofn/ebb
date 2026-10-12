@@ -58,8 +58,8 @@ void main() {
     expect(item.changes, [
       const FieldChange(
         ImportField.price,
-        oldValue: '15.00 CNY',
-        newValue: '18.00 CNY',
+        oldValue: (minor: 1500, currency: 'CNY'),
+        newValue: (minor: 1800, currency: 'CNY'),
       ),
       const FieldChange(
         ImportField.paymentMethod,

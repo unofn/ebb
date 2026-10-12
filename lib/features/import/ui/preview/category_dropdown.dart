@@ -5,19 +5,26 @@ import '../../../../app/l10n/l10n.dart';
 import '../../../../app/theme/ebb_colors.dart';
 import '../../../../app/theme/ebb_type.dart';
 import '../../../../data/seed/categories.dart';
+import '../../plan/category_choice.dart';
 
-// 「不对应」用空串占位：值为 null 的选项会顶替提示文字「选择品类」。
+// 下拉框的值是字符串：null 显示提示「选择品类」（未选），空串是「不对应」。
 const _none = '';
 
-/// Picks one of the built-in categories, listed under their groups;
-/// null = none.
+String? _valueOf(CategoryChoice choice) => switch (choice) {
+  Undecided() => null,
+  NoCategory() => _none,
+  MapsToCategory(:final key) => key,
+};
+
+/// Picks one of the built-in categories, listed under their groups, or
+/// 「不对应」; shows 「选择品类」 while [value] is undecided.
 class CategoryDropdown extends StatelessWidget {
   const CategoryDropdown({super.key, required this.value, this.onChanged});
 
-  final String? value;
+  final CategoryChoice value;
 
   /// Null disables the dropdown.
-  final ValueChanged<String?>? onChanged;
+  final ValueChanged<CategoryChoice>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +42,7 @@ class CategoryDropdown extends StatelessWidget {
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String?>(
-          value: value,
+          value: _valueOf(value),
           isExpanded: true,
           style: body,
           dropdownColor: c.surface,
@@ -45,7 +52,11 @@ class CategoryDropdown extends StatelessWidget {
           hint: Text(l10n.pickCategory, style: body.copyWith(color: c.ink3)),
           onChanged: onChanged == null
               ? null
-              : (key) => onChanged!(key == _none ? null : key),
+              : (key) => onChanged!(switch (key) {
+                  null => const CategoryChoice.undecided(),
+                  _none => const CategoryChoice.none(),
+                  final key => CategoryChoice.category(key),
+                }),
           items: [
             DropdownMenuItem(value: _none, child: Text(l10n.noCategory)),
             for (final MapEntry(key: group, value: keys)

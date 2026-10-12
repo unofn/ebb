@@ -38,7 +38,8 @@ class TrialHints extends StatelessWidget {
     final l10n = context.l10n;
     final c = context.colors;
     final days = s.trialEndsOn!.difference(today).inDays;
-    final price = moneyText(s.myShareMinor ?? s.priceMinor, s.currency);
+    final price = compactMoneyText(s.myShareMinor ?? s.priceMinor, s.currency);
+    final cycle = s.cycle;
     return InkWell(
       onTap: () => context.go(RoutePaths.subscription(s.id)),
       child: Padding(
@@ -67,7 +68,10 @@ class TrialHints extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    l10n.homeTrialHintThen(pricePer(l10n, price, s.cycle)),
+                    // 「不取消的话，之后每月 ¥25」。
+                    cycle == null
+                        ? l10n.homeThen(price)
+                        : l10n.homeTrialHintThen(cycleName(l10n, cycle), price),
                     style: EbbType.small.copyWith(color: c.ink2),
                   ),
                 ],

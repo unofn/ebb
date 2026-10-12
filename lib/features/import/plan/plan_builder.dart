@@ -1,3 +1,4 @@
+import 'category_choice.dart';
 import '../draft/import_draft.dart';
 import '../draft/parsed_import.dart';
 import 'chain_merge.dart';
@@ -27,11 +28,13 @@ ImportPlan buildPlan(ParsedImport parsed, ExistingSnapshot existing) {
           if (_linkedApart(chain, existing)) chain.id,
       },
       categoryMapping: {
-        for (final id in parsed.sourceCategories.keys) id: null,
+        for (final id in parsed.sourceCategories.keys)
+          id: const CategoryChoice.undecided(),
       },
       labelCategoryMapping: {
         for (final draft in parsed.drafts)
-          for (final label in draft.labels) label: null,
+          for (final label in draft.labels)
+            label: const CategoryChoice.undecided(),
       },
     ),
   );

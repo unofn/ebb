@@ -9,6 +9,8 @@ import 'existing_snapshot.dart';
 import 'plan_item.dart';
 import 'renewal_chains.dart';
 
+import 'category_choice.dart';
+
 part 'import_plan.freezed.dart';
 
 /// What importing one file would do, plus the user's decisions. Immutable:
@@ -30,11 +32,11 @@ abstract class ImportPlan with _$ImportPlan {
     /// Item ID → skipped; items without a decision follow their default.
     @Default({}) Map<String, bool> skipDecisions,
 
-    /// Source category ID (Tilla) → Ebb category key; null = unmapped.
-    @Default({}) Map<String, String?> categoryMapping,
+    /// Source category ID (Tilla) → what it maps to.
+    @Default({}) Map<String, CategoryChoice> categoryMapping,
 
-    /// Label (SubscriptionManager) → Ebb category key; null = unmapped.
-    @Default({}) Map<String, String?> labelCategoryMapping,
+    /// Label (SubscriptionManager) → what it maps to.
+    @Default({}) Map<String, CategoryChoice> labelCategoryMapping,
   }) = _ImportPlan;
 
   const ImportPlan._();
@@ -53,6 +55,6 @@ abstract class ImportPlan with _$ImportPlan {
   /// The category key mapped for [body]: its source category's mapping,
   /// else the first of its labels that is mapped.
   String? categoryKeyFor(ImportDraft body) =>
-      categoryMapping[body.sourceCategoryId] ??
-      body.labels.map((l) => labelCategoryMapping[l]).nonNulls.firstOrNull;
+      categoryMapping[body.sourceCategoryId]?.key ??
+      body.labels.map((l) => labelCategoryMapping[l]?.key).nonNulls.firstOrNull;
 }

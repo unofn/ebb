@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:ebb/data/database.dart';
+import 'package:ebb/features/import/ui/preview/category_dropdown.dart';
 import 'package:ebb/features/import/ui/preview/preview_header.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -27,6 +28,22 @@ void main() {
     expect(find.text('分类 3 · 2 条'), findsOneWidget);
     expect(find.text('Fake Video、Fake Films'), findsOneWidget);
     expect(find.text('需要你决定'), findsNothing);
+    await unmountEbb(tester);
+  });
+
+  testWidgets('「no category」 stays chosen and counts as decided', (
+    tester,
+  ) async {
+    await openTillaPreview(tester);
+
+    await tester.tap(find.byType(CategoryDropdown).first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('不对应').last);
+    await tester.pumpAndSettle();
+
+    expect(find.text('还有 1 个未选'), findsOneWidget);
+    expect(find.text('不对应'), findsOneWidget, reason: 'shown, not the hint');
+    expect(find.text('选择品类'), findsOneWidget, reason: 'the other row');
     await unmountEbb(tester);
   });
 
