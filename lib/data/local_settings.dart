@@ -92,6 +92,16 @@ class LocalSettings {
     await _db.writeMeta(LocalMetaKeys.dismissedDuplicates, jsonEncode(hashes));
   });
 
+  /// When the user last made a backup (UTC); null if never.
+  Stream<DateTime?> watchLastBackupAt() => _db
+      .watchMeta(LocalMetaKeys.lastBackupAt)
+      .map((value) => value == null ? null : DateTime.tryParse(value)?.toUtc());
+
+  Future<DateTime?> lastBackupAt() => watchLastBackupAt().first;
+
+  Future<void> setLastBackupAt(DateTime at) =>
+      _db.writeMeta(LocalMetaKeys.lastBackupAt, at.toUtc().toIso8601String());
+
   Future<int> _readInt(String key, int fallback) async =>
       int.tryParse(await _db.readMeta(key) ?? '') ?? fallback;
 }

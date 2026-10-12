@@ -24,14 +24,21 @@ class StoredFile {
 /// Where attachment bytes live; the database keeps only their metadata.
 abstract interface class AttachmentStore {
   Future<StoredFile> put(Uint8List bytes, {required String mime});
+
+  /// The bytes of [fileName]; null when it is not stored.
+  Future<Uint8List?> read(String fileName);
 }
+
+/// The name a file with [sha256] and [mime] is stored under.
+String storedFileName(String sha256, String mime) =>
+    '$sha256.${extensionFromMime(mime) ?? 'bin'}';
 
 StoredFile _describe(Uint8List bytes, String mime) {
   final hash = sha256.convert(bytes).toString();
   return StoredFile(
     sha256: hash,
     size: bytes.length,
-    fileName: '$hash.${extensionFromMime(mime) ?? 'bin'}',
+    fileName: storedFileName(hash, mime),
   );
 }
 
@@ -46,6 +53,9 @@ class MemoryAttachmentStore implements AttachmentStore {
     files.putIfAbsent(stored.fileName, () => Uint8List.fromList(bytes));
     return stored;
   }
+
+  @override
+  Future<Uint8List?> read(String fileName) async => files[fileName];
 }
 
 /// Keeps files in [directory], named by content hash.
@@ -65,5 +75,11 @@ class FileAttachmentStore implements AttachmentStore {
     await partial.writeAsBytes(bytes, flush: true);
     await partial.rename(file.path);
     return stored;
+  }
+
+  @override
+  Future<Uint8List?> read(String fileName) async {
+    final file = File(p.join(directory.path, fileName));
+    return await file.exists() ? file.readAsBytes() : null;
   }
 }

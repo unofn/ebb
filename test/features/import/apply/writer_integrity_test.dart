@@ -15,6 +15,9 @@ class _FailingStore implements AttachmentStore {
   @override
   Future<StoredFile> put(Uint8List bytes, {required String mime}) =>
       throw StateError('disk full');
+
+  @override
+  Future<Uint8List?> read(String fileName) async => null;
 }
 
 void main() {

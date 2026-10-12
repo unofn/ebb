@@ -36,6 +36,20 @@ class HlcClock {
     return hlc.toString();
   }
 
+  /// Moves the clock up to [stamp] (e.g. the newest one in a restored
+  /// backup) when it is ahead, so later stamps sort after it. The device
+  /// ID stays this device's.
+  Future<void> advanceTo(Hlc stamp) async {
+    final loaded = await _loaded;
+    final previous = _last ?? loaded;
+    // 只比较不合并：Hlc.merge 遇到同一设备 ID（恢复本机的备份）或时间超前
+    // 太多都会抛错。
+    final target = stamp.apply(nodeId: previous.nodeId);
+    if (target <= previous) return;
+    _last = target;
+    await _db.writeMeta(LocalMetaKeys.hlc, target.toString());
+  }
+
   Future<Hlc> _load() async {
     var deviceId = await _db.readMeta(LocalMetaKeys.deviceId);
     if (deviceId == null) {

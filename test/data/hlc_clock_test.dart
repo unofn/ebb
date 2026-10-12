@@ -43,6 +43,23 @@ void main() {
     expectStrictlyIncreasing(list);
   });
 
+  test('advanceTo moves only forward and keeps the device ID', () async {
+    final db = memoryDatabase();
+    addTearDown(db.close);
+    final now = Clock.fixed(DateTime.utc(2026, 10, 12));
+    await withClock(now, () async {
+      final deviceId = await db.hlcClock.deviceId;
+      final ahead = Hlc(DateTime.utc(2030), 5, 'other-device');
+      await db.hlcClock.advanceTo(ahead);
+      final next = Hlc.parse(await db.hlcClock.next());
+      expect(next > ahead.apply(nodeId: deviceId), isTrue);
+      expect(next.nodeId, deviceId);
+
+      await db.hlcClock.advanceTo(Hlc(DateTime.utc(2020), 0, deviceId));
+      expect(Hlc.parse(await db.hlcClock.next()) > next, isTrue);
+    });
+  });
+
   test('device ID and latest HLC persist across reopening', () async {
     final dir = await Directory.systemTemp.createTemp('ebb_hlc_');
     addTearDown(() => dir.delete(recursive: true));

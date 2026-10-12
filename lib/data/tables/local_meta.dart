@@ -34,4 +34,8 @@ abstract final class LocalMetaKeys {
 
   /// JSON array of the hashes of dismissed duplicate groups.
   static const dismissedDuplicates = 'dismissed_duplicates';
+
+  /// UTC instant (ISO 8601) of the last backup the user made; automatic
+  /// saves before a restore leave it alone.
+  static const lastBackupAt = 'last_backup_at';
 }
