@@ -46,10 +46,12 @@ class HomeHeader extends ConsumerWidget {
               ),
             ),
             if (!wide) ...[
+              // 和「+」一样 44 见方。
               IconButton(
                 tooltip: l10n.homeSearch,
+                constraints: BoxConstraints.tight(const Size.square(44)),
                 onPressed: ref.read(homeSearchProvider.notifier).open,
-                icon: Icon(Icons.search, color: c.ink),
+                icon: Icon(Icons.search, size: 22, color: c.ink),
               ),
               const SizedBox(width: 4),
               const AddSubscriptionButton(),

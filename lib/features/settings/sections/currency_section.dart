@@ -43,7 +43,7 @@ class CurrencySection extends ConsumerWidget {
           label: l10n.settingsBudget,
           value: budget == null
               ? l10n.settingsBudgetNone
-              : moneyText(budget, base),
+              : compactMoneyText(budget, base),
           onTap: () => showBudgetSheet(context),
         ),
         SettingsRow(

@@ -5,8 +5,8 @@ import 'package:go_router/go_router.dart';
 import '../../../../app/l10n/l10n.dart';
 import '../../../../app/providers/catalog_providers.dart';
 import '../../../../app/router/route_paths.dart';
-import '../../../../app/theme/ebb_colors.dart';
 import '../../../../app/theme/ebb_type.dart';
+import '../../../../app/widgets/bar_leading_text.dart';
 import 'batch_actions.dart';
 import 'batch_bar.dart';
 import 'batch_list.dart';
@@ -37,7 +37,6 @@ class _BatchEditScreenState extends ConsumerState<BatchEditScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final c = context.colors;
     final sections = ref.watch(batchSectionsProvider).value ?? const [];
     final entries = [for (final s in sections) ...s.entries];
     // 已删除的订阅不算在选中里。
@@ -50,11 +49,7 @@ class _BatchEditScreenState extends ConsumerState<BatchEditScreen> {
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 88,
-        leading: TextButton(
-          style: TextButton.styleFrom(foregroundColor: c.ink),
-          onPressed: _done,
-          child: Text(l10n.batchDone, style: EbbType.body),
-        ),
+        leading: BarLeadingText(l10n.batchDone, onPressed: _done),
         centerTitle: true,
         title: Text(
           chosen.isEmpty ? l10n.batchSelect : l10n.batchSelected(chosen.length),
@@ -68,6 +63,7 @@ class _BatchEditScreenState extends ConsumerState<BatchEditScreen> {
             }),
             child: Text(all ? l10n.batchSelectNone : l10n.batchSelectAll),
           ),
+          const SizedBox(width: 8),
         ],
       ),
       body: BatchList(

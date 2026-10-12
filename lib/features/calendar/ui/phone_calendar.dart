@@ -29,7 +29,7 @@ class PhoneCalendar extends StatelessWidget {
     final small = EbbType.small.tabular.copyWith(color: c.ink2);
     final day = dayTitle(l10n, locale, data.selected);
     return ListView(
-      padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
       children: [
         SizedBox(
           height: 44,

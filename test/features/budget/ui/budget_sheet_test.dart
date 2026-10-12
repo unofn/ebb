@@ -50,7 +50,7 @@ void main() {
     expect(find.text('还剩 ¥81.84。'), findsOneWidget);
     await tapAndSettle(tester, find.text('保存'));
 
-    expect(find.text('¥400.00'), findsOneWidget);
+    expect(find.text('¥400'), findsOneWidget);
     expect(await db.readMeta(LocalMetaKeys.budgetMonthlyMinor), '40000');
     await unmountScreens(tester);
   });

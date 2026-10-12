@@ -70,13 +70,19 @@ class MonthGrid extends StatelessWidget {
             ),
           ),
         ),
+        // 格子放在 table_calendar 的 Stack 里，约束是松的、靠下对齐；宽屏的
+        // 格子要铺满，数字才在左上角。
         prioritizedBuilder: (context, day, _) {
           if (!inMonth(day)) {
-            return wide ? ColoredBox(color: c.bg) : const SizedBox.shrink();
+            return wide
+                ? SizedBox.expand(child: ColoredBox(color: c.bg))
+                : const SizedBox.shrink();
           }
           final date = dateOnly(day);
           return wide
-              ? WideDayCell(date: date, data: data)
+              ? SizedBox.expand(
+                  child: WideDayCell(date: date, data: data),
+                )
               : PhoneDayCell(date: date, data: data);
         },
       ),

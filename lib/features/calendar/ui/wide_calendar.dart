@@ -48,7 +48,6 @@ class WideCalendar extends StatelessWidget {
                       ],
                     ),
                   ),
-                  MonthNav(controls: controls),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       minimumSize: const Size(0, 40),
@@ -59,6 +58,7 @@ class WideCalendar extends StatelessWidget {
                     onPressed: data.atToday ? null : controls.goToday,
                     child: Text(l10n.calendarToday),
                   ),
+                  MonthNav(controls: controls),
                 ],
               ),
               const SizedBox(height: 16),

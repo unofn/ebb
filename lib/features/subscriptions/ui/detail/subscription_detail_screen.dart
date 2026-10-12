@@ -43,6 +43,7 @@ class SubscriptionDetailScreen extends ConsumerWidget {
                       context.push(RoutePaths.editSubscription(id)),
                   child: Text(l10n.detailEdit),
                 ),
+              const SizedBox(width: 8),
             ],
           );
     if (entry == null || payments == null || base == null) {

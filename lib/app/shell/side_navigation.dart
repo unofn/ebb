@@ -43,7 +43,7 @@ class SideNavigation extends StatelessWidget {
                 child: Row(
                   spacing: 10,
                   children: [
-                    const EbbMarks(size: 28),
+                    const _BrandTile(),
                     Text(
                       l10n.appTitle,
                       style: Theme.of(context).textTheme.titleMedium,
@@ -99,6 +99,25 @@ class SideNavigation extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// The app icon beside the name: the marks in ink and accent on a framed
+/// tile.
+class _BrandTile extends StatelessWidget {
+  const _BrandTile();
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    return Container(
+      decoration: BoxDecoration(
+        color: c.surface,
+        border: Border.all(color: c.lineStrong),
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: const EbbMarks.small(size: 26),
     );
   }
 }

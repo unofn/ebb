@@ -20,7 +20,7 @@ class StatsEmpty extends StatelessWidget {
     return Padding(
       padding: wide
           ? const EdgeInsets.fromLTRB(40, 24, 40, 32)
-          : const EdgeInsets.fromLTRB(20, 16, 20, 24),
+          : const EdgeInsets.fromLTRB(20, 12, 20, 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

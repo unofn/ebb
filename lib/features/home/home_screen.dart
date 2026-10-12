@@ -35,7 +35,7 @@ class HomeScreen extends ConsumerWidget {
         child: SlidableAutoCloseBehavior(
           child: ContentWidth(
             child: ListView(
-              padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+              padding: EdgeInsets.fromLTRB(20, wide ? 24 : 12, 20, 24),
               children: [
                 HomeHeader(view: view, today: now, wide: wide),
                 const SizedBox(height: 20),

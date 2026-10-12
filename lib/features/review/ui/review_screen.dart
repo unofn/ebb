@@ -6,8 +6,8 @@ import '../../../app/l10n/l10n.dart';
 import '../../../app/providers/catalog_providers.dart';
 import '../../../app/providers/review_providers.dart';
 import '../../../app/router/route_paths.dart';
-import '../../../app/theme/ebb_colors.dart';
 import '../../../app/theme/ebb_type.dart';
+import '../../../app/widgets/bar_leading_text.dart';
 import '../../../app/widgets/content_width.dart';
 import '../../../core/local_date.dart';
 import '../domain/review_outcome.dart';
@@ -56,19 +56,13 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
         leadingWidth: 88,
         leading: finished
             ? const SizedBox.shrink()
-            : TextButton(
-                style: TextButton.styleFrom(
-                  foregroundColor: context.colors.ink,
-                ),
-                onPressed: _leave,
-                child: Text(l10n.reviewFlowLater, style: EbbType.body),
-              ),
+            : BarLeadingText(l10n.reviewFlowLater, onPressed: _leave),
         centerTitle: true,
         title: Text(l10n.reviewFlowTitle),
         actions: [
           if (queue != null && queue.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
                 l10n.reviewFlowProgress(
                   finished ? queue.length : _index + 1,
