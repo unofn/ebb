@@ -2,6 +2,7 @@ import 'package:clock/clock.dart';
 import 'package:ebb/core/local_date.dart';
 import 'package:ebb/data/database.dart';
 import 'package:ebb/data/enums.dart';
+import 'package:ebb/features/calendar/ui/charge_dot.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -69,6 +70,30 @@ void main() {
       expect(find.text('≈ ¥110.64'), findsOneWidget);
       expect(find.text('1 笔 · ≈ ¥110.64'), findsOneWidget);
       expect(find.text('今天'), findsOneWidget);
+      await unmountEbb(tester);
+    });
+  });
+
+  testWidgets('phone: a month without charges shows the empty state', (
+    tester,
+  ) async {
+    await withClock(Clock.fixed(now), () async {
+      await seedSubscriptions(tester, db, [
+        seedable(
+          'Gym',
+          next: utcDate(2026, 11, 5),
+        ).copyWith(status: SubscriptionStatus.paused),
+      ]);
+      await pumpEbb(tester, db);
+      await tester.tap(find.text('日历').last);
+      await settleWrites(tester);
+
+      expect(find.text('2026年10月'), findsOneWidget);
+      expect(find.text('这个月没有扣费'), findsOneWidget);
+      expect(find.text('左右切换月份，或点「今天」回到本月'), findsOneWidget);
+      expect(find.byType(ChargeLegend), findsNothing);
+      expect(find.text('10月11日 周日 · 今天'), findsNothing);
+      expect(find.text('这天没有扣费。'), findsNothing);
       await unmountEbb(tester);
     });
   });

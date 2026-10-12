@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../app/providers/payment_providers.dart';
 import '../../../app/providers/stats_providers.dart';
 import '../../../app/widgets/content_width.dart';
 import '../../../core/local_date.dart';
 import '../../home/home_view.dart';
 import '../domain/monthly_exclusions.dart';
+import '../domain/nothing_to_chart.dart';
 import 'breakdown_card.dart';
 import 'review_card.dart';
 import 'stats_budget_card.dart';
 import 'stats_chart_section.dart';
 import 'stats_chart_state.dart';
+import 'stats_empty.dart';
 import 'stats_header.dart';
 
 /// Spending over the past or next twelve months, the monthly average by
 /// group (the home screen's number), the budget and the quarterly review.
 /// Phones stack them; from 840 the chart spans the width over a 3 : 2 row.
+/// Before anything is paid or running, only the empty state.
 class StatsScreen extends ConsumerWidget {
   const StatsScreen({super.key});
 
@@ -25,7 +29,15 @@ class StatsScreen extends ConsumerWidget {
     final now = today();
     final view = ref.watch(homeViewProvider).value;
     final breakdown = ref.watch(costBreakdownProvider(now)).value;
-    if (view == null || breakdown == null) return const Scaffold();
+    final payments = ref.watch(allPaymentsProvider).value;
+    if (view == null || breakdown == null || payments == null) {
+      return const Scaffold();
+    }
+    if (nothingToChart(payments, view.subscriptions)) {
+      return Scaffold(
+        body: SafeArea(child: StatsEmpty(wide: wide)),
+      );
+    }
     final chart = ref.watch(statsChartStateProvider);
     final breakdownCard = BreakdownCard(
       breakdown: breakdown,

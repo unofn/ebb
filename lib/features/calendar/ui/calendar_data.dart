@@ -14,6 +14,7 @@ class CalendarData {
     required this.today,
     required this.charges,
     required this.view,
+    this.loaded = true,
     this.dropped,
   }) : _entries = {for (final e in view.entries) e.id: e};
 
@@ -27,6 +28,9 @@ class CalendarData {
   /// By day of month.
   final Map<int, List<CalendarCharge>> charges;
   final HomeView view;
+
+  /// [charges] are the month's, not a blank while it is worked out.
+  final bool loaded;
 
   /// The subscription archived with 「没续费」 on [selected], to say so.
   final String? dropped;
@@ -43,6 +47,10 @@ class CalendarData {
 
   SubscriptionEntry? entryOf(CalendarCharge charge) =>
       _entries[charge.subscriptionId];
+
+  /// Nothing charged all month (and nothing just archived to explain):
+  /// the empty state instead of the sums and the day's list.
+  bool get emptyMonth => loaded && dropped == null && all.isEmpty;
 
   bool get showsToday => month.year == today.year && month.month == today.month;
 

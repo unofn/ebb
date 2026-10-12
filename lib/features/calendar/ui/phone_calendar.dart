@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../app/l10n/l10n.dart';
 import '../../../app/theme/ebb_colors.dart';
 import '../../../app/theme/ebb_type.dart';
+import '../../../app/widgets/empty_state.dart';
 import 'calendar_controls.dart';
 import 'calendar_data.dart';
 import 'calendar_texts.dart';
@@ -12,7 +13,8 @@ import 'month_grid.dart';
 import 'month_nav.dart';
 
 /// The phone calendar (`Calendar.dc.html`): the month in a card with its
-/// sums, then the selected day's charges.
+/// sums, then the selected day's charges; a month without any shows the
+/// empty state instead.
 class PhoneCalendar extends StatelessWidget {
   const PhoneCalendar({super.key, required this.data, required this.controls});
 
@@ -73,34 +75,46 @@ class PhoneCalendar extends StatelessWidget {
                   MonthNav(controls: controls),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 0, 8, 6),
-                child: Text(kindSummary(l10n, data), style: small),
-              ),
+              if (!data.emptyMonth)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 6),
+                  child: Text(kindSummary(l10n, data), style: small),
+                ),
               MonthGrid(data: data, controls: controls),
-              const Padding(
-                padding: EdgeInsets.only(top: 6),
-                child: ChargeLegend(),
-              ),
+              if (!data.emptyMonth)
+                const Padding(
+                  padding: EdgeInsets.only(top: 6),
+                  child: ChargeLegend(),
+                ),
             ],
           ),
         ),
         const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                data.atToday ? l10n.calendarIsToday(day) : day,
-                style: small.copyWith(fontWeight: EbbType.strong),
-              ),
-              Text(daySum(l10n, data), style: small),
-            ],
+        if (data.emptyMonth)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+            child: EmptyState(
+              title: l10n.calendarMonthEmpty,
+              body: l10n.emptyCalendarBody,
+            ),
+          )
+        else ...[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  data.atToday ? l10n.calendarIsToday(day) : day,
+                  style: small.copyWith(fontWeight: EbbType.strong),
+                ),
+                Text(daySum(l10n, data), style: small),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 8),
-        DayCharges(data: data, controls: controls),
+          const SizedBox(height: 8),
+          DayCharges(data: data, controls: controls),
+        ],
       ],
     );
   }

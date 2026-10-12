@@ -3,9 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/l10n/category_names.dart';
 import '../../app/l10n/l10n.dart';
-import '../../app/theme/ebb_colors.dart';
-import '../../app/theme/ebb_type.dart';
 import '../../app/widgets/card_section.dart';
+import '../../app/widgets/empty_state.dart';
 import '../../app/widgets/segmented_tabs.dart';
 import '../subscriptions/domain/list_segments.dart';
 import '../subscriptions/domain/search_match.dart';
@@ -15,6 +14,7 @@ import 'home_sections.dart';
 import 'home_segment.dart';
 import 'home_view.dart';
 import 'row_texts.dart';
+import 'segment_empty.dart';
 
 /// The tabs (upcoming, all, one-time, archived) and the selected tab's
 /// cards of rows, narrowed to the search (name, category, tags).
@@ -71,14 +71,13 @@ class HomeSegmentList extends ConsumerWidget {
         ),
         if (sections.isEmpty)
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24),
-            child: Text(
-              query.trim().isEmpty
-                  ? l10n.homeSegmentEmpty
-                  : l10n.homeSearchEmpty,
-              textAlign: TextAlign.center,
-              style: EbbType.small.copyWith(color: context.colors.ink2),
-            ),
+            padding: const EdgeInsets.fromLTRB(24, 52, 24, 0),
+            child: query.trim().isEmpty
+                ? SegmentEmpty(segment)
+                : EmptyState(
+                    title: l10n.homeSearchEmpty,
+                    body: l10n.emptySearchBody,
+                  ),
           ),
         for (final section in sections)
           CardSection(

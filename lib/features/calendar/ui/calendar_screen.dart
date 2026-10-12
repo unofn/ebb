@@ -55,11 +55,9 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
     final month = _month;
     final view = ref.watch(homeViewProvider).value;
     // 换月时新的一月还在算：先画空格子，不让整页闪成转圈。
-    final charges =
-        ref
-            .watch(calendarChargesProvider(now, month.year, month.month))
-            .value ??
-        const {};
+    final charges = ref.watch(
+      calendarChargesProvider(now, month.year, month.month),
+    );
     if (view == null) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
@@ -67,7 +65,8 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
       month: month,
       selected: _selected,
       today: now,
-      charges: charges,
+      charges: charges.value ?? const {},
+      loaded: charges.hasValue,
       view: view,
       dropped: _dropped,
     );

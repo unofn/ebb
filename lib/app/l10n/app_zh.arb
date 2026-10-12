@@ -354,7 +354,6 @@
       }
     }
   },
-  "homeSegmentEmpty": "这里还没有订阅",
   "homeTrialHint": "{name}试用{days, plural, =0{今天到期} =1{明天到期} other{ {days} 天后到期}}",
   "@homeTrialHint": {
     "placeholders": {
@@ -687,6 +686,18 @@
   "homeTitle": "订阅",
   "emptyTitle": "还没有订阅",
   "emptyBody": "从 Tilla 或 SubscriptionManager 导入，\n或者手动添加第一个。",
+  "emptyStatsTitle": "还没有付款记录",
+  "emptyStatsBody": "添加订阅或导入数据后，这里会出现每月实付",
+  "emptyUpcomingTitle": "近期没有扣费",
+  "emptyUpcomingBody": "周期订阅的下一次扣费会按日期排在这里",
+  "emptyAllTitle": "还没有进行中的订阅",
+  "emptyAllBody": "点右上角的 + 添加，或在设置里导入数据",
+  "emptyOneTimeTitle": "没有一次性买断",
+  "emptyOneTimeBody": "永久会员、软件授权这类只付一次的，会放在这里",
+  "emptyArchivedTitle": "没有已归档的订阅",
+  "emptyArchivedBody": "退订后归档的订阅会放在这里，可以随时恢复",
+  "emptySearchBody": "换个词试试，可以搜名称、品类或标签",
+  "emptyCalendarBody": "左右切换月份，或点「今天」回到本月",
   "changeYes": "是",
   "changeNo": "否",
   "changeOn": "开启",
