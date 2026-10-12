@@ -80,6 +80,7 @@ void main() {
     expect(byMonth[9]!.estimated, isFalse);
     // €10 ÷ 0.9 ÷ 0.14 = ¥79.365…
     expect(byMonth[5]!.personal.minor, 7937);
+    expect(byMonth[5]!.estimated, isTrue); // 基准货币换过，算估算
     expect(byMonth[8]!.personal.minor, 7143);
     expect(byMonth[8]!.estimated, isTrue);
     expect(
