@@ -7,13 +7,14 @@ import 'sheet_option.dart';
 export 'sheet_option.dart';
 
 /// A bottom sheet titled [title] listing [options], with an optional
-/// [note] under the title; resolves to the picked value, null when
-/// dismissed.
+/// [note] under the title and [foot] under the options; resolves to the
+/// picked value, null when dismissed.
 Future<T?> showOptionSheet<T>(
   BuildContext context, {
   required String title,
   required List<SheetOption<T>> options,
   String? note,
+  String? foot,
 }) {
   final c = context.colors;
   return showModalBottomSheet<T>(
@@ -57,6 +58,16 @@ Future<T?> showOptionSheet<T>(
               child: Text(note, style: EbbType.small.copyWith(color: c.ink2)),
             ),
           for (final option in options) SheetOptionTile(option),
+          if (foot != null)
+            DecoratedBox(
+              decoration: BoxDecoration(
+                border: Border(top: BorderSide(color: c.line)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+                child: Text(foot, style: EbbType.small.copyWith(color: c.ink2)),
+              ),
+            ),
         ],
       ),
     ),

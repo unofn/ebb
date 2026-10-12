@@ -743,6 +743,95 @@
   "statusEnding": "到期不续",
   "statusCancelled": "已退订",
   "oneTime": "一次性",
+  "backupToFile": "备份到文件",
+  "backupLast": "上次备份 {when}",
+  "@backupLast": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "backupNever": "还没备份过",
+  "backupToday": "今天 {time}",
+  "@backupToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "backupDone": "已备份 {count} 个订阅",
+  "@backupDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backupFailed": "没能备份，请再试一次",
+  "backupRestore": "从备份恢复",
+  "backupRestoreNote": "恢复会替换这台设备上的全部数据。",
+  "backupPickFile": "选择备份文件…",
+  "backupPickFileHint": "Ebb 备份的 .zip 文件",
+  "backupAutoSaved": "恢复前自动保存的",
+  "backupSubscriptions": "{count} 个订阅",
+  "@backupSubscriptions": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backupAutoSavedNote": "只留最近 {count} 份，更早的自动删掉。",
+  "@backupAutoSavedNote": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backupReplaceTitle": "用这份备份替换现有数据？",
+  "backupReplaceBody": "备份时间 {time}，含 {subscriptions} 个订阅、{payments} 笔付款。现有数据会先自动保存一份，需要时在「从备份恢复」里找回。",
+  "@backupReplaceBody": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "subscriptions": {
+        "type": "int"
+      },
+      "payments": {
+        "type": "int"
+      }
+    }
+  },
+  "backupReplace": "替换",
+  "backupNewerTitle": "这份备份来自更新版本的 Ebb",
+  "backupNewerBody": "请先升级 Ebb，再恢复这份备份。现有数据没有改动。",
+  "backupGotIt": "知道了",
+  "backupUnreadable": "这不是 Ebb 备份文件，或者文件已损坏",
+  "backupRestoring": "正在恢复…",
+  "backupRestored": "已恢复 {count} 个订阅",
+  "@backupRestored": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backupRestoredMissing": "已恢复 {count} 个订阅，{missing} 个附件没能恢复",
+  "@backupRestoredMissing": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "missing": {
+        "type": "int"
+      }
+    }
+  },
+  "backupRestoreFailed": "没能恢复，现有数据没有改动",
   "csvName": "名称",
   "csvStatus": "状态",
   "csvKind": "类型",
@@ -781,6 +870,29 @@
   "csvOriginAuto": "自动",
   "csvOriginImported": "导入",
   "csvOriginBackfilled": "补记",
+  "csvExportTitle": "导出 CSV",
+  "csvSubscriptionList": "订阅列表",
+  "csvSubscriptionListHint": "每个订阅一行",
+  "csvPaymentList": "付款记录",
+  "csvPaymentListHint": "每笔一行，含当时汇率",
+  "csvExportNote": "CSV 只用来查看和做表，不能用来恢复；要完整保留数据请用备份。",
+  "csvExportedSubscriptions": "已导出 {count} 个订阅",
+  "@csvExportedSubscriptions": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "csvExportedPayments": "已导出 {count} 笔付款",
+  "@csvExportedPayments": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "csvExportFailed": "没能导出，请再试一次",
   "everyDays": "{count, plural, =1{每天} other{每 {count} 天}}",
   "@everyDays": {
     "placeholders": {
@@ -1305,7 +1417,7 @@
   "settingsTags": "标签",
   "settingsData": "数据",
   "settingsImportHint": "Tilla、SubscriptionManager",
-  "settingsDataNote": "数据只存在这台设备上。",
+  "settingsDataNote": "数据只存在这台设备上。备份是一个 zip 文件，含附件。",
   "settingsAbout": "关于",
   "settingsVersion": "版本",
   "settingsLicense": "开源协议",

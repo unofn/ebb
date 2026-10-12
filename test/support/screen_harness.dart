@@ -16,6 +16,7 @@ import 'package:ebb/features/settings/settings_screen.dart';
 import 'package:ebb/features/subscriptions/ui/batch/batch_edit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
@@ -35,12 +36,13 @@ class ScreenCalls {
 /// `/import` are stand-ins; the file picker hands out an empty file), in
 /// Chinese on a tall phone window, on [db].
 /// Jobs record payments but fetch nothing; notifications are [calls]'s
-/// fake. Returns the router to navigate with.
+/// fake; [overrides] come last. Returns the router to navigate with.
 Future<GoRouter> pumpScreens(
   WidgetTester tester,
   AppDatabase db,
   ScreenCalls calls, {
   String location = '/settings',
+  List<Override> overrides = const [],
 }) async {
   tester.view
     ..physicalSize = const Size(400, 2400)
@@ -102,6 +104,7 @@ Future<GoRouter> pumpScreens(
         exportFilePickerProvider.overrideWithValue(
           () async => const ExportFile(name: 'backup.txt', text: ''),
         ),
+        ...overrides,
       ],
       child: MaterialApp.router(
         theme: ebbTheme(Brightness.light),
