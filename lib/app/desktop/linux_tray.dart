@@ -5,14 +5,17 @@ import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../l10n/app_localizations.dart';
+import 'close_to_tray.dart';
+import 'tray_host.dart';
 
 /// Linux only: closing the window hides it to the tray, so reminder
 /// timers keep running; the tray menu opens Ebb again or quits. Without
-/// a session bus there is no tray and closing quits as usual.
+/// a session bus or a tray host closing quits as usual.
 class LinuxTray with WindowListener {
   LinuxTray(this._l10n);
 
   final AppLocalizations _l10n;
+  CloseToTray? _closeToTray;
 
   // 托盘对象被回收就会从面板上消失，要一直持有；挂上的菜单由原生端持有。
   TrayIcon? _icon;
@@ -40,8 +43,19 @@ class LinuxTray with WindowListener {
       ..setContextMenu(menu)
       ..setVisible(true);
     await windowManager.ensureInitialized();
-    await windowManager.setPreventClose(true);
-    windowManager.addListener(this);
+    // 有总线不等于有托盘宿主（GNOME 没装扩展时图标不出现），等宿主在了才拦关窗。
+    _closeToTray = CloseToTray(DBusTrayHost(), apply: _hideOnClose)..start();
+  }
+
+  Future<void> _hideOnClose(bool hide) async {
+    if (hide) {
+      windowManager.addListener(this);
+    } else {
+      windowManager.removeListener(this);
+    }
+    await windowManager.setPreventClose(hide);
+    // 宿主走了，藏起来的窗口就再也找不回来，先显示出来。
+    if (!hide && !await windowManager.isVisible()) await _open();
   }
 
   @override
@@ -61,6 +75,7 @@ class LinuxTray with WindowListener {
   }
 
   Future<void> _quit() async {
+    await _closeToTray?.stop();
     windowManager.removeListener(this);
     _icon?.dispose();
     await windowManager.setPreventClose(false);
