@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../app/format/money_text.dart';
+import '../../../app/l10n/cjk_spacing.dart';
 import '../../../app/l10n/l10n.dart';
 import '../../../app/theme/ebb_colors.dart';
 import '../../../app/theme/ebb_type.dart';
@@ -105,7 +106,7 @@ class ReviewSummary extends StatelessWidget {
       for (final item in stopped)
         if (item.subscription.isInTrial(texts.today))
           l10n.reviewFlowTrialExtra(
-            item.subscription.name,
+            l10n.beforeHan(item.subscription.name),
             switch (item.baseMinor) {
               final minor? => moneyText(minor, base),
               null => moneyText(

@@ -99,7 +99,7 @@ void main() {
     ]);
     await pumpEbb(tester, db);
 
-    expect(find.text('Keep试用 3 天后到期'), findsOneWidget);
+    expect(find.text('Keep 试用 3 天后到期'), findsOneWidget);
     expect(find.text('不取消的话，之后每月 ¥25'), findsOneWidget);
     expect(find.text('试用中'), findsOneWidget);
     expect(find.text('¥0.00'), findsOneWidget);

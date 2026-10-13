@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../../../app/l10n/category_names.dart';
+import '../../../app/l10n/cjk_spacing.dart';
 import '../../../app/l10n/l10n.dart';
 import '../../../app/theme/ebb_colors.dart';
 import '../../../app/theme/ebb_type.dart';
@@ -60,8 +61,8 @@ class DuplicateNote extends StatelessWidget {
           Expanded(
             child: Text(
               l10n.reviewFlowDuplicate(
-                categoryLabel(l10n, category),
-                others.join(l10n.listSeparator),
+                l10n.beforeHan(categoryLabel(l10n, category)),
+                l10n.afterHan(others.join(l10n.listSeparator)),
                 others.length,
               ),
               style: EbbType.small.copyWith(color: c.ink),

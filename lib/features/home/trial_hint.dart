@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/format/money_text.dart';
+import '../../app/l10n/cjk_spacing.dart';
 import '../../app/l10n/cycle_names.dart';
 import '../../app/l10n/l10n.dart';
 import '../../app/router/route_paths.dart';
@@ -29,7 +30,7 @@ class TrialHint extends StatelessWidget {
       icon: Icons.timer_outlined,
       tint: c.warnSoft,
       ink: c.warn,
-      title: l10n.homeTrialHint(s.name, days),
+      title: l10n.homeTrialHint(l10n.beforeHan(s.name), days),
       // 「不取消的话，之后每月 ¥25」。
       body: cycle == null
           ? l10n.homeThen(price)

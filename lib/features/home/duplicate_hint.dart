@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/l10n/category_names.dart';
+import '../../app/l10n/cjk_spacing.dart';
 import '../../app/l10n/l10n.dart';
 import '../../app/providers/catalog_providers.dart';
 import '../../app/providers/repository_providers.dart';
@@ -35,7 +36,7 @@ class DuplicateHint extends ConsumerWidget {
       ink: c.accent,
       title: l10n.duplicateTitle(
         names.length,
-        category == null ? '' : categoryLabel(l10n, category),
+        category == null ? '' : l10n.amidHan(categoryLabel(l10n, category)),
       ),
       body: names.join(l10n.listSeparator),
       onTap: () => context.go(RoutePaths.stats),
