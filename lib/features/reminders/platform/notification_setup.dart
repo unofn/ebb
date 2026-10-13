@@ -15,13 +15,36 @@ typedef ReminderResponseHandler = Future<void> Function({
 
 /// Readies notifications before the first frame: the local time zone,
 /// the plugin with its Darwin categories, the Android channel. A tap that
-/// launched the app goes to [onResponse] like any later one. Failures are
-/// logged; the app runs without reminders then.
+/// launched the app goes to [onResponse] like any later one. Failures,
+/// including ones the plugin leaves behind after init (Linux without a
+/// session bus), go to [onError], by default the log; the app runs
+/// without reminders then.
 Future<void> initNotifications(
   FlutterLocalNotificationsPlugin plugin, {
   required AppLocalizations l10n,
   required ReminderResponseHandler onResponse,
-}) async {
+  void Function(Object, StackTrace)? onError,
+}) {
+  final failed = onError ?? _logError('init');
+  final done = Completer<void>();
+  // Linux 插件订阅信号时 package:dbus 在没人等的 future 里连会话总线，连不上
+  // 的 SocketException 绕过 try/catch，只能靠出错区兜住；done 建在区外才传得出去。
+  runZonedGuarded(() async {
+    try {
+      await _init(plugin, l10n, onResponse);
+    } catch (e, stack) {
+      failed(e, stack);
+    }
+    done.complete();
+  }, failed);
+  return done.future;
+}
+
+Future<void> _init(
+  FlutterLocalNotificationsPlugin plugin,
+  AppLocalizations l10n,
+  ReminderResponseHandler onResponse,
+) async {
   void respond(NotificationResponse response) {
     if (response.notificationResponseType ==
         NotificationResponseType.notificationDismissed) {
@@ -35,26 +58,22 @@ Future<void> initNotifications(
     );
   }
 
-  try {
-    await initLocalTimezone();
-    await plugin.initialize(
-      settings: notificationSettings(l10n),
-      onDidReceiveNotificationResponse: respond,
-    );
-    await plugin
-        .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin
-        >()
-        ?.createNotificationChannel(reminderChannel(l10n));
-    final launch = await plugin.getNotificationAppLaunchDetails();
-    if (launch case NotificationAppLaunchDetails(
-      didNotificationLaunchApp: true,
-      :final notificationResponse?,
-    )) {
-      respond(notificationResponse);
-    }
-  } catch (e, stack) {
-    _logError('init')(e, stack);
+  await initLocalTimezone();
+  await plugin.initialize(
+    settings: notificationSettings(l10n),
+    onDidReceiveNotificationResponse: respond,
+  );
+  await plugin
+      .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin
+      >()
+      ?.createNotificationChannel(reminderChannel(l10n));
+  final launch = await plugin.getNotificationAppLaunchDetails();
+  if (launch case NotificationAppLaunchDetails(
+    didNotificationLaunchApp: true,
+    :final notificationResponse?,
+  )) {
+    respond(notificationResponse);
   }
 }
 

@@ -5,6 +5,7 @@ import 'package:ebb/features/payments/domain/due_payment.dart';
 import 'package:ebb/features/subscriptions/domain/resume_date.dart';
 import 'package:ebb/core/local_date.dart';
 import 'package:ebb/features/subscriptions/ui/batch/batch_edit_screen.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -94,20 +95,25 @@ void main() {
     await unmountEbb(tester);
   });
 
-  testWidgets('a long press starts batch editing with that row', (
-    tester,
-  ) async {
-    final stream = seedable('Stream');
-    await seedSubscriptions(tester, db, [stream, seedable('Other')]);
-    await pumpEbb(tester, db);
+  // 批量页的提示照此措辞：手机「长按」，桌面「按住」鼠标。
+  for (final kind in [PointerDeviceKind.touch, PointerDeviceKind.mouse]) {
+    testWidgets('a long press (${kind.name}) starts batch editing', (
+      tester,
+    ) async {
+      final stream = seedable('Stream');
+      await seedSubscriptions(tester, db, [stream, seedable('Other')]);
+      await pumpEbb(tester, db);
 
-    await tester.longPress(find.text('Stream'));
-    await tester.pumpAndSettle();
+      await tester.longPress(find.text('Stream'), kind: kind);
+      await tester.pumpAndSettle();
 
-    final batch = tester.widget<BatchEditScreen>(find.byType(BatchEditScreen));
-    expect(batch.initialSelection, {stream.id});
-    await unmountEbb(tester);
-  });
+      final batch = tester.widget<BatchEditScreen>(
+        find.byType(BatchEditScreen),
+      );
+      expect(batch.initialSelection, {stream.id});
+      await unmountEbb(tester);
+    });
+  }
 
   testWidgets('one-time purchases have no swipe actions', (tester) async {
     await seedSubscriptions(tester, db, [

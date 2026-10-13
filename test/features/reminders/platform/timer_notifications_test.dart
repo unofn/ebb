@@ -65,4 +65,20 @@ void main() {
       expect(shown, [1]);
     }, shown);
   });
+
+  test('a failing show is logged, not left unhandled', () {
+    fakeAsync((async) {
+      var tried = 0;
+      final timers = TimerNotifications(
+        show: (id, message) async {
+          tried++;
+          throw StateError('no notification service');
+        },
+      );
+      timers.schedule(1, clock.now().add(const Duration(minutes: 1)), message);
+      async.elapse(const Duration(minutes: 1));
+      expect(tried, 1);
+      timers.dispose();
+    }, initialTime: DateTime(2026, 10, 11, 10));
+  });
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
@@ -6,7 +7,8 @@ import 'package:window_manager/window_manager.dart';
 import '../l10n/app_localizations.dart';
 
 /// Linux only: closing the window hides it to the tray, so reminder
-/// timers keep running; the tray menu opens Ebb again or quits.
+/// timers keep running; the tray menu opens Ebb again or quits. Without
+/// a session bus there is no tray and closing quits as usual.
 class LinuxTray with WindowListener {
   LinuxTray(this._l10n);
 
@@ -16,12 +18,17 @@ class LinuxTray with WindowListener {
   TrayIcon? _icon;
 
   Future<void> start() async {
-    await windowManager.ensureInitialized();
-    await windowManager.setPreventClose(true);
-    windowManager.addListener(this);
+    // 没有会话总线时图标照样建得出来但不显示；先查，免得关窗后再也找不回来。
+    if (!TrayManager.instance.isSupported()) {
+      log('no session bus; running without the tray', name: 'ebb.tray');
+      return;
+    }
     final icon = _icon = TrayIcon.create();
     final menu = Menu.create();
-    if (icon == null || menu == null) return;
+    if (icon == null || menu == null) {
+      log('tray icon unavailable; running without it', name: 'ebb.tray');
+      return;
+    }
     icon
       ..icon = ImageAsset.fromAsset('assets/tray/tray_icon.png')
       ..setTooltip('Ebb');
@@ -32,6 +39,9 @@ class LinuxTray with WindowListener {
     icon
       ..setContextMenu(menu)
       ..setVisible(true);
+    await windowManager.ensureInitialized();
+    await windowManager.setPreventClose(true);
+    windowManager.addListener(this);
   }
 
   @override

@@ -85,7 +85,7 @@ void main() {
     await open(tester, {'Bili'});
 
     expect(find.text('已选 1 项'), findsOneWidget);
-    expect(find.text('全部'), findsOneWidget);
+    expect(find.text('全部 · 长按订阅行进入多选'), findsOneWidget);
     expect(find.text('一次性'), findsOneWidget);
     expect(find.text('已归档'), findsOneWidget);
     expect(find.text('视频 · 每月'), findsNWidgets(4));
@@ -102,6 +102,18 @@ void main() {
     expect(find.text('home'), findsOneWidget);
     await unmountScreens(tester);
   });
+
+  testWidgets(
+    'on desktop the hint says to hold the mouse',
+    (tester) async {
+      await open(tester, {'Bili'});
+
+      expect(find.text('全部 · 按住订阅行进入多选'), findsOneWidget);
+      expect(find.text('一次性'), findsOneWidget, reason: 'first section only');
+      await unmountScreens(tester);
+    },
+    variant: TargetPlatformVariant.only(TargetPlatform.macOS),
+  );
 
   testWidgets('moves the selection to another category', (tester) async {
     await open(tester, {'Bili', 'Tencent'});

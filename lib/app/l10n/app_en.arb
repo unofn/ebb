@@ -569,6 +569,8 @@
   "batchSectionAll": "All",
   "batchSectionOneTime": "One-time",
   "batchSectionArchived": "Archived",
+  "batchHintTouch": "Long-press a row to select several",
+  "batchHintMouse": "Click and hold a row to select several",
   "batchCategory": "Category",
   "batchTags": "Tags",
   "batchStatus": "Status",

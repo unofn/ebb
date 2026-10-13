@@ -32,7 +32,12 @@ class CardSection extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(title, style: style.copyWith(fontWeight: EbbType.strong)),
+              Flexible(
+                child: Text(
+                  title,
+                  style: style.copyWith(fontWeight: EbbType.strong),
+                ),
+              ),
               if (trailing != null) Text(trailing!, style: style),
             ],
           ),

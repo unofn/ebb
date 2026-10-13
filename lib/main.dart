@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -19,8 +20,14 @@ Future<void> main() async {
     l10n: l10n,
     onResponse: container.read(reminderResponsesProvider).handle,
   );
-  // 托盘对象由 windowManager 的监听列表持有。
-  if (Platform.isLinux) await LinuxTray(l10n).start();
+  // 托盘对象由 windowManager 的监听列表持有；起不来就不要托盘。
+  if (Platform.isLinux) {
+    try {
+      await LinuxTray(l10n).start();
+    } catch (e, stack) {
+      log('tray failed', name: 'ebb.tray', error: e, stackTrace: stack);
+    }
+  }
   runApp(
     UncontrolledProviderScope(
       container: container,

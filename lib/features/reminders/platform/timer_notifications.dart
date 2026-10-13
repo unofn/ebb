@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:clock/clock.dart';
 
@@ -29,7 +30,8 @@ class TimerNotifications implements NotificationPort {
     _timers.remove(id)?.cancel();
     _timers[id] = Timer(fireAt.difference(clock.now()), () {
       _timers.remove(id);
-      unawaited(_show(id, message));
+      // 有总线没通知服务时 DBus 调用会报错，记下即可。
+      unawaited(_show(id, message).catchError(_logShowError));
     });
   }
 
@@ -50,3 +52,10 @@ class TimerNotifications implements NotificationPort {
     _timers.clear();
   }
 }
+
+void _logShowError(Object e, StackTrace stack) => log(
+  'notifications: show failed',
+  name: 'ebb.reminders',
+  error: e,
+  stackTrace: stack,
+);

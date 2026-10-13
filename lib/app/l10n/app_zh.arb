@@ -1543,6 +1543,8 @@
   "batchSectionAll": "全部",
   "batchSectionOneTime": "一次性",
   "batchSectionArchived": "已归档",
+  "batchHintTouch": "长按订阅行进入多选",
+  "batchHintMouse": "按住订阅行进入多选",
   "batchCategory": "品类",
   "batchTags": "标签",
   "batchStatus": "状态",
