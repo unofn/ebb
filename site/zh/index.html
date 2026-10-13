@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ebb — 开源订阅管理器，数据只存本机</title>
+<meta name="description" content="免费开源的订阅管理 App，支持 Android、macOS、Windows 和 Linux。算清每月真实花费，扣费前提醒，多币种，可从 Tilla、SubscriptionManager 导入；没有账号，数据只存本机。">
+<link rel="canonical" href="https://unofn.github.io/ebb/zh/">
+<link rel="alternate" hreflang="en" href="https://unofn.github.io/ebb/">
+<link rel="alternate" hreflang="zh-Hans" href="https://unofn.github.io/ebb/zh/">
+<link rel="alternate" hreflang="x-default" href="https://unofn.github.io/ebb/">
+<meta name="theme-color" content="#f5f5f3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1012" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon.png" type="image/png" sizes="48x48">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preload" href="../fonts/noto-sans-sc-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/sections.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ebb">
+<meta property="og:title" content="Ebb — 开源订阅管理器，数据只存本机">
+<meta property="og:description" content="算清订阅每月到底花多少。支持 Android、macOS、Windows、Linux，没有账号，数据只存本机。">
+<meta property="og:url" content="https://unofn.github.io/ebb/zh/">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:image" content="https://unofn.github.io/ebb/images/social-preview.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta property="og:image:alt" content="开源订阅管理器 Ebb 的首页截图，月均成本 $132.83">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Ebb",
+  "description": "开源的订阅管理器，数据只存本机。月均成本、扣费提醒、多币种、统计与预算，支持从 Tilla 和 SubscriptionManager 导入。",
+  "url": "https://unofn.github.io/ebb/zh/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Android 10+, macOS 13+, Windows 10+, Linux (Ubuntu 22.04+)",
+  "softwareVersion": "0.1.0",
+  "author": { "@type": "Person", "name": "Uno", "url": "https://github.com/unofn" },
+  "inLanguage": ["zh-Hans", "en"],
+  "isAccessibleForFree": true,
+  "license": "https://www.gnu.org/licenses/gpl-3.0.html",
+  "downloadUrl": "https://github.com/unofn/ebb/releases/latest",
+  "image": "https://unofn.github.io/ebb/images/social-preview.png",
+  "screenshot": "https://unofn.github.io/ebb/images/zh-home.png",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" }
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="../favicon.svg" alt="" width="30" height="30">Ebb</a>
+    <nav aria-label="主导航">
+      <a class="optional" href="#features">功能</a>
+      <a class="optional" href="#privacy">隐私</a>
+      <a class="optional" href="#faq">常见问题</a>
+      <a href="../" hreflang="en" lang="en">English</a>
+      <a href="https://github.com/unofn/ebb">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="wrap hero">
+  <div>
+    <span class="eyebrow">v0.1.0「Low Tide」· 免费开源</span>
+    <h1>数据只存本机的订阅管理器</h1>
+    <p class="lead">Ebb 是一个注重隐私的开源订阅管理 App，支持 Android、macOS、Windows 和 Linux。它帮你算清每个月在订阅上真正花了多少，并在扣费前提醒你。没有账号，不上云，没有遥测。</p>
+    <div class="actions">
+      <a class="button primary" href="https://github.com/unofn/ebb/releases/latest">下载 Ebb</a>
+      <a class="button" href="https://github.com/unofn/ebb">GitHub 源码</a>
+    </div>
+    <p class="fine">Android 10+ · macOS 13+ · Windows 10+ · Ubuntu 22.04+ · 中文和英文界面</p>
+  </div>
+  <div class="phone">
+    <picture>
+      <source srcset="../images/zh-home-dark.png" media="(prefers-color-scheme: dark)">
+      <img src="../images/zh-home.png" width="780" height="1688" alt="Ebb 首页：月均成本 ¥709.28，月度预算 ¥800，一个试用 6 天后到期，以及本周要扣费的订阅">
+    </picture>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <h2>每月真正花多少，一眼看清</h2>
+    <p class="lead">不管年付、月付还是合租，都折算成一个实在的数字：月均成本。</p>
+    <div class="grid">
+      <div class="card"><h3>月均成本</h3><p>年付按 12 个月折算；合租只算你的份额；首期优惠按恢复后的原价算。</p></div>
+      <div class="card"><h3>多币种</h3><p>每个订阅按原币录入，汇总时折算成你的基准货币；每笔付款记下当天的汇率。</p></div>
+      <div class="card"><h3>扣费前提醒</h3><p>提前几天发本地通知。可以记录试用、标记到期不续，退订的订阅可以归档。</p></div>
+      <div class="card"><h3>统计与预算</h3><p>实付历史、未来 12 个月预测、按分组和品类分析、同类重复提示、月度预算和季度复盘。</p></div>
+      <div class="card"><h3>导入已有数据</h3><p>支持 Tilla 和 SubscriptionManager 的导出文件，写入前先预览。</p></div>
+      <div class="card"><h3>备份在自己手里</h3><p>备份成一个 zip 文件，可以在另一台设备上恢复，也能导出 CSV。订阅可以附上发票收据。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="privacy">
+  <div class="wrap">
+    <h2>隐私从设计开始</h2>
+    <p class="lead">你订阅了什么，说明了你是怎样的人。Ebb 把这些留在你的设备上。</p>
+    <ul class="checks">
+      <li>所有数据都存在本机：不用注册账号，也没有服务器保存你的数据。</li>
+      <li>App 和这个网站都没有遥测、统计分析和崩溃上报。</li>
+      <li>Ebb 只连两个地方：<a href="https://open.er-api.com">open.er-api.com</a> 获取汇率，GitHub Releases 检查新版本（可以关闭）。</li>
+      <li>以 GPL-3.0 协议开源，谁都可以查看它做了什么。</li>
+    </ul>
+  </div>
+</section>
+
+<section id="screenshots">
+  <div class="wrap">
+    <h2>手机和电脑都好用</h2>
+    <p class="lead">手机上单栏，宽屏上左右双栏。浅色和深色跟随系统。</p>
+    <figure class="desktop">
+      <img src="../images/zh-desktop.png" width="2560" height="1600" loading="lazy" alt="电脑上的 Ebb：左边是导航，中间是订阅列表，右边是 Netflix 标准的详情和付款记录">
+    </figure>
+    <div class="phones">
+      <figure>
+        <div class="phone"><img src="../images/zh-detail.png" width="780" height="1688" loading="lazy" alt="Netflix 标准的详情：合租，我的份额每月 $5.16（约 ¥36.75），总价 $15.49，10月15日扣费，提前 3 天提醒，以及付款记录"></div>
+        <figcaption>详情与付款记录</figcaption>
+      </figure>
+      <figure>
+        <div class="phone"><img src="../images/zh-stats.png" width="780" height="1688" loading="lazy" alt="统计页：过去 12 个月实付 ¥7,585.46 的按月柱状图，以及按分组的月均成本"></div>
+        <figcaption>统计：实付与预测</figcaption>
+      </figure>
+      <figure>
+        <div class="phone"><img src="../images/zh-home-dark.png" width="780" height="1688" loading="lazy" alt="深色模式下的首页"></div>
+        <figcaption>深色模式</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="download">
+  <div class="wrap">
+    <h2>下载</h2>
+    <p class="lead">到 <a href="https://github.com/unofn/ebb/releases/latest">GitHub Releases</a> 下载最新版。安装包暂时没有经过 Apple、Microsoft 的签名认证，第一次打开的方法见发布说明。</p>
+    <table class="platforms"><tbody>
+      <tr><th scope="row">Android 10+</th><td>APK</td></tr>
+      <tr><th scope="row">macOS 13+</th><td>dmg，同时支持 Intel 和 Apple 芯片</td></tr>
+      <tr><th scope="row">Windows 10+</th><td>安装程序，或免安装 zip</td></tr>
+      <tr><th scope="row">Linux</th><td>.deb（Ubuntu 22.04+ 及 Debian 系），或免安装 .tar.gz</td></tr>
+    </tbody></table>
+    <p class="fine">暂无 iOS 版。</p>
+  </div>
+</section>
+
+<section id="faq" class="faq">
+  <div class="wrap">
+    <h2>常见问题</h2>
+    <details><summary>Ebb 免费吗？</summary><p>免费。Ebb 以 GPL-3.0 协议开源，没有付费项目，也不用注册账号。</p></details>
+    <details><summary>我的数据存在哪里？</summary><p>只存在你的设备上的本地数据库里，不会上传。想换设备或留一份副本，就备份成 zip 文件，再在另一台设备上恢复。</p></details>
+    <details><summary>Ebb 会联网吗？</summary><p>只在两种情况下联网：从 open.er-api.com 获取汇率，以及到 GitHub Releases 检查新版本。检查新版本可以在设置里关闭。没有遥测，也没有崩溃上报。</p></details>
+    <details><summary>能从 Tilla 或 SubscriptionManager 导入吗？</summary><p>能。先在 Tilla 或 SubscriptionManager 里导出备份，再在 Ebb 的「设置 → 导入数据」里选择这个文件。导入前会先预览，已经有的订阅会对上，不会重复添加。</p></details>
+    <details><summary>月均成本是怎么算的？</summary><p>每个订阅折算成每月的平均花费：年付按十二分之一算，合租只算你的份额，首期优惠按原价算。试用中、到期不续、已退订和标记为报销的订阅不计入。实际付了多少，看统计页的实付历史。</p></details>
+    <details><summary>支持多种货币吗？</summary><p>支持。每个订阅保留自己的币种，汇总时按 open.er-api.com 的汇率折算成你设定的基准货币（默认人民币）。</p></details>
+    <details><summary>有 iPhone 版吗？</summary><p>暂时没有。目前支持 Android、macOS、Windows 和 Linux。</p></details>
+    <details><summary>能在多台设备之间同步吗？</summary><p>目前不能。数据只存在各自的设备上，可以用备份文件迁移。</p></details>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <span>Ebb · <a href="https://github.com/unofn/ebb/blob/main/LICENSE">GPL-3.0</a></span>
+    <a href="https://github.com/unofn/ebb">GitHub</a>
+    <a href="https://github.com/unofn/ebb/releases">Releases</a>
+    <a href="../" hreflang="en" lang="en">English</a>
+    <span>本站不使用 Cookie，也没有任何跟踪。</span>
+  </div>
+</footer>
+</body>
+</html>

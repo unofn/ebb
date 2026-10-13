@@ -1,0 +1,91 @@
+/* 字体、色板（同 lib/app/theme/ebb_colors.dart）、版式、页头页脚、按钮。 */
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/ibm-plex-sans-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-weight: 600;
+  font-display: swap;
+  src: url("../fonts/ibm-plex-sans-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Noto Sans SC";
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/noto-sans-sc-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Noto Sans SC";
+  font-weight: 600;
+  font-display: swap;
+  src: url("../fonts/noto-sans-sc-600.woff2") format("woff2");
+}
+
+:root {
+  color-scheme: light dark;
+  --bg: #f5f5f3; --surface: #fff; --surface2: #eeeff1;
+  --line: #e6e7ea; --line-strong: #d3d5da;
+  --ink: #15171c; --ink2: #5a606c;
+  --accent: #0b6e69; --accent-soft: #e3f1ef;
+  --bezel: #15171c;
+  --font: "IBM Plex Sans", "Noto Sans SC", system-ui, -apple-system,
+    "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1012; --surface: #17191c; --surface2: #1f2125;
+    --line: #2a2d32; --line-strong: #3a3e44;
+    --ink: #ecedef; --ink2: #a3a8b2;
+    --accent: #4cc2b5; --accent-soft: #12302d;
+    --bezel: #3a3e44;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 1.0625rem/1.65 var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { font-weight: 600; line-height: 1.2; margin: 0 0 0.5em; text-wrap: balance; }
+h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); }
+h3 { font-size: 1.125rem; }
+p { margin: 0 0 1em; }
+a { color: var(--accent); text-underline-offset: 0.15em; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+img { max-width: 100%; height: auto; display: block; }
+code { font-size: 0.9em; background: var(--surface2); padding: 0.1em 0.35em; border-radius: 5px; }
+
+.wrap { width: min(1120px, 100% - 2.5rem); margin-inline: auto; }
+.skip { position: absolute; left: -999px; }
+.skip:focus { left: 1rem; top: 1rem; background: var(--surface); padding: 0.5rem 1rem; z-index: 2; }
+.muted { color: var(--ink2); }
+
+.site-head { border-bottom: 1px solid var(--line); }
+.site-head .wrap { display: flex; align-items: center; gap: 1.5rem; height: 4rem; }
+.brand { display: flex; align-items: center; gap: 0.6rem; color: var(--ink); font-weight: 600; font-size: 1.2rem; text-decoration: none; }
+.brand img { width: 30px; height: 30px; }
+.site-head nav { display: flex; gap: 1.25rem; margin-left: auto; font-size: 0.95rem; }
+.site-head nav a { color: var(--ink2); text-decoration: none; }
+.site-head nav a:hover { color: var(--ink); }
+@media (max-width: 720px) { .site-head nav .optional { display: none; } }
+
+.button {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.75rem 1.35rem; border-radius: 12px;
+  font-weight: 600; text-decoration: none;
+  border: 1px solid var(--line-strong); color: var(--ink); background: var(--surface);
+}
+.button.primary { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.button:hover { filter: brightness(1.08); }
+
+.site-foot { border-top: 1px solid var(--line); padding: 2rem 0 3rem; font-size: 0.95rem; color: var(--ink2); }
+.site-foot .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
+.site-foot a { color: var(--ink2); }

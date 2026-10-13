@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none">
+  <!-- 方向 C「退潮刻度」，取自 assets/icon/ebb.svg；深色标签页换画板的深色线条。 -->
+  <style>
+    .bg { fill: #F5F5F3 } .ink { stroke: #15171C } .accent { stroke: #0B6E69 }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #17191C } .ink { stroke: #ECEDEF } .accent { stroke: #4CC2B5 }
+    }
+  </style>
+  <rect class="bg" width="36" height="36" rx="8"/>
+  <path class="ink" d="M9 12h18" stroke-width="2.6" stroke-linecap="round"/>
+  <path class="ink" d="M9 18h12" stroke-width="2.6" stroke-linecap="round"/>
+  <path class="accent" d="M9 24h6" stroke-width="2.6" stroke-linecap="round"/>
+</svg>

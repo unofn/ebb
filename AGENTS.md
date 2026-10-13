@@ -41,6 +41,7 @@ PRD 或设计稿与本文件冲突时，以 PRD 和设计稿为准，并提醒�
 | 时间 | 数据库存 UTC（ISO 8601 文本）；只有日期的字段存那天的 UTC 00:00，读写只用 UTC 年月日，不按本机时区换算 |
 | 依赖 | 有成熟的库就用，不合适才手写，并说明理由 |
 | 字体文件 | Noto Sans SC 子集化到《通用规范汉字表》8105 字 + 常用符号，400 / 600 两档；`tool/fonts/build_fonts.py` 重新生成 |
+| 官网字体 | `site/fonts/` 的 woff2 由 App 字体子集化而来，Noto Sans SC 只含网页现有的字；改了官网中文文案要重跑 `tool/fonts/build_site_fonts.py` |
 | 代码生成 | `*.g.dart`、`*.freezed.dart`、l10n 生成文件不进 git，构建前跑 `dart run build_runner build` |
 | 检查 | 测试用 `flutter test`（`dart test` 因依赖冲突装不上）；`flutter analyze` 之外还要跑 `dart analyze`，riverpod_lint 只在后者报告 |
 
